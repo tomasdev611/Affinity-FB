@@ -1,0 +1,22 @@
+<div class="mb-5">
+  <div>
+    <ul class="sub-navbar">
+      <li [routerLink]="['./calendar-options']" routerLinkActive="active">Calendar Options</li>
+      <li
+        [routerLink]="['./access-control']"
+        routerLinkActive="active"
+        *ngIf="acl_allow.read == true"
+      >
+        Access Control
+      </li>
+      <li
+        [routerLink]="['./general-access']"
+        routerLinkActive="active"
+        *ngIf="acl_allow.read == true"
+      >
+        General Access
+      </li>
+    </ul>
+    <div class="content"><router-outlet></router-outlet></div>
+  </div>
+</div>

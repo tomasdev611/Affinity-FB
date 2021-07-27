@@ -1,0 +1,572 @@
+<div class="card">
+  <div class="card-body caregiver-overview">
+    <div class="row ">
+      <div class="col-md-12">
+        <div class="text text-right">
+          <div class="btn-group">
+            <!-- *ngIf="showAddCaregiverButton === true" -->
+            <button
+              class="btn btn-sm btn-success mr-1"
+              *ngIf="isNewCaregiver === true && acl_allow.update == true"
+              (click)="addNewCaregiver()"
+            >
+              Submit
+            </button>
+            <button
+              class="btn btn-sm btn-info mr-1"
+              (click)="updateDetails()"
+              *ngIf="isNewCaregiver === false && acl_allow.update == true"
+            >
+              Update Profile
+            </button>
+            <button
+              class="btn btn-sm btn-danger"
+              (click)="inactivateCaregiver()"
+              *ngIf="isNewCaregiver === false && acl_allow.update == true && selected.Status == 'A'"
+            >
+              InActivate
+            </button>
+            <button
+              class="btn btn-sm btn-success"
+              (click)="activateCaregiver()"
+              *ngIf="isNewCaregiver === false && acl_allow.update == true && selected.Status == 'I'"
+            >
+              Activate
+            </button>
+          </div>
+        </div>
+        <hr />
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-2 text">
+        <div class="text">
+          <div class="row">
+            <div class="col-md-12 text-center">
+              <img class="rounded img-thumbnail" style="width: 180px;" [src]="imageData" />
+            </div>
+            <div class="col-md-12 mt-3 mb-3 text-center" *ngIf="isNewCaregiver">
+              You can add picture after profile created
+            </div>
+            <div class="col-md-12 mt-3" *ngIf="!isNewCaregiver">
+              <div class="picture-buttons" *ngIf="acl_allow.update == true">
+                <div>
+                  <label class="btn btn-info btn-xs" for="image_upload"> Add Picture </label>
+                </div>
+                <label class="btn btn-danger btn-xs" (click)="deletePicture()">
+                  Delete Picture
+                </label>
+              </div>
+              <input
+                type="file"
+                name="browse"
+                id="image_upload"
+                accept="image/*"
+                style="opacity: 0; width: 0.1px; padding: 0%; position: absolute;"
+                (change)="readProfileUrl($event)"
+              />
+            </div>
+          </div>
+          <div class="row">
+            <div
+              *ngIf="!isNewCaregiver && caregiverDetail && caregiverDetail.personaldata"
+              class="col-md-12 text-center mb-3"
+            >
+              <div class="row">
+                <div class="col-12">{{ selected.FirstName }} {{ selected.LastName }}</div>
+              </div>
+              <div class="row">
+                <div class="col-12">
+                  {{
+                    caregiverDetail.personaldata.Status === 'A'
+                      ? 'Active Caregiver'
+                      : 'Inactive Caregiver'
+                  }}
+                </div>
+              </div>
+            </div>
+            <div class="col-md-12">
+              <div class="form-group">
+                <div class="row">
+                  <label class="col-form-label  col-md-4 text text-right">Phone1</label>
+                  <input
+                    class="form-control form-control-sm col-md-6"
+                    type="text"
+                    [(ngModel)]="selected.Phone1"
+                  />
+                  <button
+                    class="btn btn-sm btn-success col-md-2 btn-text-message"
+                    (click)="sendMessageAction()"
+                  >
+                    <i class="fa fa-comment" aria-hidden="true"></i>
+                  </button>
+                </div>
+                <div class="row">
+                  <label class="col-form-label  col-md-4 text text-right">Phone2</label>
+                  <input
+                    class="form-control form-control-sm col-md-8"
+                    type="text"
+                    [(ngModel)]="selected.Phone2"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row ">
+            <div class="col-md-12"><hr /></div>
+          </div>
+
+          <div class="row">
+            <div class="col-12">
+              <div class="row grey-bg p-1">
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <div class="row">
+                      <label class="col-form-label  col-md-4 text text-right">
+                        Status/Reason
+                      </label>
+                      <select
+                        class="form-control form-control-sm font-size-xs  col-md-2"
+                        name="select1"
+                        [(ngModel)]="selected.Status"
+                        (change)="onStatusReasonChange(terminatedModal)"
+                      >
+                        <option *ngFor="let st of status" [ngValue]="st.value">{{
+                          st.value
+                        }}</option>
+                      </select>
+                      <select
+                        class="form-control form-control-sm font-size-xs  col-md-6"
+                        [(ngModel)]="selected.str_reason"
+                        (change)="onStatusReasonChange(terminatedModal)"
+                      >
+                        <option *ngFor="let reason of reasonData" [value]="reason.str_reason">{{
+                          reason.str_reason
+                        }}</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <div class="row">
+                      <label class="col-form-label  col-md-4 text text-right">R-LCE</label>
+                      <!-- TODO: This is NPI. Should be chagned to dropdown -->
+                      <!-- <input class="form-control form-control-sm col-md-8"
+                        type="text" [(ngModel)]="selected.NPI"> -->
+                      <div *ngFor="let npiValue of selected.NPIOption; let i = index">
+                        <span *ngIf="i === 1">-</span>
+
+                        <select
+                          *ngIf="i !== 1"
+                          class="form-control form-control-sm font-size-xs"
+                          [(ngModel)]="selected.NPIOption[i].val"
+                        >
+                          <option *ngFor="let option of npiOptions" [ngValue]="option">
+                            {{ option }}
+                          </option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <div class="row">
+                      <label class="col-form-label  col-md-4 text text-right">Classification</label>
+                      <select
+                        class="form-control form-control-sm col-md-8"
+                        [(ngModel)]="selected.ClassificationID"
+                      >
+                        <option
+                          *ngFor="let classificatioID of classifications"
+                          [ngValue]="classificatioID.ClassificationID"
+                          >{{ classificatioID.Description }}</option
+                        >
+                      </select>
+                    </div>
+                  </div>
+                </div>
+
+                <div *ngIf="!isNewCaregiver" class="col-md-12">
+                  <div class="form-group">
+                    <div class="row">
+                      <label class="col-form-label  col-md-4 text text-right">Feedback</label>
+                      <input
+                        class="form-control form-control-sm  col-md-4"
+                        type="text"
+                        maxlength="1"
+                        [(ngModel)]="selected.feedback"
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <div class="row">
+                      <div class="col-md-4">&nbsp;</div>
+                      <div class="form-check col-md-8 col-form-label ">
+                        <label class="form-check-label"
+                          >&nbsp;&nbsp;
+                          <input
+                            class="form-check-input"
+                            type="checkbox"
+                            [checked]="selected.doNotRehire"
+                            (change)="selected.doNotRehire = !selected.doNotRehire"
+                            name="gridRadios"
+                          />
+                          Do Not Refer
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row" *ngIf="isNewCaregiver === false">
+            <div class="col-12">
+              <caregiver-overview-reminders
+                [reminders]="caregiverDetail.reminders"
+              ></caregiver-overview-reminders>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <div class="row text-nowrap">
+          <div class="col-12">
+            <div class="row">
+              <div class="col-md-5">
+                <div class="form-group">
+                  <div class="row">
+                    <label class="col-form-label col-md-4 text text-right">First Name</label>
+                    <input
+                      class="form-control form-control-sm col-md-8"
+                      type="text"
+                      [(ngModel)]="selected.FirstName"
+                    />
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-2">
+                <div class="form-group">
+                  <div class="row">
+                    <label class="col-form-label  col-md-8 text text-right">Middle Initial</label>
+                    <input
+                      class="form-control form-control-sm  col-md-4"
+                      type="text"
+                      maxlength="1"
+                      [(ngModel)]="selected.MiddleInit"
+                    />
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-5">
+                <div class="form-group">
+                  <div class="row">
+                    <label class="col-form-label  col-md-4 text text-right">Last Name</label>
+                    <input
+                      class="form-control form-control-sm col-md-8"
+                      type="text"
+                      [(ngModel)]="selected.LastName"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-5">
+                <div class="form-group">
+                  <div class="row">
+                    <label class="col-form-label col-md-4 text text-right">Address 1</label>
+                    <input
+                      class="form-control form-control-sm col-md-8"
+                      type="text"
+                      [(ngModel)]="selected.Address1"
+                    />
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-5">
+                <div class="form-group">
+                  <div class="row">
+                    <label class="col-form-label col-md-4 text text-right">Address 2</label>
+                    <input
+                      class="form-control form-control-sm col-md-8"
+                      type="text"
+                      [(ngModel)]="selected.Address2"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-5">
+                <div class="form-group">
+                  <div class="row">
+                    <label class="col-form-label col-md-4 text text-right">City</label>
+                    <input
+                      class="form-control form-control-sm  col-md-8"
+                      type="text"
+                      [(ngModel)]="selected.City"
+                    />
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-7">
+                <div class="row">
+                  <label class="col-form-label col-md-2 text text-right">State</label>
+                  <input
+                    class="form-control form-control-sm  col-md-2"
+                    type="text"
+                    maxlength="3"
+                    [(ngModel)]="selected.State"
+                  />
+                  <label class="col-form-label col-md-1 text text-right">Zip</label>
+                  <input
+                    class="form-control form-control-sm col-md-2"
+                    type="text"
+                    [(ngModel)]="selected.Zip"
+                  />
+                  <label class="col-form-label col-md-2 text text-right">County</label>
+                  <select
+                    class="form-control form-control-sm col-md-3"
+                    [(ngModel)]="selected.County"
+                  >
+                    <option *ngFor="let cty of counties" [value]="cty.county">{{
+                      cty.county
+                    }}</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-5">
+                <div class="form-group">
+                  <div class="row">
+                    <label class="col-form-label  col-md-4 text text-right">CO</label>
+                    <select
+                      class="form-control form-control-sm col-md-8"
+                      [(ngModel)]="selected.className"
+                    >
+                      <option *ngFor="let class of classesNames" [ngValue]="class.className">{{
+                        class.className
+                      }}</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-7">
+                <div class="row">
+                  <label class="col-md-8 form-check-label text-right"
+                    >Weight Restriction Limit</label
+                  >
+                  <input
+                    class="form-control form-control-sm col-md-4"
+                    type="number"
+                    [(ngModel)]="selected.WeightLimit"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row ">
+          <div class="col-md-12"><hr /></div>
+        </div>
+
+        <div class="row">
+          <div class="col-12">
+            <div class="row">
+              <div class="col-md-4">
+                <div class="form-group">
+                  <div class="row">
+                    <label class="col-form-label col-md-4 text text-right">DOB</label>
+                    <input
+                      class="form-control form-control-sm col-md-5"
+                      placeholder="yyyy-mm-dd"
+                      [(ngModel)]="selected.DateofBirth"
+                    />
+                    <label class="col-form-label col-md-3 text text-center grey-bg">{{
+                      getBirthday()
+                    }}</label>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-4">
+                <div class="form-group">
+                  <div class="row">
+                    <label class="col-form-label  col-md-4 text text-right">Gender</label>
+                    <select
+                      class="form-control form-control-sm col-md-8"
+                      [(ngModel)]="selected.str_Gender"
+                    >
+                      <option *ngFor="let g of Gender" [ngValue]="g">{{ g }}</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-4">
+                <div class="form-group">
+                  <div class="row">
+                    <label class="col-form-label  col-md-4 text text-right">SSN</label>
+                    <input
+                      class="form-control form-control-sm col-md-8"
+                      type="text"
+                      maxlength="9"
+                      [(ngModel)]="selected.SocialSecurityNum"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-4">
+                <div class="form-group">
+                  <div class="row">
+                    <label class="col-form-label  col-md-4 text text-right">Hire Date </label>
+                    <input
+                      class="form-control form-control-sm col-md-8"
+                      placeholder="yyyy-mm-dd"
+                      [(ngModel)]="selected.StatusDate"
+                    />
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-group">
+                  <div class="row">
+                    <label class="col-form-label  col-md-4 text text-right">Term Date </label>
+                    <input
+                      class="form-control form-control-sm col-md-8"
+                      placeholder="yyyy-mm-dd"
+                      [(ngModel)]="selected.InactiveDate"
+                      autocomplete="off"
+                    />
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-group">
+                  <div class="row">
+                    <label class="col-form-label  col-md-4 text text-right">Email</label>
+                    <input
+                      class="form-control form-control-sm col-md-8"
+                      type="text"
+                      [(ngModel)]="selected.Email"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-4">
+                <div class="form-group">
+                  <div class="row">
+                    <div class="col-md-4">&nbsp;</div>
+                    <div class="form-check col-md-8 col-form-label ">
+                      <label class="form-check-label"
+                        >&nbsp;&nbsp;
+                        <input
+                          class="form-check-input"
+                          type="checkbox"
+                          name="gridRadios"
+                          id="gridRadios3"
+                          value="option3"
+                        />
+                        Enable Web Login
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-4">
+                <div class="form-group">
+                  <div class="row">
+                    <label class="col-form-label  col-md-6  text text-right">Web Password</label>
+                    <input
+                      class="form-control form-control-sm col-md-6"
+                      type="password"
+                      autocomplete="new-password"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row" *ngIf="isNewCaregiver === false">
+          <div class="col-md-4">
+            <caregiver-overview-lists [caregiver]="caregiverDetail"></caregiver-overview-lists>
+          </div>
+          <div class="col-md-8">
+            <caregiver-overview-notes [notes]="caregiverDetail.notes"></caregiver-overview-notes>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4" *ngIf="isNewCaregiver === false">
+        <div class="row" *ngIf="mapUrl">
+          <div class="col-12">
+            <div class="mapouter">
+              <div class="gmap_canvas">
+                <iframe
+                  width="100%"
+                  height="300"
+                  id="gmap_canvas"
+                  [src]="mapUrl"
+                  frameborder="0"
+                  scrolling="no"
+                  marginheight="0"
+                  marginwidth="0"
+                >
+                </iframe>
+                <a href="https://www.emojilib.com"></a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12">
+            <caregiver-overview-calendar
+              [caregiver]="caregiverDetail.personaldata"
+              *ngIf="caregiverDetail && caregiverDetail.personaldata"
+            ></caregiver-overview-calendar>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12">
+            <caregiver-overview-attachments
+              [attachments]="caregiverDetail.attachments"
+            ></caregiver-overview-attachments>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<ngx-loading
+  [show]="saving === 'saving'"
+  [config]="{backdropBorderRadius: '3px', fullScreenBackdrop: true}"
+></ngx-loading>
+
+<app-custom-modal #terminatedModal [modalTitle]="'Attention'" [width]="600">
+  <ng-container class="app-modal-body">
+    <div class="row">
+      <p>Please notify caregiver compliance to remove caregiver from the AHCA roster. </p>
+    </div>
+  </ng-container>
+  <ng-container class="app-modal-footer">
+    <button type="button" class="btn btn-default" (click)="terminatedModal.hide()">Ok</button>
+  </ng-container>
+</app-custom-modal>

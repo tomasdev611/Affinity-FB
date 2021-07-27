@@ -1,0 +1,535 @@
+
+<app-custom-modal #newEventModal [modalTitle]="createNew ? 'Create New Event' : 'Edit/Delete Event'" [width]="1000">
+  <ng-container class="app-modal-body">
+    <div *ngIf="newEventModal.visible" class="">
+      <div class="row">
+        <div class="col-md-4">
+          <div class="form-group">
+            <label class="col-form-label">Client</label>
+            <ng-select
+              [items]="clients"
+              bindLabel="name"
+              bindValue="id"
+              [(ngModel)]="editSchedule.ClientId"
+              [virtualScroll]="true"
+            >
+            </ng-select>
+          </div>
+        </div>
+
+        <div class="col-md-4">
+          <div class="form-group">
+            <label class="col-form-label">Service</label>
+            <ng-select
+              [items]="avialableServices"
+              bindLabel="name"
+              bindValue="id"
+              [(ngModel)]="editSchedule.ServiceCode"
+              [virtualScroll]="true"
+            >
+            </ng-select>
+          </div>
+        </div>
+
+        <div class="col-md-4">
+          <div class="form-group">
+            <label class="col-form-label">Payroll Item</label>
+            <input
+              class="form-control form-control-sm"
+              [(ngModel)]="editSchedule.itemName"
+              type="text"
+            />
+          </div>
+        </div>
+      </div>
+      <div id="editing_col" class="modal-content ">
+        <div class="row col-md-12">
+          <div class="col-md-4" *ngIf="createNew == false">
+            <div class="form-group">
+              <label class="col-form-label"><span *ngIf="createNew == false">Current</span> Caregiver</label>
+
+              <input
+                type="text"
+                class="form-control form-control-sm "
+                placeholder="type to search"
+                [ngModel]="selectedSchedule.CaregiverName"
+                readonly
+              />
+            </div>
+          </div>
+
+          <div class="col-md-4" *ngIf="createNew == false">
+            <div class="form-group">
+              <label class="col-form-label"
+                ><span *ngIf="createNew == false">Current</span> Start Time</label
+              >
+              <input
+                class="form-control form-control-sm"
+                [ngModel]="selectedSchedule.StartTime"
+                type="datetime-local"
+              />
+            </div>
+          </div>
+
+          <div class="col-md-4" *ngIf="createNew == false">
+            <div class="form-group">
+              <label class="col-form-label"
+                ><span *ngIf="createNew == false">Current</span> End Time</label
+              >
+              <input
+                class="form-control form-control-sm"
+                [ngModel]="selectedSchedule.EndTime"
+                type="datetime-local"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row col-md-12"><br /></div>
+
+      <div id="editing_col" class="modal-content ">
+        <div class="row">
+          <div class="col-md-4">
+            <div class="form-group">
+              <label class="col-form-label text text-info"
+                ><span *ngIf="createNew == false">New</span> Caregiver</label
+              >
+              <ng-select
+                [items]="caregivers"
+                bindLabel="name"
+                bindValue="id"
+                [(ngModel)]="editSchedule.SocialSecNum"
+                [virtualScroll]="true"
+              >
+              </ng-select>
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="form-group">
+              <label class="col-form-label  text text-info"
+                ><span *ngIf="createNew == false">New</span> Start Time</label
+              >
+              <input
+                class="form-control form-control-sm"
+                [(ngModel)]="editSchedule.StartTime"
+                [type]="createNew == false ? 'time' : 'datetime-local'"
+              />
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="form-group">
+              <label class="col-form-label text text-info"
+                ><span *ngIf="createNew == false">New</span> End Time</label
+              >
+              <input
+                class="form-control form-control-sm"
+                [(ngModel)]="editSchedule.EndTime"
+                [type]="createNew == false ? 'time' : 'datetime-local'"
+              />
+            </div>
+          </div>
+        </div>
+        <div *ngIf="createNew == false" class="row">
+          <div class="col-md-4">
+            <div class="form-check">
+              <label class="form-check-label">
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  [(ngModel)]="editSchedule.AllFutureDates"
+                  value="1"
+                />
+                All Future Dates
+              </label>
+            </div>
+          </div>
+
+          <div *ngIf="!editSchedule.AllFutureDates" class="col-md-4">
+            <div class="form-group">
+              <label class="col-form-label  text text-info">Change From Date</label>
+              <input
+                class="form-control form-control-sm"
+                [(ngModel)]="editSchedule.FromDate"
+                [type]="'date'"
+              />
+            </div>
+          </div>
+
+          <div *ngIf="!editSchedule.AllFutureDates" class="col-md-4">
+            <div class="form-group">
+              <label class="col-form-label text text-info">Change To Date</label>
+              <input
+                class="form-control form-control-sm"
+                [(ngModel)]="editSchedule.ToDate"
+                [type]="'date'"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row alert ">
+        <div class="col-md-3">
+          <div class="form-check">
+            <label class="form-check-label">
+              <input
+                class="form-check-input"
+                type="checkbox"
+                [(ngModel)]="weekOptions.sunday"
+                value="1"
+              />
+              Sunday
+            </label>
+          </div>
+        </div>
+
+        <div class="col-md-3">
+          <div class="form-check">
+            <label class="form-check-label">
+              <input
+                class="form-check-input"
+                type="checkbox"
+                [(ngModel)]="weekOptions.monday"
+                value="2"
+              />
+              Monday
+            </label>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="form-check">
+            <label class="form-check-label">
+              <input
+                class="form-check-input"
+                type="checkbox"
+                [(ngModel)]="weekOptions.tuesday"
+                value="3"
+              />
+              Tuesday
+            </label>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="form-check ">
+            <label class="form-check-label">
+              <input
+                class="form-check-input"
+                type="checkbox"
+                [(ngModel)]="weekOptions.wednesday"
+                value="4"
+              />
+              Wednesday
+            </label>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="form-check">
+            <label class="form-check-label">
+              <input
+                class="form-check-input"
+                type="checkbox"
+                [(ngModel)]="weekOptions.thursday"
+                value="5"
+              />
+              Thursday
+            </label>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="form-check">
+            <label class="form-check-label">
+              <input
+                class="form-check-input"
+                type="checkbox"
+                [(ngModel)]="weekOptions.friday"
+                value="6"
+              />
+              Friday
+            </label>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="form-check">
+            <label class="form-check-label">
+              <input
+                class="form-check-input"
+                type="checkbox"
+                [(ngModel)]="weekOptions.saturday"
+                value="0"
+              />
+              Saturday
+            </label>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+  <ng-container class="app-modal-footer">
+    <button type="button" class="btn btn-default" (click)="newEventModal.hide()">Close</button>
+    <button class="btn btn-muted" *ngIf="is_loading == true">Please wait ...</button>
+    <button
+      *ngIf="createNew == true && acl_allow.update == true && is_loading == false"
+      type="button"
+      class="btn btn-info"
+      (click)="addCalendarEvent(newEventModal)"
+    >
+      Submit
+    </button>
+    <button
+      *ngIf="createNew == false && acl_allow.update == true && is_loading == false"
+      type="button"
+      class="btn btn-success"
+      (click)="editCalendarEvent(newEventModal)"
+    >
+      Update Schedule
+    </button>
+    <button
+      *ngIf="createNew == false && acl_allow.delete == true && is_loading == false"
+      type="button"
+      class="btn btn-danger"
+      (click)="deleteCalendarEvent(newEventModal)"
+    >
+      Delete Schedule
+    </button>  </ng-container>
+</app-custom-modal>
+
+<div class="card ">
+  <div class="card-body">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="text text-right">
+          <button
+            *ngIf="!options.readonly && acl_allow.update == true"
+            class="btn btn-success btn-md"
+            (click)="newEventAction(newEventModal)"
+          >
+            Add Event
+          </button>
+          <button
+            type="button"
+            class="btn btn-success"
+            *ngIf="showDownloadButton === true"
+            (click)="download()"
+          >
+            Download
+          </button>
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        Select Client:
+        <input
+          *ngIf="options.lockClient === true || options.readonly"
+          type="text"
+          class="form-control mb-3"
+          [ngModel]="lockedClientName"
+          disabled
+        />
+        <ng-select
+          *ngIf="options.lockClient !== true && !options.readonly"
+          [items]="clients"
+          bindLabel="name"
+          bindValue="id"
+          [(ngModel)]="selectClient"
+          [virtualScroll]="true"
+          (ngModelChange)="selectedClient()"
+        >
+        </ng-select>
+      </div>
+      <div class="col-md-6">
+        Select Caregiver:
+        <input
+          *ngIf="options.lockCaregiver === true || options.readonly"
+          type="text"
+          class="form-control mb-3"
+          [ngModel]="lockedCaregiverName"
+          disabled
+        />
+
+        <ng-select
+          *ngIf="options.lockCaregiver !== true && !options.readonly"
+          [items]="caregivers"
+          bindLabel="name"
+          bindValue="id"
+          [(ngModel)]="selectedCaregiver"
+          [virtualScroll]="true"
+          (ngModelChange)="selectedCareGiver()"
+        >
+        </ng-select>
+      </div>
+    </div>
+
+    <hr />
+    <div class="d-flex flex-wrap justify-content-md-between mb-3 no-gutters">
+      <div class="col">
+        <div class="btn-group d-none d-lg-inline-flex">
+          <div
+            class="btn btn-secondary"
+            mwlCalendarPreviousView
+            [view]="view"
+            (click)="calendarChangeEvent(0)"
+            [(viewDate)]="viewDate"
+          >
+            Previous
+          </div>
+          <div
+            class="btn btn-secondary"
+            mwlCalendarToday
+            (click)="calendarChangeEvent(0)"
+            [(viewDate)]="viewDate"
+          >
+            Today
+          </div>
+          <div
+            class="btn btn-secondary"
+            mwlCalendarNextView
+            [view]="view"
+            (click)="calendarChangeEvent(0)"
+            [(viewDate)]="viewDate"
+          >
+            Next
+          </div>
+        </div>
+
+        <div class="btn-group d-lg-none">
+          <div
+            class="btn btn-secondary btn-icon-icon"
+            mwlCalendarPreviousView
+            [view]="view"
+            [(viewDate)]="viewDate"
+          >
+            <i class="icon icon-arrows-left"></i>
+          </div>
+          <div class="btn btn-secondary btn-icon-icon" mwlCalendarToday [(viewDate)]="viewDate">
+            <i class="icon icon-arrows-sign-down"></i>
+          </div>
+          <div
+            class="btn btn-secondary btn-icon-icon"
+            mwlCalendarNextView
+            [view]="view"
+            [(viewDate)]="viewDate"
+          >
+            <i class="icon icon-arrows-right"></i>
+          </div>
+        </div>
+      </div>
+      <div class="col text-center align-self-center d-none d-sm-block">
+        <h6 class="text-uppercase mb-0">{{ viewDate | calendarDate: view + 'ViewTitle':'en' }}</h6>
+      </div>
+      <div class="col text-right">
+        <div class="btn-group d-none d-lg-inline-flex">
+          <div
+            class="btn btn-secondary"
+            (click)="view = 'month'"
+            (click)="calendarChangeEvent(1)"
+            [class.active]="view === 'month'"
+          >
+            Month
+          </div>
+          <div
+            class="btn btn-secondary"
+            (click)="view = 'week'"
+            (click)="calendarChangeEvent(1)"
+            [class.active]="view === 'week'"
+          >
+            Week
+          </div>
+          <div
+            class="btn btn-secondary"
+            (click)="view = 'day'"
+            (click)="calendarChangeEvent(1)"
+            [class.active]="view === 'day'"
+          >
+            Day
+          </div>
+        </div>
+
+        <div class="btn-group d-lg-none">
+          <div
+            class="btn btn-secondary btn-icon-icon"
+            (click)="view = 'month'"
+            [class.active]="view === 'month'"
+          >
+            <i class="icon icon-software-layout-4boxes"></i>
+          </div>
+          <div
+            class="btn btn-secondary btn-icon-icon"
+            (click)="view = 'week'"
+            [class.active]="view === 'week'"
+          >
+            <i class="icon icon-software-layout-4lines"></i>
+          </div>
+          <div
+            class="btn btn-secondary btn-icon-icon"
+            (click)="view = 'day'"
+            [class.active]="view === 'day'"
+          >
+            <i class="icon icon-software-layout-4columns"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div [ngSwitch]="view">
+      <ng-template #customCellTemplate let-day="day" let-locale="locale">
+        <div class="cal-cell-top">
+          <span class="cal-day-badge" *ngIf="day.badgeTotal > 0">{{ day.badgeTotal }}</span>
+          <span class="cal-day-number">{{
+            day.date | calendarDate: 'monthViewDayNumber':locale
+          }}</span>
+        </div>
+        <span *ngFor="let col of day.events; let i = index">
+          <div
+            [ngClass]="backgroundRandomColor(i)"
+            style="margin: 5px; font-size:11px ;"
+            (click)="updateEventAction(newEventModal, col, col.title)"
+          >
+            {{ col.title }}
+          </div>
+        </span>
+      </ng-template>
+
+      <button *ngSwitchCase="'month'" class="btn btn-sm btn-info" (click)="download_month()">
+        Download PDF
+      </button>
+      <button *ngSwitchCase="'week'" class="btn btn-sm btn-info" (click)="download_week()">
+        Download PDF
+      </button>
+      <button *ngSwitchCase="'day'" class="btn btn-sm btn-info" (click)="download_day()">
+        Download PDF
+      </button>
+
+      <mwl-calendar-month-view
+        *ngSwitchCase="'month'"
+        id="month"
+        [viewDate]="viewDate"
+        [events]="events"
+        [refresh]="refresh"
+        [cellTemplate]="customCellTemplate"
+      >
+      </mwl-calendar-month-view>
+      <br />
+
+      <mwl-calendar-week-view
+        *ngSwitchCase="'week'"
+        id="week"
+        [viewDate]="viewDate"
+        [events]="events"
+        [refresh]="refresh"
+        (eventClicked)="updateEventAction('Clicked', $event.event)"
+      >
+      </mwl-calendar-week-view>
+      <br />
+
+      <mwl-calendar-day-view
+        *ngSwitchCase="'day'"
+        id="day"
+        [viewDate]="viewDate"
+        [events]="events"
+        [refresh]="refresh"
+        (eventClicked)="updateEventAction('Clicked', $event.event)"
+      >
+      </mwl-calendar-day-view>
+    </div>
+  </div>
+</div>

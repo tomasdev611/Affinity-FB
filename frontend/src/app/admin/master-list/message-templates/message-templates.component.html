@@ -1,0 +1,98 @@
+<div class="mb-5">
+  <div class="card">
+    <div class="card-body">
+      <div class="text text-right">
+        <button
+          type="button"
+          *ngIf="acl_allow.update == true"
+          class="btn btn-md btn-success"
+          (click)="addDataAction(addEditModal)"
+        >
+          ADD
+        </button>
+      </div>
+      <hr />
+
+      <ngx-datatable
+        class=""
+        [columnMode]="'force'"
+        [headerHeight]="40"
+        [footerHeight]="0"
+        [selectionType]="'single'"
+        [rows]="listData"
+        [rowHeight]="'auto'"
+        [reorderable]="false"
+      >
+        <ngx-datatable-column name="name" prop="name" [width]="120"></ngx-datatable-column>
+        <ngx-datatable-column name="message" prop="message" [width]="120"></ngx-datatable-column>
+        <ngx-datatable-column name="Action" [width]="120">
+          <ng-template let-value="value" ngx-datatable-cell-template let-row="row">
+            <button
+              type="button"
+              *ngIf="acl_allow.update == true"
+              class="btn btn-warning btn-sm"
+              (click)="updateDataAction(addEditModal, row)"
+            >
+              Update
+            </button>
+            <button
+              type="button"
+              *ngIf="acl_allow.delete == true"
+              class="btn btn-danger btn-sm"
+              (click)="deleteDataAction(deleteModal, row)"
+            >
+              Delete
+            </button>
+          </ng-template>
+        </ngx-datatable-column>
+      </ngx-datatable>
+    </div>
+  </div>
+</div>
+
+<app-custom-modal
+  #addEditModal
+  [modalTitle]="(editRow ? 'Edit ' : 'Add ') + 'Message Template'"
+  [width]="1200"
+>
+  <ng-container class="app-modal-body">
+    <div *ngIf="addEditModal.visible" class="row">
+      <div class="col-md-12">
+        <div class="form-group">
+          <strong class="col-form-label">Template Name</strong>
+          <input class="form-control form-control-sm" type="text" [(ngModel)]="editData.name" />
+        </div>
+        <div class="form-group">
+          <strong class="col-form-label">Template Message</strong>
+          <textarea
+            class="form-control form-control-sm"
+            type="text"
+            rows="3"
+            [(ngModel)]="editData.message"
+          ></textarea>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+  <ng-container class="app-modal-footer">
+    <button type="button" class="btn btn-default" (click)="addEditModal.hide()">Close</button>
+    <button type="button" class="btn btn-success" (click)="saveData()">Save</button>
+  </ng-container>
+</app-custom-modal>
+
+<app-custom-modal #deleteModal [modalTitle]="'Delete'" [width]="600">
+  <ng-container class="app-modal-body">
+    <span>Do you want to delete it - {{ editRow ? editRow.name : '' }}?</span>
+  </ng-container>
+  <ng-container class="app-modal-footer">
+    <button type="button" class="btn btn-default" (click)="deleteModal.hide()">Close</button>
+    <button type="button" class="btn btn-danger" (click)="deleteData()" data-dismiss="modal">
+      Delete
+    </button>
+  </ng-container>
+</app-custom-modal>
+
+<ngx-loading
+  [show]="saving === 'saving'"
+  [config]="{backdropBorderRadius: '3px', fullScreenBackdrop: true}"
+></ngx-loading>

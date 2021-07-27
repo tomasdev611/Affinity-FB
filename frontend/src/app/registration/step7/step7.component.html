@@ -1,0 +1,152 @@
+<div class="registration-step7-page">
+  <div class="title">
+    SKILLS
+  </div>
+
+  <div class="card">
+    <div class="card-body registration-step7">
+    
+      <div class="row">
+        <div class="col-md-12">
+          <div class="row">
+            <div class="col-md-12">
+              <span>Clerical / Office skills</span>
+            </div>
+          </div>
+          <div class="row">
+            <span class="col-md-3 text-right">Computer skills </span>
+            <div class="col-md-9"></div>
+          </div>
+          <div class="row">
+            <div class="col-md-9">
+              <div class="row">
+                <span class="col-md-4 text-right">Name of software: </span>
+                <input
+                  class="form-control form-control-sm col-md-8"
+                  type="text"
+                  [(ngModel)]="selected.Software"
+                />
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="row">
+                    <label class="col-md-8 text-right" for="chkYes1">PC</label>
+                    <input
+                      id="chkYes1"
+                      name="chkYes1"
+                      class="form-control form-control-sm col-md-4"
+                      type="checkbox"
+                      [(ngModel)]="selected.PC"
+                    />
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="row">
+                    <label class="col-md-8 text-right" for="chkNo1">MAC</label>
+                    <input
+                      id="chkNo1"
+                      name="chkNo1"
+                      class="form-control form-control-sm col-md-4"
+                      type="checkbox"
+                      [(ngModel)]="selected.MAC"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-12">
+              <div class="row">
+                <span class="col-md-3 text-right">Languages </span>
+                <input
+                  class="form-control form-control-sm col-md-2"
+                  type="text"
+                  [(ngModel)]="selected.Languages[0]"
+                />
+                <input
+                  class="form-control form-control-sm col-md-2"
+                  type="text"
+                  [(ngModel)]="selected.Languages[1]"
+                />
+                <input
+                  class="form-control form-control-sm col-md-2"
+                  type="text"
+                  [(ngModel)]="selected.Languages[2]"
+                />
+                <input
+                  class="form-control form-control-sm col-md-2"
+                  type="text"
+                  [(ngModel)]="selected.Languages[3]"
+                />
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-12">
+              <div class="row">
+                <span class="col-md-3 text-right">Other special knowledge or skills </span>
+                <input
+                  class="form-control form-control-sm col-md-8"
+                  type="text"
+                  [(ngModel)]="selected.Other"
+                />
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="row ">
+        <div class="col-md-12"><hr /></div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-12">
+          <div class="row">
+            <span class="col-md-12">Please describe any other experience, abilities that might be helpful in considering your application:</span>
+          </div>
+          <div class="row">
+            <div class="col-md-3"></div>
+            <input
+              class="form-control form-control-sm col-md-8"
+              type="text"
+              [(ngModel)]="selected.Special0"
+            />
+          </div>
+          <div class="row">
+            <div class="col-md-3"></div>
+            <input
+              class="form-control form-control-sm col-md-8"
+              type="text"
+              [(ngModel)]="selected.Special1"
+            />
+          </div>
+        </div>
+      </div>
+
+      <div class="row ">
+        <div class="col-md-12"><hr /></div>
+      </div>
+
+      <div class="row ">
+        <div class="col-md-12 text-center">
+          <div class="btn-group">
+            <button
+              class="btn btn-sm btn-success"
+              (click)="moveToNext()"
+            >
+              Save & Next
+            </button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>

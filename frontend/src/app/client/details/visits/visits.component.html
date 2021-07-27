@@ -1,0 +1,42 @@
+<div class="card">
+  <div class="card-body">
+    <ngx-datatable
+      class=""
+      [columnMode]="'force'"
+      [headerHeight]="40"
+      [footerHeight]="0"
+      [rowHeight]="30"
+      [scrollbarV]="true"
+      [scrollbarH]="true"
+      [selectionType]="'single'"
+      [rows]="visitData"
+    >
+      <input />
+      <ngx-datatable-column name="First Name" [width]="120">
+        <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
+          <a [routerLink]="['/caregiver/details/' + row.SocialSecNum]">{{ row.FirstName }}</a>
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="Last Name" [width]="120">
+        <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
+          <a [routerLink]="['/caregiver/details/' + row.SocialSecNum]">{{ row.LastName }}</a>
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column
+        name="First Visit"
+        prop="first_visit"
+        [width]="120"
+      ></ngx-datatable-column>
+      <ngx-datatable-column
+        name="Last Visit"
+        prop="last_visit"
+        [width]="120"
+      ></ngx-datatable-column>
+      <ngx-datatable-column
+        name="Total Visits"
+        prop="total_visits"
+        [width]="120"
+      ></ngx-datatable-column>
+    </ngx-datatable>
+  </div>
+</div>

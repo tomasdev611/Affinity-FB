@@ -1,0 +1,153 @@
+<div class="card">
+  <div class="card-body caregiver-notes-list">
+    <div class="text d-flex justify-content-between mt-3">
+      <div class="">
+        <input
+          type="text"
+          class="form-control filter-input"
+          placeholder="Type to filter the name column..."
+          (keyup)="updateFilter($event)"
+        />
+      </div>
+      <div class="btn-group">
+        <button
+          class="btn btn-sm btn-success"
+          *ngIf="acl_allow.update == true"
+          (click)="newAddNoteAction(editNoteModel)"
+        >
+          Add Notes
+        </button>
+      </div>
+    </div>
+    <hr />
+    <ngx-datatable
+      #notesTable
+      Table
+      class=""
+      [columnMode]="'force'"
+      [headerHeight]="40"
+      [footerHeight]="0"
+      [rowHeight]="'auto'"
+      [selectionType]="'single'"
+      [rows]="filteredNotes"
+    >
+      <ngx-datatable-column
+        name="Type"
+        [maxWidth]="120"
+        [width]="120"
+        [flexGrow]="0"
+        prop="noteTypeID"
+        [pipe]="noteTypePipe"
+      ></ngx-datatable-column>
+      <ngx-datatable-column
+        name="CreatedDate"
+        prop="dt"
+        [maxWidth]="120"
+        [width]="120"
+        [flexGrow]="0"
+        [comparator]="sortDateCompare"
+      ></ngx-datatable-column>
+      <ngx-datatable-column
+        name="CreatedBy"
+        prop="createdBy"
+        [maxWidth]="120"
+        [width]="120"
+        [flexGrow]="0"
+      ></ngx-datatable-column>
+      <ngx-datatable-column
+        name="Note"
+        prop="Description"
+        [width]="200"
+        [flexGrow]="5"
+      ></ngx-datatable-column>
+      <ngx-datatable-column
+        name="Action"
+        [maxWidth]="240"
+        [width]="240"
+        [sortable]="false"
+        [flexGrow]="0"
+      >
+        <ng-template let-value="value" ngx-datatable-cell-template let-row="row">
+          <button
+            type="button"
+            class="btn btn-warning btn-sm"
+            *ngIf="acl_allow.delete == true"
+            (click)="noteUpdateAction(editNoteModel, row)"
+          >
+            Update
+          </button>
+          <button
+            type="button"
+            class="btn btn-danger btn-sm"
+            *ngIf="acl_allow.delete == true"
+            (click)="noteDeleteAction(noteDeleteModel, row)"
+          >
+            Delete
+          </button>
+        </ng-template>
+      </ngx-datatable-column>
+    </ngx-datatable>
+  </div>
+</div>
+
+<app-custom-modal #editNoteModel [modalTitle]="NoteDate ? 'Edit Note' : 'Add Note'" [width]="800">
+  <ng-container class="app-modal-body">
+    <div class="row">
+      <hr />
+      <div class="col-md-12">
+        <div class="form-group">
+          <strong class="col-form-label">Note Type</strong>
+          <select class="form-control" [(ngModel)]="note.noteTypeID">
+            <option [value]="null">Please Select</option>
+            <option [ngValue]="noteType.noteTypeID" *ngFor="let noteType of noteTypeData">{{
+              noteType.description
+            }}</option>
+          </select>
+        </div>
+      </div>
+      <br />
+      <br />
+      <div class="col-md-12">
+        <div class="form-group">
+          <strong class="col-form-label">Description</strong>
+          <textarea
+            class="form-control form-control-sm"
+            type="text"
+            rows="6"
+            [(ngModel)]="note.Description"
+          >
+          </textarea>
+        </div>
+      </div>
+      <div *ngIf="NoteDate" class="col-md-12">
+        <div class="form-group">
+          <label class="col-form-label">Note Date/Time</label>
+          <input
+            class="form-control form-control-sm"
+            [(ngModel)]="note.NoteDateTime"
+            type="datetime-local"
+          />
+        </div>
+      </div>
+    </div>
+  </ng-container>
+  <ng-container class="app-modal-footer">
+    <button type="button" class="btn btn-default" (click)="editNoteModel.hide()">Close</button>
+    <button type="button" class="btn btn-success" (click)="saveNote()" data-dismiss="modal">
+      Save
+    </button>
+  </ng-container>
+</app-custom-modal>
+
+<app-custom-modal #noteDeleteModel [modalTitle]="'Delete Note'" [width]="600">
+  <ng-container class="app-modal-body"> <span>Do you want to delete this note</span> </ng-container>
+  <ng-container class="app-modal-footer">
+    <button type="button" class="btn btn-default" (click)="noteDeleteModel.hide()">Close</button>
+    <button type="button" class="btn btn-danger" (click)="deleteNote()">Delete</button>
+  </ng-container>
+</app-custom-modal>
+
+<ngx-loading
+  [show]="saving === 'saving'"
+  [config]="{backdropBorderRadius: '3px', fullScreenBackdrop: true}"
+></ngx-loading>

@@ -1,0 +1,73 @@
+#ag-grid-table {
+  min-height: 70vh;
+  max-height: 70vh;
+}
+
+.ng-select {
+  width: 300px;
+}
+
+.card {
+  .card-body {
+    padding: 0px;
+  }
+}
+
+.date-wrapper {
+  overflow: hidden;
+}
+
+.client-details {
+  font-size: 12px;
+}
+
+.main-content-area {
+  // display: flex;
+}
+agm-map {
+  height: 400px;
+}
+
+.main-filters {
+  font-size: 12px;
+}
+
+.chatroom-list {
+  .chatroom-item {
+    font-size: 12px;
+    position: relative;
+    // border-bottom: 1px solid #cccccc;
+    padding: 16px;
+    &.odd-row {
+      background: #d9e0d7;
+    }
+    &.has-unread {
+      border: 2px solid green;
+    }
+    .room-info {
+      .room-title {
+        font-size: 14px;
+        font-weight: bold;
+      }
+      .last-message-info {
+        .last-message-user {
+          text-decoration: underline;
+        }
+        .unread-count {
+          font-size: 13px;
+        }
+      }
+    }
+  }
+}
+
+.paginations-wrapper {
+  display: flex;
+  align-items: center;
+  .page-size-changer {
+    margin-right: 16px;
+  }
+  ul {
+    margin-bottom: 0px;
+  }
+}

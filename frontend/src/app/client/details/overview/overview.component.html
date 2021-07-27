@@ -1,0 +1,977 @@
+<div class="card">
+  <div class="card-body client-overview">
+    <div class="row ">
+      <div class="col-md-12">
+        <div class="text text-right">
+          <div class="btn-group">
+            <!-- *ngIf="showAddClientButton === true" -->
+            <button
+              class="btn btn-sm btn-success mr-1"
+              *ngIf="isNewClient === true && acl_allow.update == true"
+              (click)="addNewClient()"
+            >
+              Submit
+            </button>
+            <button
+              class="btn btn-sm btn-info mr-1"
+              (click)="updateDetails()"
+              *ngIf="isNewClient === false && acl_allow.update == true"
+            >
+              Update Profile
+            </button>
+            <button
+              class="btn btn-sm btn-danger"
+              (click)="inactivateClient()"
+              *ngIf="isNewClient === false && acl_allow.update == true && selected.Status == 'A'"
+            >
+              InActivate
+            </button>
+            <button
+              class="btn btn-sm btn-success"
+              (click)="activateClient()"
+              *ngIf="isNewClient === false && acl_allow.update == true && selected.Status == 'I'"
+            >
+              Activate
+            </button>
+          </div>
+        </div>
+        <hr />
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-2 text">
+        <div class="text">
+          <div class="row">
+            <div
+              *ngIf="!isNewClient && clientDetail && clientDetail.personaldata"
+              class="col-md-12 text-center mb-3"
+            >
+              <div class="row">
+                <div class="col-12">{{ selected.FirstName }} {{ selected.LastName }}</div>
+              </div>
+              <div class="row">
+                <div class="col-12">
+                  {{
+                    clientDetail.personaldata.Status === 'A' ? 'Active Client' : 'Inactive Client'
+                  }}
+                </div>
+              </div>
+            </div>
+            <div class="col-md-12">
+              <div class="form-group">
+                <div class="row">
+                  <label class="col-form-label  col-md-4 text text-right">Phone</label>
+                  <input
+                    class="form-control form-control-sm col-md-8"
+                    type="tel"
+                    placeholder="x-(xxx)-xxx-xxxx"
+                    [(ngModel)]="selected.Phone"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row ">
+            <div class="col-md-12"><hr /></div>
+          </div>
+          <client-overview-contacts [contacts]="clientDetail.contacts"></client-overview-contacts>
+          <div class="row ">
+            <div class="col-md-12"><hr /></div>
+          </div>
+          <div class="row grey-bg p-1">
+            <div class="col-md-12">
+              <div class="form-group">
+                <div class="row">
+                  <label class="col-form-label  col-md-5 text text-right"> Status/Reason </label>
+                  <select
+                    class="form-control form-control-sm font-size-xs col-md-2"
+                    name="select1"
+                    [(ngModel)]="selected.Status"
+                  >
+                    <option *ngFor="let st of status" [ngValue]="st.value">{{ st.value }}</option>
+                  </select>
+                  <select
+                    class="form-control form-control-sm font-size-xs col-md-5"
+                    [(ngModel)]="selected.str_reason"
+                  >
+                    <option *ngFor="let reason of reasonData" [value]="reason.str_reason">
+                      {{ reason.str_reason }}
+                    </option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-12">
+              <div class="form-group">
+                <div class="row">
+                  <label class="col-form-label  col-md-5 text text-right">Client Type</label>
+                  <select
+                    class="form-control form-control-sm font-size-xs col-md-7"
+                    [(ngModel)]="selected.clientTypeID"
+                  >
+                    <option *ngFor="let client of clientTypes" [value]="client.clientTypeID">
+                      {{ client.Name }}
+                    </option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-12">
+              <div class="form-group">
+                <div class="row">
+                  <label class="col-form-label  col-md-5 text text-right">Priority</label>
+                  <select
+                    class="form-control form-control-sm font-size-xs col-md-7"
+                    [(ngModel)]="selected.Priority"
+                  >
+                    <option value="">No Priority</option>
+                    <option *ngFor="let priority of priorityOptions" [value]="priority">
+                      {{ priority }}
+                    </option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <div *ngIf="!isNewClient" class="col-md-12">
+              <div class="form-group">
+                <div class="row">
+                  <label class="col-form-label  col-md-5 text text-right">Feedback</label>
+                  <select
+                    class="form-control form-control-sm font-size-xs col-md-7"
+                    [(ngModel)]="customFieldsEdit.Feedback"
+                  >
+                    <option *ngFor="let feedbackOption of feedbackOptions" [value]="feedbackOption">
+                      {{ feedbackOption }}
+                    </option>
+                  </select>
+                  <!-- <input
+                    class="form-control form-control-sm  col-md-4"
+                    type="text"
+                    maxlength="1"
+                    [(ngModel)]="customFieldsEdit.Feedback"
+                  /> -->
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div *ngIf="!isNewClient" class="row p-1">
+            <div class="col-md-12">
+              <div class="form-group">
+                <div class="row">
+                  <label class="col-form-label  col-md-5 text text-right">Coordinators 1</label>
+                  <input
+                    class="form-control form-control-sm font-size-xs col-md-7"
+                    type="text"
+                    [(ngModel)]="customFieldsEdit['Case Coordinator 1']"
+                  />
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="row">
+                  <label class="col-form-label  col-md-5 text text-right">Coordinators 2</label>
+                  <input
+                    class="form-control form-control-sm font-size-xs col-md-7"
+                    type="text"
+                    [(ngModel)]="customFieldsEdit['Case Coordinator 2']"
+                  />
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="row">
+                  <label class="col-form-label  col-md-5 text text-right">Advocate</label>
+                  <input
+                    class="form-control form-control-sm font-size-xs col-md-7"
+                    type="text"
+                    [(ngModel)]="customFieldsEdit['Patient Advocate']"
+                  />
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="row">
+                  <label class="col-form-label  col-md-5 text text-right">Initial Visit</label>
+                  <input
+                    class="form-control form-control-sm font-size-xs col-md-3"
+                    type="text"
+                    [(ngModel)]="customFieldsEdit['New Client Visit Initials']"
+                  />
+                  <input
+                    class="form-control form-control-sm font-size-xs col-md-4"
+                    type="text"
+                    [(ngModel)]="customFieldsEdit['New Client Visit Date']"
+                    placeholder="Date"
+                  />
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="row">
+                  <label class="col-form-label  col-md-5 text text-right">Supervisory Visit</label>
+                  <input
+                    class="form-control form-control-sm font-size-xs col-md-3"
+                    type="text"
+                    [(ngModel)]="customFieldsEdit['Supervisory V. Initials']"
+                  />
+                  <input
+                    class="form-control form-control-sm font-size-xs col-md-4"
+                    type="text"
+                    [(ngModel)]="customFieldsEdit['Supervisory Visit Date']"
+                    placeholder="Date"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- <div class="row" *ngIf="isNewClient === false">
+            <div class="col-12"> -->
+          <client-overview-reminders
+            *ngIf="isNewClient === false"
+            [reminders]="clientDetail.reminders"
+          ></client-overview-reminders>
+          <!-- </div>
+          </div> -->
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <div class="row text-nowrap">
+          <div [ngClass]="!billingAddressSame ? 'col-md-12' : 'col-12'">
+            <div class="form-group">
+              <div class="row">
+                <div class="col-md-6">Service Address</div>
+                <div class="col-md-6 text-right">
+                  <label class="form-check-label"
+                    >&nbsp;&nbsp;
+                    <input
+                      class="form-check-input"
+                      type="checkbox"
+                      [(ngModel)]="billingAddressSame"
+                      (ngModelChange)="onBillingAddressSameChange()"
+                    />
+                    Please. If Billing Address Is Same
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-5">
+                <div class="form-group">
+                  <div class="row">
+                    <label class="col-form-label col-md-4 text text-right">First Name</label>
+                    <input
+                      class="form-control form-control-sm col-md-8"
+                      type="text"
+                      [(ngModel)]="selected.FirstName"
+                    />
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-2">
+                <div class="form-group">
+                  <div class="row">
+                    <label class="col-form-label  col-md-8 text text-right">Middle Initial</label>
+                    <input
+                      class="form-control form-control-sm  col-md-4"
+                      type="text"
+                      maxlength="1"
+                      [(ngModel)]="selected.MiddleInit"
+                    />
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-5">
+                <div class="form-group">
+                  <div class="row">
+                    <label class="col-form-label  col-md-4 text text-right">Last Name</label>
+                    <input
+                      class="form-control form-control-sm col-md-8"
+                      type="text"
+                      [(ngModel)]="selected.LastName"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-5">
+                <div class="form-group">
+                  <div class="row">
+                    <label class="col-form-label col-md-4 text text-right">Address 1</label>
+                    <input
+                      class="form-control form-control-sm col-md-8"
+                      type="text"
+                      [(ngModel)]="selected.Address1"
+                    />
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-5">
+                <div class="form-group">
+                  <div class="row">
+                    <label class="col-form-label col-md-4 text text-right">Address 2</label>
+                    <input
+                      class="form-control form-control-sm col-md-8"
+                      type="text"
+                      [(ngModel)]="selected.Address2"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-5">
+                <div class="form-group">
+                  <div class="row">
+                    <label class="col-form-label col-md-4 text text-right">City</label>
+                    <input
+                      class="form-control form-control-sm  col-md-8"
+                      type="text"
+                      [(ngModel)]="selected.City"
+                    />
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-7">
+                <div class="row">
+                  <label class="col-form-label col-md-2 text text-right">State</label>
+                  <input
+                    class="form-control form-control-sm  col-md-2"
+                    type="text"
+                    maxlength="3"
+                    [(ngModel)]="selected.State"
+                  />
+                  <label class="col-form-label col-md-1 text text-right">Zip</label>
+                  <input
+                    class="form-control form-control-sm col-md-2"
+                    type="text"
+                    [(ngModel)]="selected.Zip"
+                  />
+                  <label class="col-form-label col-md-2 text text-right">County</label>
+                  <select
+                    class="form-control form-control-sm col-md-3"
+                    [(ngModel)]="selected.County"
+                  >
+                    <option *ngFor="let cty of counties" [value]="cty.county">{{
+                      cty.county
+                    }}</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div *ngIf="!billingAddressSame" class="col-md-12">
+            <!-- <div class="form-group"> -->
+            <div class="row">
+              <div class="col-md-6"></div>
+              <div class="col-md-6 grey-bg">
+                <div class="row">
+                  <label class="col-form-label col-md-3 text text-right">Payor</label>
+                  <select
+                    class="form-control form-control-sm col-md-9"
+                    [(ngModel)]="selected.PayorId"
+                    (ngModelChange)="changeSelectedPayor()"
+                  >
+                    <option *ngFor="let payor of payors" [value]="payor.PayorId">
+                      {{ payor.BAddress1 }} ({{ payor.PayorId }})
+                    </option>
+                  </select>
+                </div>
+                <!-- </div> -->
+                <!-- <div class="form-group"> -->
+                <div class="row">
+                  <label class="col-form-label  col-md-3 text text-right">Name</label>
+                  <input
+                    class="form-control form-control-sm  col-md-9"
+                    type="text"
+                    value="{{ selectedPayor.BAddress1 }}"
+                    disabled
+                  />
+                </div>
+                <div class="row">
+                  <label class="col-form-label  col-md-3 text text-right">Address1</label>
+                  <input
+                    class="form-control form-control-sm  col-md-9"
+                    type="text"
+                    value="{{ selectedPayor.BAddress2 }}"
+                    disabled
+                  />
+                </div>
+                <div class="row">
+                  <label class="col-form-label  col-md-3 text text-right">Address2</label>
+                  <input
+                    class="form-control form-control-sm  col-md-9"
+                    type="text"
+                    value="{{ selectedPayor.BAddress3 }}"
+                    disabled
+                  />
+                </div>
+                <div class="row">
+                  <label class="col-form-label  col-md-3 text text-right">City</label>
+                  <input
+                    class="form-control form-control-sm  col-md-9"
+                    type="text"
+                    value="{{ selectedPayor.BCity }}"
+                    disabled
+                  />
+                </div>
+                <div class="row">
+                  <label class="col-form-label  col-md-3 text text-right">State</label>
+                  <input
+                    class="form-control form-control-sm  col-md-3"
+                    type="text"
+                    maxlength="1"
+                    value="{{ selectedPayor.BState }}"
+                    disabled
+                  />
+                  <label class="col-form-label  col-md-3 text text-right">Zip</label>
+                  <input
+                    class="form-control form-control-sm  col-md-3"
+                    type="text"
+                    maxlength="1"
+                    value="{{ selectedPayor.BZip }}"
+                    disabled
+                  />
+                </div>
+                <!-- </div> -->
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row ">
+          <div class="col-md-12"><hr /></div>
+        </div>
+
+        <div class="row">
+          <div class="col-12">
+            <div class="row">
+              <div class="col-md-4">
+                <div class="form-group">
+                  <div class="row">
+                    <label class="col-form-label col-md-4 text text-right">DOB</label>
+                    <input
+                      class="form-control form-control-sm col-md-5"
+                      placeholder="yyyy-mm-dd"
+                      [(ngModel)]="selected.DateOfBirth"
+                    />
+                    <label class="col-form-label col-md-3 text text-center grey-bg">{{
+                      getBirthday()
+                    }}</label>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-4">
+                <div class="form-group">
+                  <div class="row">
+                    <label class="col-form-label  col-md-4 text text-right">Gender</label>
+                    <select
+                      class="form-control form-control-sm col-md-8"
+                      [(ngModel)]="selected.Gender"
+                    >
+                      <option value="M">Male</option>
+                      <option value="F">Female</option>
+                      <option value="O">Other</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="row">
+                  <label class="col-md-4 form-check-label text-right">Weight</label>
+                  <input
+                    class="form-control form-control-sm col-md-8"
+                    type="number"
+                    maxlength="5"
+                    [(ngModel)]="selected.Weight"
+                  />
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-4">
+                <div class="form-group">
+                  <div class="row">
+                    <label class="col-form-label  col-md-4 text text-right">Service Start </label>
+                    <input
+                      class="form-control form-control-sm col-md-8"
+                      placeholder="yyyy-mm-dd"
+                      [(ngModel)]="selected.ServiceStartDate"
+                    />
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-group">
+                  <div class="row">
+                    <label class="col-form-label  col-md-4 text text-right">Service End </label>
+                    <input
+                      class="form-control form-control-sm col-md-8"
+                      placeholder="yyyy-mm-dd"
+                      [(ngModel)]="selected.ServiceEndDate"
+                      autocomplete="off"
+                    />
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-group">
+                  <div class="row">
+                    <label class="col-form-label  col-md-4 text text-right">Email</label>
+                    <input
+                      class="form-control form-control-sm col-md-8"
+                      type="text"
+                      [(ngModel)]="selected.Email"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-4">
+                <div class="form-group">
+                  <div class="row">
+                    <div class="col-md-4">&nbsp;</div>
+                    <div class="form-check col-md-8 col-form-label ">
+                      <label class="form-check-label"
+                        >&nbsp;&nbsp;
+                        <input
+                          class="form-check-input"
+                          type="checkbox"
+                          name="gridRadios"
+                          id="gridRadios3"
+                          value="option3"
+                        />
+                        Enable Web Login
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-4">
+                <div class="form-group">
+                  <div class="row">
+                    <label class="col-form-label  col-md-6  text text-right">Web Password</label>
+                    <input
+                      class="form-control form-control-sm col-md-6"
+                      type="password"
+                      autocomplete="new-password"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row ">
+          <div class="col-md-12"><hr /></div>
+        </div>
+
+        <div class="row ">
+          <div class="col-md-6">
+            <div class="form-group">
+              <div class="row">
+                <label class="col-form-label  col-md-4 text text-right">Case Manager</label>
+                <select
+                  class="form-control form-control-sm col-md-8"
+                  [(ngModel)]="selected.CaseManagerId"
+                >
+                  <option *ngFor="let casem of caseManagers" [value]="casem.CaseManagerId">{{
+                    casem.FirstName + '
+                        ' + casem.LastName
+                  }}</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <div class="row">
+                <label class="col-form-label col-md-4 text text-right">Initial Contact</label>
+                <span class="flex-flexible align-items-center">{{
+                  selected.initialContact ? selected.initialContact.Name : 'No Initial Contact'
+                }}</span>
+                <!-- <select class="form-control form-control-sm col-md-6" [(ngModel)]="selected.InitialContactID">
+                    <option *ngFor="let contact of initialContacts" [value]="contact.InitialContactID">{{contact.Name}}</option>
+                  </select> -->
+                <a
+                  class=""
+                  *ngIf="acl_allow.update == true && acl_allow.delete == true"
+                  (click)="newInitialContactAction(newInitialContact)"
+                >
+                  <i class="fa fa-ellipsis-v"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6" *ngIf="allow_to_see_ssn == true"></div>
+          <div class="col-md-6" *ngIf="allow_to_see_ssn == true">
+            <div class="form-group">
+              <div class="row">
+                <label class="col-form-label col-md-4 text text-right"
+                  >SSN(Mask<span
+                    ><input type="checkbox" (click)="maskPassword($event)" checked />)</span
+                  >
+                </label>
+                <input
+                  class="form-control form-control-sm col-md-8"
+                  type="{{ SSN_TYPE }}"
+                  maxlength="9"
+                  [(ngModel)]="selected.ssn"
+                  autocomplete="new-password"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row p-2 bg-grey-200">
+          <div class="col-md-6">
+            <div class="form-group">
+              <div class="row">
+                <label class="col-form-label col-md-4 text text-right">Referred By</label>
+                <select
+                  class="form-control form-control-sm col-md-8"
+                  [(ngModel)]="selected.ReferredBy"
+                >
+                  <option *ngFor="let referred of referredBy" [value]="referred.ReferredById">{{
+                    referred.Name
+                  }}</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <div class="form-group">
+              <div class="row">
+                <label class="col-form-label col-md-4 text text-right">Ambulatory</label>
+                <select
+                  class="form-control form-control-sm col-md-3"
+                  [(ngModel)]="selected.Ambulatory"
+                >
+                  <option *ngFor="let am of ambulatory" [value]="am.name">{{ am.name }}</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <div class="form-group">
+              <div class="row">
+                <label class="col-form-label col-md-4 text text-right">Physician</label>
+                <select
+                  class="form-control form-control-sm col-md-8"
+                  [(ngModel)]="selected.Physician"
+                >
+                  <option *ngFor="let physic of physicians" [value]="physic.PhysicianName">{{
+                    physic.PhysicianName
+                  }}</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <div class="form-group">
+              <div class="row">
+                <label class="col-form-label col-md-4 text text-right">Referral#</label>
+                <input
+                  class="form-control form-control-sm col-md-4"
+                  type="text"
+                  maxlength="20"
+                  [(ngModel)]="selected.ReferralNumber"
+                />
+
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <div class="row">
+                      <!-- <div class="col-md-4">&nbsp;</div> -->
+                      <div class="form-check col-md-12 col-form-label ">
+                        <label class="form-check-label"
+                          >&nbsp;&nbsp;
+                          <input
+                            class="form-check-input"
+                            type="checkbox"
+                            [(ngModel)]="selected.DNR"
+                            name="gridRadios"
+                          />
+                          DNR
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <div class="form-group">
+              <div class="row">
+                <label class="col-form-label col-md-4 text text-right">Diagnosis/Code</label>
+                <input
+                  class="form-control form-control-sm col-md-6"
+                  [(ngModel)]="selected.PrimaryDiagnosis"
+                  maxlength="10"
+                  type="text"
+                />
+                <input
+                  class="form-control form-control-sm col-md-2"
+                  [(ngModel)]="selected.diagnosisCode"
+                  maxlength="10"
+                  type="text"
+                />
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <div class="form-group">
+              <div class="row">
+                <label class="col-form-label col-md-4 text text-right">Telephony ID</label>
+                <input
+                  class="form-control form-control-sm col-md-8"
+                  type="text"
+                  maxlength="10"
+                  [(ngModel)]="selected.telephonyID"
+                />
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <div class="form-group">
+              <div class="row">
+                <label class="col-form-label col-md-4 text text-right">Med Record #</label>
+                <input
+                  class="form-control form-control-sm col-md-4"
+                  type="text"
+                  [(ngModel)]="selected['MedicalRecord#']"
+                />
+                <label class="col-form-label col-md-4  text text-right"></label>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <div class="form-group">
+              <div class="row">
+                <label class="col-form-label col-md-4 text text-right">Accounting ID</label>
+                <input
+                  class="form-control form-control-sm col-md-8"
+                  type="text"
+                  maxlength="20"
+                  [(ngModel)]="selected.AccountingID"
+                />
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <div class="form-group">
+              <div class="row">
+                <label class="col-form-label col-md-4 text text-right">Location</label>
+                <select
+                  class="form-control form-control-sm col-md-8"
+                  [(ngModel)]="selected.locationID"
+                >
+                  <option *ngFor="let location of locationData" [value]="location.locationID">{{
+                    location.locationID
+                  }}</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <div class="form-group">
+              <div class="row">
+                <div class="col-md-4">&nbsp;</div>
+                <div class="form-check col-md-8 col-form-label ">
+                  <label class="form-check-label"
+                    >&nbsp;&nbsp;
+                    <input
+                      class="form-check-input"
+                      type="checkbox"
+                      [(ngModel)]="selected.enable1500"
+                      name="gridRadios"
+                    />
+                    Enable Client Specific 1500
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row" *ngIf="isNewClient === false">
+          <div class="col-md-4">
+            <client-overview-lists [client]="clientDetail"></client-overview-lists>
+          </div>
+          <div class="col-md-8">
+            <client-overview-notes [notes]="clientDetail.notes"></client-overview-notes>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4" *ngIf="isNewClient === false">
+        <div class="row" *ngIf="mapUrl">
+          <div class="col-12">
+            <div class="mapouter">
+              <div class="gmap_canvas">
+                <iframe
+                  width="100%"
+                  height="300"
+                  id="gmap_canvas"
+                  [src]="mapUrl"
+                  frameborder="0"
+                  scrolling="no"
+                  marginheight="0"
+                  marginwidth="0"
+                >
+                </iframe>
+                <!-- <a href="https://www.emojilib.com"></a> -->
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12">
+            <client-overview-calendar
+              [client]="clientDetail.personaldata"
+              *ngIf="clientDetail && clientDetail.personaldata"
+            ></client-overview-calendar>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12">
+            <client-overview-attachments
+              [attachments]="clientDetail.attachments"
+            ></client-overview-attachments>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<app-custom-modal #newInitialContact [modalTitle]="'Add/Edit Initial Contact'" [width]="1000">
+  <ng-container class="app-modal-body">
+    <div class="row">
+      <div class="col-md-2">
+        <div class="form-group">
+          <label class="col-form-label">Name</label>
+          <input
+            class="form-control form-control-sm"
+            [(ngModel)]="initialContact.Name"
+            name="Name"
+            required
+          />
+        </div>
+      </div>
+
+      <div class="col-md-5">
+        <div class="form-group">
+          <label class="col-form-label">Address 1</label>
+          <input
+            class="form-control form-control-sm"
+            [(ngModel)]="initialContact.Address1"
+            name="Address1"
+          />
+        </div>
+      </div>
+
+      <div class="col-md-5">
+        <div class="form-group">
+          <label class="col-form-label">Address 2</label>
+          <input
+            class="form-control form-control-sm"
+            [(ngModel)]="initialContact.Address2"
+            name="Address2"
+          />
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="form-group">
+          <label class="col-form-label">City</label>
+          <input
+            class="form-control form-control-sm"
+            [(ngModel)]="initialContact.City"
+            name="City"
+          />
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="form-group">
+          <label class="col-form-label">State</label>
+          <input
+            class="form-control form-control-sm"
+            maxlength="2"
+            [(ngModel)]="initialContact.State"
+            name="State"
+          />
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="form-group">
+          <label class="col-form-label">Zip</label>
+          <input
+            class="form-control form-control-sm"
+            [(ngModel)]="initialContact.Zip"
+            name="Zip"
+          />
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="form-group">
+          <label class="col-form-label">Relation</label>
+          <select
+            class="form-control form-control-sm "
+            [(ngModel)]="initialContact.Relation"
+            name="Relation"
+          >
+            <option *ngFor="let rl of relations" [value]="rl.intRelation">{{
+              rl.strRelation
+            }}</option>
+          </select>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="form-group">
+          <label class="col-form-label">Phone</label>
+          <input
+            class="form-control form-control-sm"
+            [(ngModel)]="initialContact.Phone"
+            name="Phone"
+          />
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="form-group">
+          <label class="col-form-label">Email</label>
+          <input
+            class="form-control form-control-sm"
+            [(ngModel)]="initialContact.Email"
+            name="Email"
+          />
+        </div>
+      </div>
+    </div>
+  </ng-container>
+  <ng-container class="app-modal-footer">
+    <button type="button" class="btn btn-default" (click)="newInitialContact.hide()">Close</button>
+    <button type="submit" class="btn btn-warning" *ngIf="acl_allow.update == true" (click)="submitInitialContact(newInitialContact)">Done</button>
+  </ng-container>
+</app-custom-modal>
+
+<ngx-loading
+  [show]="saving === 'saving'"
+  [config]="{backdropBorderRadius: '3px', fullScreenBackdrop: true}"
+></ngx-loading>

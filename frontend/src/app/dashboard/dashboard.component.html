@@ -1,0 +1,76 @@
+<div class="">
+  <div class="">
+    <strong>CASE MANAGEMENT</strong>
+    <hr />
+  </div>
+  <div class="main-container">
+    <div class="search-container">
+      <div ngbDropdown class="d-inline-block search-selector">
+        <button class="btn btn-sm" id="dropdownMenu1" ngbDropdownToggle>{{ searchType }}</button>
+        <div ngbDropdownMenu class="dropdown-menu" aria-labelledby="dropdownMenu1">
+          <button class="dropdown-item" (click)="selectSearchType('Caregiver')">Caregiver</button>
+          <button class="dropdown-item" (click)="selectSearchType('Client')">Client</button>
+        </div>
+      </div>
+      <ng-select
+        [items]="itemsList"
+        bindLabel="name"
+        bindValue="id"
+        [(ngModel)]="selectedItem"
+        [virtualScroll]="true"
+      >
+      </ng-select>
+      <button (click)="goToDetailPage()">Go</button>
+    </div>
+    <div
+      class="row justify-content-center shortcuts-container"
+      [dragula]="'shortcutsDragula'"
+      [(dragulaModel)]="shortcuts"
+      (dragulaModelChange)="changeOrder($event)"
+    >
+      <ng-container *ngFor="let shortcut of shortcuts">
+        <div class="shortcut-item" *ngIf="shortcut.title !== 'Compliance'">
+          <div class="shortcut-item-header">
+            <span class="mr-auto"></span>
+            <div class="shortcut-item-controls" *ngIf="shortcut.canClose">
+              <a (click)="removeShortcut(shortcut)"> <i class="icon icon-basic-trashcan"></i> </a>
+            </div>
+          </div>
+          <div class="shortcut-item-body">
+            <div class="text text-default text-center  bg-grey-100">
+              <a class="shortcut-item-link" [routerLink]="[shortcut.link]">
+                <img class="img responsive img-responsive" src="{{ shortcut.icon }}" />
+                {{ shortcut.title }}
+              </a>
+            </div>
+          </div>
+        </div>
+      </ng-container>
+      <div class="shortcut-item  non-dragabble" *ngIf="shortcuts.length !== allShortcuts.length">
+        <div class="shortcut-item-header"><span class="mr-auto"></span></div>
+        <div class="shortcut-item-body">
+          <div class="text text-default text-center  bg-grey-100">
+            <a class="" (click)="showAddShortcutModal(addShortcutModal)">
+              <i _ngcontent-c19="" class="fa fa-plus"></i> <br />
+              <strong>Add Shortcut</strong>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<app-custom-modal #addShortcutModal [modalTitle]="'Add Shortcut'" [width]="600">
+  <ng-container class="app-modal-body">
+    <div *ngIf="addShortcutModal.visible" class="row">
+      <ul class="shortcut-list">
+        <li *ngFor="let shortcut of remainingShortcuts">
+          <a (click)="addShortcut(shortcut)"
+            ><i _ngcontent-c19="" class="fa fa-plus"></i> {{ shortcut.title }}</a
+          >
+        </li>
+      </ul>
+    </div>
+  </ng-container>
+</app-custom-modal>

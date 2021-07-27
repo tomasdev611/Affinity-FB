@@ -1,0 +1,595 @@
+<div class="card">
+  <div class="card-body">
+    <div class="card card-primary card-inverse">
+      <div class="card-header">
+        <div>
+          <div class="d-flex">
+            <label class="col-form-label">Client</label>
+            <ng-select
+              [items]="clients"
+              bindLabel="name"
+              bindValue="id"
+              [(ngModel)]="filter.ClientId"
+              (change)="onClientChange()"
+              [virtualScroll]="true"
+            >
+            </ng-select>
+            <a
+              *ngIf="filter.ClientId"
+              [href]="'#/client/details/' + filter.ClientId"
+              target="_blank"
+              class="btn btn-info"
+              >Client Profile
+            </a>
+          </div>
+        </div>
+        <span class="mr-auto"></span>
+        <div class="card-controls">
+          <a href="javascript:;" (click)="isCollapsed = !isCollapsed" *ngIf="!isCollapsed">
+            <i class="icon icon-arrows-down"></i>
+          </a>
+          <a href="javascript:;" (click)="isCollapsed = !isCollapsed" *ngIf="isCollapsed">
+            <i class="icon icon-arrows-up"></i>
+          </a>
+        </div>
+      </div>
+      <div class="card-block client-details" [ngbCollapse]="isCollapsed">
+        <div *ngIf="clientDetail" class="row">
+          <div class="col-xs-6 col-md-2 col-xl-1">
+            <div>{{ clientDetail.personaldata.Phone }}</div>
+            <div>{{ statusMap[clientDetail.personaldata.Status] }}</div>
+          </div>
+          <div class="col-xs-6 col-md-2 col-xl-1">
+            <div>
+              {{ clientDetail.personaldata.FirstName }} {{ clientDetail.personaldata.LastName }}
+            </div>
+            <div>{{ clientDetail.personaldata.Address1 }}</div>
+            <div>
+              {{ clientDetail.personaldata.City }}, {{ clientDetail.personaldata.State }}
+              {{ clientDetail.personaldata.Zip }}
+            </div>
+          </div>
+          <div class="col-xs-12 col-md-4 col-xl-2">
+            <div class="text-info">Contacts:</div>
+            <div *ngIf="clientDetail.contacts.length > 0" class="row">
+              <div class="col-xs-12 col-md-6">
+                <div>{{ clientDetail.contacts[0].Name }}</div>
+                <div>{{ clientDetail.contacts[0].Phone }}</div>
+                <div>{{ clientDetail.contacts[0].OtherContactInfo }}</div>
+              </div>
+              <div *ngIf="clientDetail.contacts.length > 1" class="col-xs-12 col-md-6">
+                <div>{{ clientDetail.contacts[1].Name }}</div>
+                <div>{{ clientDetail.contacts[1].Phone }}</div>
+                <div>{{ clientDetail.contacts[1].OtherContactInfo }}</div>
+              </div>
+            </div>
+          </div>
+          <div class="col-xs-6 col-md-2 col-xl-1">
+            <div class="text-info">Skills:</div>
+            <div *ngFor="let skill of clientDetail.skills">
+              {{ getName(skills, skill.skillId, 'SkillId', 'Description') }}
+            </div>
+          </div>
+          <div class="col-md-12 col-xl-7">
+            <div class="row">
+              <div *ngFor="let cf of clientDetail.customfields" class="col-md-4 col-xl-3">
+                {{ cf.cfieldName }} - {{ cf.descr }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-body">
+    <div class="card card-primary card-inverse">
+      <div class="card-header">
+        Caregiver Filter
+        <button
+          class="btn btn-primary btn-sm ml-2"
+          (click)="searchCaregiver()"
+          [disabled]="!clientDetail"
+        >
+          Search
+        </button>
+        <span class="mr-auto"></span>
+        <div class="card-controls">
+          <a
+            href="javascript:;"
+            (click)="isCollapsedFilter = !isCollapsedFilter"
+            *ngIf="!isCollapsedFilter"
+          >
+            <i class="icon icon-arrows-down"></i>
+          </a>
+          <a
+            href="javascript:;"
+            (click)="isCollapsedFilter = !isCollapsedFilter"
+            *ngIf="isCollapsedFilter"
+          >
+            <i class="icon icon-arrows-up"></i>
+          </a>
+        </div>
+      </div>
+      <div class="card-block main-filters" [ngbCollapse]="isCollapsedFilter">
+        <div class="row">
+          <div class="col-md-2 col-xl-1 d-flex flex-column">
+            <div class="d-flex justify-content-between mb-2">
+              Sort
+              <select [(ngModel)]="filter.sort">
+                <option value="distance">Distance</option>
+                <option value="visits"># of Visits</option>
+                <option value="regdate">Reg Date</option>
+                <option value="rating">Rating</option>
+                <option value="feedback">Feedback</option>
+              </select>
+            </div>
+            <label class="d-flex justify-content-end">
+              Active
+              <input
+                class=""
+                type="radio"
+                name="inlineRadioOptions"
+                id="inlineRadio1"
+                value="A"
+                [(ngModel)]="filter.status"
+              />
+            </label>
+            <label class="d-flex justify-content-end">
+              Inactive + Active
+              <input
+                class=""
+                type="radio"
+                name="inlineRadioOptions"
+                id="inlineRadio2"
+                value="all"
+                [(ngModel)]="filter.status"
+              />
+            </label>
+            <label class="d-flex justify-content-end">
+              Show TERMS
+              <input
+                class=""
+                type="checkbox"
+                (change)="showTermClassificationChange()"
+                name="inlineRadioOptionsShowTermClassification"
+                id="inlineRadioshowTermClassification"
+                [(ngModel)]="showTermClassification"
+              />
+            </label>
+            <div class="">
+              Proximity
+              <select [(ngModel)]="filter.proximity">
+                <option value="">No Restriction</option>
+                <option *ngFor="let dist of proximityOptions">{{ dist }}</option>
+              </select>
+            </div>
+          </div>
+          <div class="col-md-2 col-xl-1 d-flex flex-column">
+            <div class="">
+              Min Rating
+              <select [(ngModel)]="filter.minRating">
+                <option value="">No Restriction</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+              </select>
+            </div>
+            <div class="">
+              Min Feedback
+              <select [(ngModel)]="filter.minFeedback">
+                <option value="">No Restriction</option>
+                <option value="F">F</option>
+                <option value="U">U</option>
+                <option value="C">C</option>
+                <option value="B">B</option>
+                <option value="A">A</option>
+              </select>
+            </div>
+            <div class="">
+              Gender
+              <select [(ngModel)]="filter.gender">
+                <option value="">No Restriction</option>
+                <option value="M">Male</option>
+                <option value="F">Female</option>
+              </select>
+            </div>
+            <div class="">
+              Availabilities
+              <select
+                class="form-control form-control-sm col-md-8"
+                [(ngModel)]="filter.AvailabilityId"
+              >
+                <option value="">No Restriction</option>
+                <option
+                  *ngFor="let availability of availabilities"
+                  [ngValue]="availability.id"
+                  >{{ availability.name }}</option
+                >
+              </select>
+            </div>
+
+            <div class="">
+              Classification
+              <select
+                class="form-control form-control-sm col-md-8"
+                [(ngModel)]="filter.classificationID"
+              >
+                <option value="">No Restriction</option>
+                <option
+                  *ngFor="let classificatioID of revisedClassifications"
+                  [ngValue]="classificatioID.ClassificationID"
+                  >{{ classificatioID.Description }}</option
+                >
+              </select>
+            </div>
+          </div>
+          <div class="col-md-2 col-xl-1 d-flex flex-column">
+            <div>Date From</div>
+            <div class="date-wrapper"><input type="date" [(ngModel)]="filter.dateFrom" /></div>
+            <div>Date To</div>
+            <div class="date-wrapper"><input type="date" [(ngModel)]="filter.dateTo" /></div>
+          </div>
+          <div *ngFor="let day of days; let i = index" class="col-md-2 col-xl-1 d-flex flex-column">
+            {{ day }}
+            <div *ngIf="filter.days['day' + i]">
+              Start <input type="time" [(ngModel)]="filter.days['day' + i].start" />
+            </div>
+            <div *ngIf="filter.days['day' + i]">
+              End <input type="time" [(ngModel)]="filter.days['day' + i].end" />
+            </div>
+            <div (click)="addRemoveDay(i)">{{ filter.days['day' + i] ? 'x' : '+' }}</div>
+          </div>
+          <div class="col-md-2 col-xl-1 d-flex flex-column">
+            <button class="btn btn-info btn-xs mt-1" (click)="openSelectSkills(manageSelectSkills)">
+              Skills ({{ filter.skills.length }})
+            </button>
+            <div class="">
+              Language
+              <div class="d-flex">
+                <label class="d-flex justify-content-end">
+                  Only
+                  <input
+                    class=""
+                    type="radio"
+                    name="languageRadioOptions"
+                    id="languageRadioOptions1"
+                    value="only"
+                    [(ngModel)]="filter.languageOption"
+                  />
+                </label>
+                <label class="d-flex justify-content-end">
+                  Exclude
+                  <input
+                    class=""
+                    type="radio"
+                    name="languageRadioOptions"
+                    id="languageRadioOptions2"
+                    value="exclude"
+                    [(ngModel)]="filter.languageOption"
+                  />
+                </label>
+              </div>
+              <select class="form-control form-control-sm col-md-8" [(ngModel)]="filter.language">
+                <option value="">No Restriction</option>
+                <option *ngFor="let language of languages" [ngValue]="language.id">{{
+                  language.name
+                }}</option>
+              </select>
+            </div>
+            <div class="">
+              CO
+              <div class="d-flex">
+                <label class="d-flex justify-content-end">
+                  Only
+                  <input
+                    class=""
+                    type="radio"
+                    name="coRadioOptions"
+                    id="coRadioOptions1"
+                    value="only"
+                    [(ngModel)]="filter.coOption"
+                  />
+                </label>
+                <label class="d-flex justify-content-end">
+                  Exclude
+                  <input
+                    class=""
+                    type="radio"
+                    name="coRadioOptions"
+                    id="coRadioOptions2"
+                    value="exclude"
+                    [(ngModel)]="filter.coOption"
+                  />
+                </label>
+              </div>
+              <select class="form-control form-control-sm col-md-8" [(ngModel)]="filter.co">
+                <option value="">No Restriction</option>
+                <option *ngFor="let className of classesNames" [ngValue]="className.className">{{
+                  className.className
+                }}</option>
+              </select>
+            </div>
+          </div>
+          <div class="col-md-2 col-xl-1 d-flex flex-column">
+            <button
+              class="btn btn-info btn-xs mt-1"
+              (click)="sendTextMessageToSelected(sendTxtMessage)"
+            >
+              Text Msg
+            </button>
+            <button class="btn btn-danger btn-xs mt-1" (click)="resetControlPanel()">
+              Reset Control Panel
+            </button>
+            <button class="btn btn-danger btn-xs mt-1" (click)="resetList()">Reset List</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="main-content-area row">
+  <div class="caregivers-wrapper col-md-8">
+    <div class="caregiver-list">
+      <div *ngFor="let caregiver of rowData" class="caregiver-item">
+        <div class="remove-button" (click)="removeCaregiver(caregiver)">
+          <i class="fa fa-times-circle"></i>
+        </div>
+        <div class="row">
+          <div class="col-md-5 col-xs-12 basic-user-info">
+            <div class="avatar-wrapper">
+              <img
+                class="rounded img-thumbnail"
+                style="width: 180px;"
+                [src]="getPhoto(caregiver)"
+              />
+              <div class="status-info">
+                <span
+                  ><input
+                    type="checkbox"
+                    [(ngModel)]="selectedCaregivers[caregiver.SocialSecurityNum]"
+                /></span>
+                <span>{{ caregiver.Status }}</span>
+              </div>
+            </div>
+            <div class="user-info">
+              <div class="row">
+                <span class="text-info col-5">
+                  <a [href]="'/#/caregiver/details/' + caregiver.SocialSecurityNum" target="_blank"
+                    >{{ caregiver.FirstName }} {{ caregiver.LastName }}</a
+                  >
+                </span>
+                <span class="col-4">{{ caregiver.StatusText }}</span>
+                <span class="col-3">{{ caregiver.Class }}</span>
+              </div>
+              <div class="row">
+                <span class="col-5">Feedback</span>
+                <span class="col-4"> {{ caregiver.Feedback }}</span>
+              </div>
+              <div class="row">
+                <span class="col-5">Reg. Date</span>
+                <span class="col-4">{{ caregiver.StatusDate }}</span>
+                <span class="col-3"> {{ caregiver.NPI }}</span>
+              </div>
+              <div class="row">
+                <span class="col-5">1st Visit Date</span>
+                <span class="col-4"> {{ caregiver.first_visit }}</span>
+              </div>
+              <div class="row">
+                <span class="col-5"># of Visits</span>
+                <span class="col-4">{{ caregiver.total_visits }}</span>
+              </div>
+              <div class="row">
+                <span class="col-5"># of Clients</span>
+                <span class="col-4">{{ caregiver.total_clients }}</span>
+              </div>
+              <div class="text-info">{{ caregiver.Phone1 }}</div>
+            </div>
+          </div>
+          <div class="col-md-3 col-xs-12 extra-info">
+            <div class="languages">{{ caregiver.LanguageText }}</div>
+            <div>
+              <caregiver-overview-attachments
+                [attachments]="caregiver.attachments"
+              ></caregiver-overview-attachments>
+            </div>
+            <div>
+              <button (click)="openSchedulesFor(viewSchedules, caregiver)">Schedule</button>
+              <button (click)="openNotesFor(viewNotes, caregiver)">Notes</button>
+              <button (click)="openRemindersFor(viewReminders, caregiver)">Reminders</button>
+            </div>
+          </div>
+          <div class="col-md-2 col-xs-12 skills-info">
+            <div class="skill-set">
+              <div *ngFor="let skill of caregiver.skills">
+                {{ getName(skills, skill.SkillId, 'SkillId', 'Description') }}
+              </div>
+            </div>
+          </div>
+          <div class="col-md-2 col-xs-12 address-info">
+            <div>{{ caregiver.AddressText }}</div>
+            <div>{{ caregiver.distance }} Miles</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="paginations-wrapper">
+      <select
+        [(ngModel)]="pageData.pageSize"
+        (change)="getCaregiversForPage()"
+        class="page-size-changer"
+      >
+        <option value="5">5</option>
+        <option value="10">10</option>
+        <option value="20">20</option>
+        <option value="30">30</option>
+      </select>
+      <ngb-pagination
+        [collectionSize]="allCaregivers.length"
+        [pageSize]="pageData.pageSize"
+        [(page)]="pageData.currentPage"
+        (pageChange)="getCaregiversForPage()"
+        [maxSize]="5"
+        [rotate]="true"
+        [boundaryLinks]="true"
+      ></ngb-pagination>
+    </div>
+  </div>
+  <div class="map-wrapper col-md-4">
+    <agm-map #agmMap [latitude]="mapPosition.lat" [longitude]="mapPosition.lng" [fitBounds]="true">
+      <agm-marker
+        *ngIf="currentFilterClient && currentFilterClient.personaldata"
+        [latitude]="currentFilterClient.personaldata.lat"
+        [longitude]="currentFilterClient.personaldata.lng"
+        [agmFitBounds]="true"
+        [iconUrl]="'assets/images/disabled-map-pin.png'"
+      >
+        <agm-info-window>
+          <strong>
+            Client - {{ currentFilterClient.personaldata.FirstName }}
+            {{ currentFilterClient.personaldata.LastName }}
+          </strong>
+        </agm-info-window>
+      </agm-marker>
+      <agm-marker
+        *ngFor="let caregiver of rowData"
+        [latitude]="caregiver.lat"
+        [longitude]="caregiver.lng"
+        [agmFitBounds]="true"
+      >
+        <agm-info-window>
+          <strong>{{ caregiver.FirstName }} {{ caregiver.LastName }}</strong>
+        </agm-info-window>
+      </agm-marker>
+    </agm-map>
+  </div>
+</div>
+<ngx-loading
+  [show]="loading"
+  [config]="{backdropBorderRadius: '3px', fullScreenBackdrop: true}"
+></ngx-loading>
+
+<app-custom-modal #manageSelectSkills [modalTitle]="'Select Skills'" [width]="900">
+  <ng-container class="app-modal-body">
+    <div class="card-body">
+      <ngx-datatable
+        class=""
+        [columnMode]="'force'"
+        [headerHeight]="40"
+        [footerHeight]="0"
+        [rowHeight]="50"
+        [selectionType]="'single'"
+        [rows]="skills"
+      >
+        <input />
+        <ngx-datatable-column name="Skill" prop="Description" [width]="120"></ngx-datatable-column>
+        <ngx-datatable-column name="Select" [width]="120">
+          <ng-template let-value="value" ngx-datatable-cell-template let-row="row">
+            <input
+              type="checkbox"
+              value=""
+              class="form-control form-control-sm"
+              [(ngModel)]="selectedSkills[row.SkillId]"
+              #item
+            />
+          </ng-template>
+        </ngx-datatable-column>
+      </ngx-datatable>
+    </div>
+    <div>
+      <button type="button" class="btn btn-success" (click)="clearSelectedSkills()">Clear</button>
+      <button
+        type="button"
+        class="btn btn-success"
+        (click)="saveSelectedSkills(manageSelectSkills)"
+        data-dismiss="modal"
+      >
+        Done
+      </button>
+    </div>
+  </ng-container>
+</app-custom-modal>
+
+<app-custom-modal #viewSchedules [modalTitle]="'Manage Schedule'" [width]="1200">
+  <ng-container class="app-modal-body">
+    <calendar-component *ngIf="viewSchedules.visible" [options]="calendarOptions"></calendar-component>
+  </ng-container>
+</app-custom-modal>
+
+<app-custom-modal #viewNotes [modalTitle]="'Notes for' + (caregiver ? caregiver.FirstName : '')" [width]="1200">
+  <ng-container class="app-modal-body">
+    <div *ngIf="caregiver" class="search-console-notes">
+      <div class="row" *ngFor="let note of caregiver.notes; let index = index;">
+        <div class="col-3">
+          <div class="text-info">{{ note.dtSmallLength }}</div>
+          <div class="text-warning">{{ note.createdBy }}</div>
+        </div>
+        <div class="col-9">{{ note.Description }}</div>
+      </div>
+    </div>
+  </ng-container>
+</app-custom-modal>
+
+<app-custom-modal #viewReminders [modalTitle]="'Reminders for' + (caregiver ? caregiver.FirstName : '')" [width]="1200">
+  <ng-container class="app-modal-body">
+    <div *ngIf="caregiver">
+      <div class="row" *ngFor="let reminder of caregiver.reminders; let index = index;">
+        <div class="col-6">
+          <div>{{ reminder.description }}</div>
+        </div>
+        <div class="col-6">{{ reminder.expirationDate | date }}</div>
+      </div>
+    </div>
+  </ng-container>
+</app-custom-modal>
+
+<app-custom-modal #sendTxtMessage [modalTitle]="'Send Message To Selected' + (selectedCaregiverIds.length)" [width]="1200">
+  <ng-container class="app-modal-body">
+    <div *ngIf="sendTxtMessage.visible" class="search-console-messages">
+      <div class="row">
+        <textarea
+          class="col-12"
+          placeholder="Type Message"
+          [(ngModel)]="messageInput"
+          maxlength="90"
+        ></textarea>
+      </div>
+      <div class="row">
+        <div class="col-12">
+          <label for="chat_image_upload" class="chat-image-button">
+            Select Image <i class="fa fa-file"></i>
+          </label>
+          <div
+            *ngIf="imageData"
+            for="chat_image_upload"
+            class="chat-image-area image-container"
+            (click)="removePhoto()"
+          >
+            <img [src]="imageData" alt="img" /> <i class="fa fa-times"></i>
+          </div>
+          <input
+            type="file"
+            name="browse"
+            id="chat_image_upload"
+            accept="image/*,application/pdf"
+            style="display: none;"
+            (change)="sendImage($event)"
+          />
+        </div>
+      </div>
+      <button
+        type="submit"
+        class="btn btn-primary btn-sm"
+        [disabled]="sending"
+        (click)="sendMessage(manageSelectSkills)"
+      >
+        Send Message<i class="fa fa-paper-plane-o"></i>
+      </button>
+    </div>
+  </ng-container>
+</app-custom-modal>

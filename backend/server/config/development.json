@@ -1,0 +1,46 @@
+{
+    "pm2": {
+        "affinity-api": {
+            "env": {
+                "PORT": "3001"
+            },
+            "instances": "1",
+            "active": true,
+            "script": "server.js",
+            "watch":false,
+            "ignore_watch": [
+                "logs",
+                ".build"
+            ],
+            "exec_mode": "cluster",
+            "merge_logs": true,
+            "out_file": "log/pm2/apioutput.log",
+            "error_file": "log/pm2/apierror.log",
+            "log_date_format": "YYYY-MM-DD HH:mm Z"
+        }
+    },
+    "middleware": {
+        "devtools": {
+            "enabled": true,
+            "priority": 35,
+            "module": {
+                "name": "construx",
+                "arguments": [
+                    "path:./public",
+                    "path:./.build",
+                    {
+                        "css": {
+                            "module": "construx-less",
+                            "files": "/css/**/*.css"
+                        },
+
+                        "copier": {
+                            "module": "construx-copier",
+                            "files": "**/*"
+                        }
+                    }
+                ]
+            }
+        }
+    }
+}

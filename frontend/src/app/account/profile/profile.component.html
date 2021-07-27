@@ -1,0 +1,143 @@
+<div class="card">
+    <div class="card-header">Company Information</div>
+    <div class="card-body">
+      <div class="row">
+        <div class="col-md-6">
+
+          <div class="form-group">
+            <label class="col-form-label">Company Name</label>
+            <input class="form-control" [(ngModel)]="ComapanyName" type="text" [disabled]="true">
+            <span class="red" *ngIf="comp_error">Company Name required</span>
+          </div>
+
+          <div class="form-group " *ngFor="let choice of choices;let index = index;">
+            <label class="col-form-label">{{choice.name}}</label>
+            <input class="form-control" [(ngModel)]="choices[index].value" type="text" placeholder="{{choice.placeholder}}" [textMask]="{mask: choice.mask}">
+          </div>
+          <div class="form-group">
+            <label class="col-form-label">Franchise ID</label>
+            <input class="form-control" [(ngModel)]="FranchiseID" type="text" maxlength="9" (keyup)="keyupFID($event)">
+            <span class="red" *ngIf="f_id_error">Franchise ID required</span>
+          </div>
+          <div class="form-group">
+            <label class="col-form-label">Address</label>
+            <input class="form-control" [(ngModel)]="Address" type="text" maxlength="50" (keypress)=alphaOnly($event) (keyup)="keyupaddess($event)">
+            <span class="red" *ngIf="addrs_error">Address required</span>
+          </div>
+          <div class="form-group">
+            <label class="col-form-label">City</label>
+            <input class="form-control" [(ngModel)]="City" type="text" maxlength="30" (keypress)=alphaOnly($event) (keyup)="keyupCity($event)">
+            <span class="red" *ngIf="city_error">City required</span>
+          </div>
+          <div class="form-group">
+            <label class="col-form-label">State</label>
+            <input class="form-control" [(ngModel)]="State" type="text" maxlength="2" (keypress)=alphaOnly($event) (keyup)="keyupState($event)">
+            <span class="red" *ngIf="state_error">State required</span>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group">
+            <label class="col-form-label">Division ID</label>
+            <input class="form-control" [(ngModel)]="AgencyID" type="text" maxlength="10" (keyup)="keyupDID($event)">
+            <span class="red" *ngIf="d_id_error">Division ID required</span>
+          </div>
+          <!-- 	<div class="form-group">
+
+
+          <div class="form-group">
+            <label class="col-form-label">Division ID</label>
+            <input class="form-control" [(ngModel)]="AgencyID" type="text">
+          </div>
+            <div class="form-group">
+            <label class="col-form-label">Franchise ID</label>
+              <input class="form-control" type="text" value={{franchiseID}}>
+            </div> -->
+          <hr>
+          <div class="form-group">
+            <label class="col-form-label">
+              <strong>Logo</strong>
+            </label>
+            <input class="form-control" type="file" (change)="readUrl($event)">
+          </div>
+          <div class="col-md-4">
+              <div class="form-group">
+                <img width="200" class="responsive img-responsive thumbnail img-rounded" [src]="logo_url">
+              </div>
+              <div class="row">
+                <div class="col-md-12">
+                  <img width="40" *ngIf="img_loader==true" height="40" src="assets/images/giphy.gif">
+                </div>
+              </div>
+            </div>
+
+            <ngb-alert *ngIf="!attUploadAlert" style="width:50%" type="success" (close)="attUploadAlert = true">uploaded successfully!</ngb-alert>
+
+          <hr>
+          <fieldset class="form-group">
+            <legend class="col-form-legend ">
+              <strong>Pay Period End Day</strong>
+            </legend>
+            <div class="">
+              <div class="form-check">
+                <label class="form-check-label">
+                  <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios1" [(ngModel)]="PayPeriodEndDay" [value]="1"> Sunday
+                </label>
+              </div>
+              <div class="form-check">
+                <label class="form-check-label">
+                  <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios2" [(ngModel)]="PayPeriodEndDay" [value]="2"> Monday
+                </label>
+              </div>
+              <div class="form-check ">
+                <label class="form-check-label">
+                  <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios3" [(ngModel)]="PayPeriodEndDay" [value]="3"> Tuesday
+                </label>
+              </div>
+              <div class="form-check ">
+                <label class="form-check-label">
+                  <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios3" [(ngModel)]="PayPeriodEndDay" [value]="4"> Wednesday
+                </label>
+              </div>
+              <div class="form-check ">
+                <label class="form-check-label">
+                  <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios3" [(ngModel)]="PayPeriodEndDay" [value]="5"> Thursday
+                </label>
+              </div>
+              <div class="form-check ">
+                <label class="form-check-label">
+                  <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios3" [(ngModel)]="PayPeriodEndDay" [value]="6"> Friday
+                </label>
+              </div>
+              <div class="form-check ">
+                <label class="form-check-label">
+                  <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios3" [(ngModel)]="PayPeriodEndDay" [value]="7"> Saturday
+                </label>
+              </div>
+            </div>
+          </fieldset>
+          <hr>
+          <fieldset class="form-group">
+            <div class="">
+              <div class="form-check">
+                <label class="form-check-label">
+                  <input class="form-check-input" [checked]="bit_CmpNameOnReports" (change)="bit_CmpNameOnReports = !bit_CmpNameOnReports"
+                    type="checkbox">
+                  <Strong>Use Company Name On Reports</Strong>
+
+                </label>
+              </div>
+            </div>
+          </fieldset>
+        </div>
+      </div>
+      <hr>
+      <ngb-alert *ngIf="!dataupdatedAlert" type="success" (close)="dataupdatedAlert = true">Profile updated successfully!</ngb-alert>
+
+      <div class="row">
+        <div class="col-md-12">
+          <input type="button" class="btn btn-info btn-md" value="Submit" *ngIf="acl_allow.update == true && acl_allow.delete == true" (click)="submitForm()">
+        </div>
+      </div>
+
+    </div>
+  </div>

@@ -1,0 +1,83 @@
+.main-container {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 50px;
+}
+.shortcuts-container {
+  max-width: 500px;
+  margin-top: 32px;
+}
+
+.line-container {
+  height: 300px;
+  width: 100%;
+  display: block;
+}
+.gauge-container {
+  height: 300px;
+  width: 100%;
+  display: block;
+}
+.btn-block {
+  padding-top: 14px;
+  font-size: 14px;
+  padding-bottom: 14px;
+}
+.bg-grey-100 {
+  padding: 8px;
+}
+
+.shortcut-list {
+  list-style: none;
+  a {
+    line-height: 30px;
+    font-weight: bold;
+    color: green;
+  }
+}
+
+.search-container {
+  display: flex;
+  .search-selector {
+  }
+  .ng-select {
+    width: 300px;
+  }
+}
+.shortcut-item {
+  width: 100px;
+  .shortcut-item-header {
+    height: 20px;
+    i {
+      margin-right: 8px;
+    }
+  }
+  .shortcut-item-link {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    img {
+      background: rgb(241, 243, 244);
+      border-radius: 50%;
+      padding: 10%;
+      height: 48px;
+      width: 48px;
+    }
+    &:hover {
+      img {
+        background: rgba(32, 33, 36, 0.06);
+      }
+    }
+  }
+  .shortcut-item-controls {
+    text-align: right;
+    display: none;
+  }
+  &:hover {
+    .shortcut-item-controls {
+      display: block;
+    }
+  }
+}

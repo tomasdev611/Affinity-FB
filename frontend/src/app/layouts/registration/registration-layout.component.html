@@ -1,0 +1,18 @@
+<div class="registration-header">
+  <a class="button" routerLink="/registration/step1"> Initial</a>
+  <a class="button" routerLink="/registration/step2"> Step 2</a>
+  <a class="button" routerLink="/registration/step3"> Step 3</a>
+  <a class="button" routerLink="/registration/step4"> Step 4</a>
+  <a class="button" routerLink="/registration/step5"> Step 5</a>
+  <a class="button" routerLink="/registration/step6"> Step 6</a>
+  <a class="button" routerLink="/registration/step7"> Step 7</a>
+  <a class="button" routerLink="/registration/step8"> Step 8</a>
+  <div class="padding"></div>
+  <a class="button" (click)="triggerCancel();" *ngIf="router.url !== '/registration/step1'">Cancel</a>
+  <a routerLink="/authentication/signout">
+    <span>Signout</span> <i class="icon icon-arrows-move-right"></i>
+  </a>
+</div>
+<notifier-container></notifier-container>
+
+<router-outlet></router-outlet>

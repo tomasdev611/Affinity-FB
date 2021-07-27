@@ -1,0 +1,14 @@
+.client-overview-lists {
+  .list-section {
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      .header-title {
+        font-weight: bold;
+      }
+    }
+    .section-content {
+      padding: 0px 8px;
+    }
+  }
+}

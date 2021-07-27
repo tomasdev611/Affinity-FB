@@ -1,0 +1,117 @@
+<div class="mb-5">
+  <div class="card">
+    <div class="card-body">
+      <!-- <div class="text text-right">
+        <button
+          type="button"
+          *ngIf="acl_allow.update == true"
+          class="btn btn-md btn-success"
+          (click)="addDataAction(addEditModal)"
+        >
+          ADD
+        </button>
+      </div> -->
+      <hr />
+      <ngx-datatable
+        class=""
+        [columnMode]="'force'"
+        [headerHeight]="40"
+        [footerHeight]="0"
+        [rowHeight]="40"
+        [scrollbarV]="true"
+        [scrollbarH]="true"
+        [selectionType]="'single'"
+        [rows]="listData"
+      >
+        <ngx-datatable-column name="User Name" prop="userName" [width]="120"></ngx-datatable-column>
+        <ngx-datatable-column
+          name="Twilio Number"
+          prop="twilioNumber"
+          [width]="120"
+        ></ngx-datatable-column>
+        <ngx-datatable-column
+          name="Maximum Group member size"
+          prop="maximumGroupMemberCount"
+          [width]="120"
+        ></ngx-datatable-column>
+
+        <ngx-datatable-column name="Action" [width]="120">
+          <ng-template let-value="value" ngx-datatable-cell-template let-row="row">
+            <button
+              type="button"
+              *ngIf="acl_allow.update == true"
+              class="btn btn-warning btn-sm"
+              (click)="updateDataAction(addEditModal, row)"
+            >
+              Update
+            </button>
+            <!-- <button
+              type="button"
+              *ngIf="acl_allow.delete == true"
+              class="btn btn-danger btn-sm"
+              (click)="deleteDataAction(deleteModal, row)"
+            >
+              Delete
+            </button> -->
+          </ng-template>
+        </ngx-datatable-column>
+      </ngx-datatable>
+    </div>
+  </div>
+</div>
+
+<app-custom-modal
+  #addEditModal
+  [modalTitle]="editModalTitle"
+  [width]="1200"
+>
+  <ng-container class="app-modal-body">
+    <div *ngIf="addEditModal.visible" class="row">
+      <div class="col-md-6">
+        <div class="form-group">
+          <strong class="col-form-label">Twilio Number</strong>
+          <select
+            class="form-control form-control-sm col-md-8"
+            [(ngModel)]="editData.twilioNumber"
+          >
+            <option [ngValue]="''">Select Phone Number</option>
+            <option
+              *ngFor="let phoneNumberObj of eligibleNumbers"
+              [ngValue]="phoneNumberObj.PhoneNumber"
+              >{{ phoneNumberObj.PhoneNumber }}</option
+            >
+          </select>
+        </div>
+        <div class="form-group">
+          <strong class="col-form-label">Maximum Group Member Size</strong>
+          <input
+            class="form-control form-control-sm"
+            type="text"
+            [(ngModel)]="editData.maximumGroupMemberCount"
+          />
+        </div>
+      </div>
+    </div>
+  </ng-container>
+  <ng-container class="app-modal-footer">
+    <button type="button" class="btn btn-default" (click)="addEditModal.hide()">Close</button>
+    <button type="button" class="btn btn-success" (click)="saveData()">Save</button>
+  </ng-container>
+</app-custom-modal>
+
+<app-custom-modal #deleteModal [modalTitle]="'Delete'" [width]="600">
+  <ng-container class="app-modal-body">
+    <span>Do you want to delete it - {{ editRow ? editRow.twilioNumber : '' }}?</span>
+  </ng-container>
+  <ng-container class="app-modal-footer">
+    <button type="button" class="btn btn-default" (click)="deleteModal.hide()">Close</button>
+    <button type="button" class="btn btn-danger" (click)="deleteData()" data-dismiss="modal">
+      Delete
+    </button>
+  </ng-container>
+</app-custom-modal>
+
+<ngx-loading
+  [show]="saving === 'saving'"
+  [config]="{backdropBorderRadius: '3px', fullScreenBackdrop: true}"
+></ngx-loading>

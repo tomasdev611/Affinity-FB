@@ -1,0 +1,18 @@
+<div class="card">
+  <div class="card-header">
+    <i class="fa fa-file-text-o"></i>Preview Attachments <span class="mr-auto"></span>
+    <div class="card-controls">
+      <a href="javascript:;" (click)="downloadAttachments()" *ngIf="acl_allow.update">
+        <i class="fa fa-download"></i>
+      </a>
+    </div>
+  </div>
+  <div class="card-body">
+    <select [(ngModel)]="selectedAttachment">
+      <option disabled selected value> -- select an attachment -- </option>
+      <option *ngFor="let attachment of attachments" [value]="attachment.attachmentId">{{
+        attachment.descr
+      }}</option>
+    </select>
+  </div>
+</div>

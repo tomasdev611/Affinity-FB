@@ -1,0 +1,195 @@
+<div class="card">
+  <div class="card-body">
+    <div class="card card-primary card-inverse">
+      <div class="card-header">
+        <div>
+          <div class="d-flex">
+            <label class="col-form-label">Client</label>
+            <ng-select
+              [items]="clients"
+              bindLabel="name"
+              bindValue="id"
+              [(ngModel)]="ClientId"
+              (change)="onClientChange()"
+              [virtualScroll]="true"
+            >
+            </ng-select>
+            <a
+              *ngIf="ClientId"
+              [href]="'#/client/details/' + ClientId"
+              target="_blank"
+              class="btn btn-info"
+              >Client Profile
+            </a>
+          </div>
+        </div>
+        <span class="mr-auto"></span>
+        <!-- <div class="card-controls">
+          <a href="javascript:;" (click)="isCollapsed = !isCollapsed" *ngIf="!isCollapsed">
+            <i class="icon icon-arrows-down"></i>
+          </a>
+          <a href="javascript:;" (click)="isCollapsed = !isCollapsed" *ngIf="isCollapsed">
+            <i class="icon icon-arrows-up"></i>
+          </a>
+        </div> -->
+      </div>
+      <!-- <div class="card-block caregiver-details" [ngbCollapse]="isCollapsed">
+        <div *ngIf="clientDetail" class="row">
+          <div class="col-xs-6 col-md-2 col-xl-1">
+            <div>{{ clientDetail.personaldata.Phone }}</div>
+            <div>{{ statusMap[clientDetail.personaldata.Status] }}</div>
+          </div>
+          <div class="col-xs-6 col-md-2 col-xl-1">
+            <div>
+              {{ clientDetail.personaldata.FirstName }} {{ clientDetail.personaldata.LastName }}
+            </div>
+            <div>{{ clientDetail.personaldata.Address1 }}</div>
+            <div>
+              {{ clientDetail.personaldata.City }}, {{ clientDetail.personaldata.State }}
+              {{ clientDetail.personaldata.Zip }}
+            </div>
+          </div>
+          <div class="col-xs-12 col-md-4 col-xl-2">
+            <div class="text-info">Contacts:</div>
+            <div *ngIf="clientDetail.contacts.length > 0" class="row">
+              <div class="col-xs-12 col-md-6">
+                <div>{{ clientDetail.contacts[0].Name }}</div>
+                <div>{{ clientDetail.contacts[0].Phone }}</div>
+                <div>{{ clientDetail.contacts[0].OtherContactInfo }}</div>
+              </div>
+              <div *ngIf="clientDetail.contacts.length > 1" class="col-xs-12 col-md-6">
+                <div>{{ clientDetail.contacts[1].Name }}</div>
+                <div>{{ clientDetail.contacts[1].Phone }}</div>
+                <div>{{ clientDetail.contacts[1].OtherContactInfo }}</div>
+              </div>
+            </div>
+          </div>
+          <div class="col-xs-6 col-md-2 col-xl-1">
+            <div class="text-info">Skills:</div>
+            <div *ngFor="let skill of clientDetail.skills">
+              {{ getName(skills, skill.skillId, 'SkillId', 'Description') }}
+            </div>
+          </div>
+          <div class="col-md-12 col-xl-7">
+            <div class="row">
+              <div *ngFor="let cf of clientDetail.customfields" class="col-md-4 col-xl-3">
+                {{ cf.cfieldName }} - {{ cf.descr }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div> -->
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-body">
+    <div class="col-12 form-check form-check-inline">
+      Caregiver Mode:
+      <label class="form-check-label">
+        <input
+          class="form-check-input ng-dirty"
+          type="radio"
+          (click)="setUserStatusType('A')"
+          name="inlineRadioOptions"
+          id="inlineRadio51"
+          value="A"
+          [ngModel]="mode"
+        />Active
+      </label>
+      &nbsp;&nbsp;
+      <label class="form-check-label">
+        <input
+          class="form-check-input"
+          type="radio"
+          (click)="setUserStatusType('I')"
+          name="inlineRadioOptions"
+          id="inlineRadio2"
+          value="I"
+          [ngModel]="mode"
+        />Inactive
+      </label>
+      &nbsp;&nbsp;
+      <label class="form-check-label">
+        <input
+          class="form-check-input"
+          type="radio"
+          (click)="setUserStatusType('all')"
+          name="inlineRadioOptions"
+          id="inlineRadio3"
+          value="all"
+          [ngModel]="mode"
+        />All
+      </label>
+      &nbsp;&nbsp;&nbsp;&nbsp;
+
+      <button class="btn btn-sm btn-warning" (click)="newColFilterAction(newColFilterModal)">
+        Hide/Show Columns
+      </button>
+      <button class="btn btn-sm btn-info" (click)="downloadCsvFile()">Excel Report</button>
+      <button class="btn btn-sm btn-info" (click)="selectedColumnPdfDownload()">
+        PDF Download
+      </button>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-12" id="ag-grid-table">
+    <ag-grid-angular
+      #agGrid
+      style="width: 100%; height: 100%;font-size: 14px;"
+      class="ag-theme-balham custom-strip-grid"
+      [floatingFilter]="true"
+      [rowData]="rowData"
+      [columnDefs]="columnDefs"
+      [defaultColDef]="defaultColDef"
+      [suppressDragLeaveHidesColumns]="true"
+      (rowDoubleClicked)="rowDoubleClicked()"
+      [pagination]="true"
+      rowSelection="single"
+      (gridReady)="onGridReady($event)"
+      (dragStopped)="dragStopped($event)"
+      (filterChanged)="filterChanged()"
+      (sortChanged)="sortChanged()"
+      (paginationChanged)="paginationChanged()"
+    >
+    </ag-grid-angular>
+  </div>
+</div>
+
+<app-custom-modal #newColFilterModal [modalTitle]="'Check Columns You Want To Show'" [width]="1000">
+  <ng-container class="app-modal-body">
+    <div *ngIf="newColFilterModal.visible" class="row">
+      <div class="col-md-4" *ngFor="let item of temp_show_hide_array">
+        <div class="form-check">
+          <label class="form-check-label">
+            <input
+              class="form-check-input"
+              type="checkbox"
+              (change)="item.hide = !item.hide"
+              [checked]="!item.hide"
+            />
+            {{ item.headerName }}
+          </label>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+  <ng-container class="app-modal-footer">
+    <button type="button" class="btn btn-default" (click)="newColFilterModal.hide()">Close</button>
+    <button
+      type="button"
+      class="btn btn-success"
+      (click)="updateTableColShowHide(newColFilterModal)"
+    >
+      Submit
+    </button>
+  </ng-container>
+</app-custom-modal>
+<!--
+<ngx-loading
+  [show]="loading"
+  [config]="{backdropBorderRadius: '3px', fullScreenBackdrop: true}"
+></ngx-loading> -->

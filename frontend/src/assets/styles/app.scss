@@ -1,0 +1,13 @@
+@import 'scss/mixins/material-palette';
+@import 'scss/mixins/skinning';
+@import 'scss/variables';
+@import '../../../node_modules/bootstrap/scss/bootstrap';
+@import '../../../node_modules/@ng-select/ng-select/themes/default.theme.css';
+@import "../../../node_modules/ag-grid-community/dist/styles/ag-grid.css";
+@import "../../../node_modules/ag-grid-community/dist/styles/ag-theme-balham.css";
+@import 'scss/theming';
+@import 'scss/custom-bootstrap';
+@import 'scss/core';
+@import '../../../node_modules/angular-notifier/styles';
+@import 'scss/custom';
+@import '../fonts/font-awesome-4.7.0/css/font-awesome.css';

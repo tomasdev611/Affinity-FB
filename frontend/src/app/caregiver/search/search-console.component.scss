@@ -1,0 +1,123 @@
+#ag-grid-table {
+  min-height: 70vh;
+  max-height: 70vh;
+}
+
+.ng-select {
+  width: 300px;
+}
+
+.card {
+  .card-body {
+    padding: 0px;
+  }
+}
+
+.date-wrapper {
+  overflow: hidden;
+}
+
+.client-details {
+  font-size: 12px;
+}
+
+.main-content-area {
+  // display: flex;
+}
+agm-map {
+  height: 400px;
+}
+
+.main-filters {
+  font-size: 12px;
+}
+
+.caregiver-list {
+  .caregiver-item {
+    font-size: 12px;
+    position: relative;
+    .remove-button {
+      position: absolute;
+      top: 0px;
+      left: 0px;
+      color: red;
+      z-index: 1;
+    }
+    .basic-user-info {
+      display: flex;
+      .avatar-wrapper {
+        display: flex;
+        flex-direction: column;
+        flex: 0 0 120px;
+        .img-thumbnail {
+          object-fit: contain;
+        }
+        .status-info {
+          display: flex;
+          justify-content: space-between;
+        }
+      }
+      .user-info {
+        flex: 1 1 auto;
+        padding: 0px 8px;
+        display: flex;
+        flex-direction: column;
+      }
+    }
+  }
+}
+
+.paginations-wrapper {
+  display: flex;
+  align-items: center;
+  .page-size-changer {
+    margin-right: 16px;
+  }
+  ul {
+    margin-bottom: 0px;
+  }
+}
+
+.search-console-notes {
+  .row {
+    padding: 8px;
+    border-bottom: 1px solid lightgrey;
+  }
+}
+
+.search-console-messages {
+  .chat-image-button {
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+  }
+  .chat-image-area {
+    // flex: 0 0 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    &.image-container {
+      position: relative;
+      img {
+        width: 100%;
+        height: 200px;
+        object-fit: contain;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+      }
+      i {
+        cursor: pointer;
+        position: absolute;
+        right: 0;
+        top: 0;
+        z-index: 10;
+        color: white;
+        font-size: 20px;
+        text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+      }
+    }
+  }
+}

@@ -1,0 +1,243 @@
+<div class="card">
+  <div class="card-body">
+    <div class="card card-primary card-inverse">
+      <div class="card-header">
+        Chatroom Filter
+        <button class="btn btn-primary btn-sm ml-2" (click)="searchChatroom()">Search</button>
+        <span class="mr-auto"></span>
+        <div class="card-controls">
+          <a
+            href="javascript:;"
+            (click)="isCollapsedFilter = !isCollapsedFilter"
+            *ngIf="!isCollapsedFilter"
+          >
+            <i class="icon icon-arrows-down"></i>
+          </a>
+          <a
+            href="javascript:;"
+            (click)="isCollapsedFilter = !isCollapsedFilter"
+            *ngIf="isCollapsedFilter"
+          >
+            <i class="icon icon-arrows-up"></i>
+          </a>
+        </div>
+      </div>
+      <div class="card-block main-filters" [ngbCollapse]="isCollapsedFilter">
+        <div class="row">
+          <div *ngIf="showUsernamePhoneFilter" class="col-md-8 d-flex flex-column">
+            <div class="d-flex">
+              <input
+                class=""
+                type="radio"
+                name="sourceTypeOptions"
+                id="sourceTypeOptionsAll"
+                value="ALL"
+                [(ngModel)]="filter.sourceType"
+              />
+              <label for="sourceTypeOptionsAll">Show ALL Messages</label>
+            </div>
+            <div class="d-flex">
+              <input
+                class=""
+                type="radio"
+                name="sourceTypeOptions"
+                id="sourceTypeOptionsOwn"
+                value="OWN"
+                [(ngModel)]="filter.sourceType"
+              />
+              <label for="sourceTypeOptionsOwn">Show Own Messages</label>
+            </div>
+            <div class="d-flex">
+              <input
+                class=""
+                type="radio"
+                name="sourceTypeOptions"
+                value="USERNAME"
+                id="sourceTypeOptionsUsername"
+                [(ngModel)]="filter.sourceType"
+              />
+              <label for="sourceTypeOptionsUsername">Filter by Security Username</label>
+              <ng-select
+                *ngIf="filter.sourceType === 'USERNAME'"
+                [items]="selectSecurityUsers"
+                bindLabel="name"
+                bindValue="value"
+                paceholder="My Own Messages"
+                [clearable]="false"
+                [(ngModel)]="filter.securityUserName"
+                (change)="onSecurityUserChange()"
+                [virtualScroll]="true"
+              >
+              </ng-select>
+            </div>
+            <div class="d-flex">
+              <input
+                class=""
+                type="radio"
+                name="sourceTypeOptions"
+                id="sourceTypeOptionsPhone"
+                value="PHONE"
+                [(ngModel)]="filter.sourceType"
+              />
+              <label for="sourceTypeOptionsPhone">Filter by Security Phone Numbers</label>
+              <ng-select
+                *ngIf="filter.sourceType === 'PHONE'"
+                [items]="phoneNumbers"
+                bindLabel="PhoneNumber"
+                bindValue="PhoneNumber"
+                [clearable]="false"
+                [(ngModel)]="filter.phoneNumber"
+                (change)="onSecurityUserChange()"
+                [virtualScroll]="true"
+              >
+              </ng-select>
+            </div>
+          </div>
+          <div class="col-md-4 d-flex flex-column">
+            <label class="d-flex">
+              <input
+                class=""
+                type="radio"
+                name="inlineRadioOptions"
+                id="inlineRadio1"
+                value="INDIVIDUAL"
+                [(ngModel)]="filter.type"
+              />
+              Individual Messaging
+            </label>
+            <label class="d-flex">
+              <input
+                class=""
+                type="radio"
+                name="inlineRadioOptions"
+                id="inlineRadio1"
+                value="GROUP"
+                [(ngModel)]="filter.type"
+              />
+              Group Messaging
+            </label>
+            <label class="d-flex">
+              <input
+                class=""
+                type="radio"
+                name="inlineRadioOptions"
+                id="inlineRadio2"
+                value="ALL"
+                [(ngModel)]="filter.type"
+              />
+              ALL
+            </label>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="main-content-area row">
+  <div class="chatrooms-wrapper col-md-12">
+    <div class="chatroom-list">
+      <div
+        *ngFor="let chatroom of rowData; let index = index"
+        [class]="
+          'chatroom-item' +
+          (chatroom.unreadCount > 0 ? ' has-unread' : '') +
+          (index % 2 ? ' odd-row' : ' even-row')
+        "
+      >
+        <div class="row">
+          <div class="col-md-6 room-info">
+            <div class="room-title">
+              <span *ngIf="chatroom.GroupId" class="text-primary"
+                >(Group)
+                {{
+                  chatroom.Group
+                    ? chatroom.Group.name + ' (' + chatroom.Group.groupSize + ' members)'
+                    : 'Unknown'
+                }}</span
+              >
+              <a
+                *ngIf="!chatroom.GroupId"
+                [href]="'/#/caregiver/details/' + chatroom.SocialSecurityNum"
+                target="_blank"
+                class="text-primary"
+                (click)="onCaregiverClick()"
+              >
+                (Individual)
+                {{
+                  chatroom.caregiver
+                    ? chatroom.caregiver.FirstName + ' ' + chatroom.caregiver.LastName
+                    : 'Unknown Caregiver'
+                }}
+              </a>
+              <span class="text-right text-dark"> ({{ chatroom.created | date: 'short' }})</span>
+            </div>
+            <div class="last-message-info mt-2">
+              <div class="">
+                <span *ngIf="chatroom.sender === 'T'" class="last-message-user"
+                  >{{ chatroom.username }} (Support)
+                </span>
+                <span *ngIf="chatroom.sender === 'C'" class="last-message-user"
+                  >{{
+                    chatroom.caregiver
+                      ? chatroom.caregiver.FirstName + ' ' + chatroom.caregiver.LastName
+                      : 'Unknown '
+                  }}
+                  (Caregiver)</span
+                >
+                <span *ngIf="chatroom.unreadCount" class="badge badge-info unread-count">{{
+                  chatroom.unreadCount
+                }}</span>
+                : {{ chatroom.message }}
+              </div>
+            </div>
+            <div class="row mt-2">
+              <span class="col-12">
+                <button (click)="openChatRoom(chatroom)">Open Chat Room</button>
+              </span>
+            </div>
+          </div>
+
+          <div class="col-md-6 extra-info">
+            <!-- <div *ngIf="!chatroom.Group" class="row">
+              <span class="col-4">Support Name</span>
+              <span class="col-8"> {{ chatroom.username }}</span>
+            </div>
+            <div *ngIf="chatroom.Group" class="row">
+                <span class="col-4">Support Name</span>
+                <span class="col-8"> {{ chatroom.username }}</span>
+              </div>
+            </div> -->
+          </div>
+        </div>
+      </div>
+
+      <div class="paginations-wrapper mt-3">
+        <select
+          [(ngModel)]="pageData.pageSize"
+          (change)="getChatroomsForPage()"
+          class="page-size-changer"
+        >
+          <option value="5">5</option>
+          <option value="10">10</option>
+          <option value="20">20</option>
+          <option value="30">30</option>
+        </select>
+        <ngb-pagination
+          [collectionSize]="totalCount"
+          [pageSize]="pageData.pageSize"
+          [(page)]="pageData.currentPage"
+          (pageChange)="getChatroomsForPage()"
+          [maxSize]="5"
+          [rotate]="true"
+          [boundaryLinks]="true"
+        ></ngb-pagination>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ngx-loading
+  [show]="loading"
+  [config]="{backdropBorderRadius: '3px', fullScreenBackdrop: true}"
+></ngx-loading>

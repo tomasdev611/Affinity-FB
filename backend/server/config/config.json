@@ -1,0 +1,30 @@
+{
+  "specialization": {},
+
+  "middleware": {
+    "static": {
+      "module": {
+        "arguments": ["path:../.build"]
+      }
+    },
+    "cors": {
+      "enabled": true,
+      "priority": 119,
+      "module": {
+        "name": "path:./lib/middleware/cors"
+      }
+    },
+    "appsec": {
+      "enabled": false
+    },
+    "router": {
+      "module": {
+        "arguments": [{"directory": "path:./controllers"}]
+      }
+    },
+    "logger": {
+      "enabled": false,
+      "format": " "
+    }
+  }
+}

@@ -1,0 +1,6 @@
+.customMessage{
+    position: fixed;
+    width: 40%;
+    right: 30px;
+    z-index: 1;
+}

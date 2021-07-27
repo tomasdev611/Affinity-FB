@@ -1,0 +1,237 @@
+<ng-sidebar-container
+  class="app"
+  [ngClass]="{
+    'mode-boxed': isBoxed,
+    'sidebar-opened': isOpened,
+    'theme-light': theme == 'light',
+    'theme-dark': theme == 'dark',
+    'mode-push': _mode == 'push',
+    'mode-dock': _mode == 'dock',
+    'mode-over': _mode == 'over',
+    'mode-slide': _mode == 'slide',
+    'no-footer': options?.removeFooter,
+    'map-header': options?.mapHeader
+  }"
+>
+  <ng-sidebar
+    [(opened)]="isOpened"
+    [(mode)]="_mode"
+    [position]="'left'"
+    [dockedSize]="'80px'"
+    [autoCollapseWidth]="'991'"
+    [closeOnClickOutside]="isOver()"
+    [showBackdrop]="isOver()"
+    [sidebarClass]="'sidebar-panel'"
+    #sidebar
+  >
+    <nav class="navbar custom-navbar main-brand">
+      <a class="navbar-brand mr-auto" [routerLink]="['/']">
+        <img src="assets/images/logo-1.png" class="navbar-brand-logo" alt="" />
+        <!-- <span class="docked-hidden">ABC Pro 24</span> -->
+      </a>
+      <ul class="navbar-nav">
+        <!-- <li class="nav-item">
+          <a href="javascript:;" class="nav-link" (click)="toogleSidebar()">
+            <i class="hamburger-icon v2" *ngIf="_mode === 'over' && !isOver()">
+              <span></span>
+            </i>
+          </a>
+        </li>  -->
+      </ul>
+    </nav>
+    <!-- main navigation -->
+    <nav class="menu">
+      <ul class="navigation scroll-ul" style="width:auto;" appAccordion>
+        <ul class="nav-dropdown-items" *ngFor="let data of leftLinks">
+          <!-- <li class="nav-item" *ngIf="data.client_name === false">
+              <a class="btn btn-sm btn-muted" routerLinkActive="active" [routerLink]="data.link">{{data.linkName}} <span *ngIf="data.client_name"> - {{data.client_name}}</span></a>
+          </li> -->
+          <li class="nav-item">
+            <a class="navi-link" routerLinkActive="active" [routerLink]="data.link"
+              >{{ data.title }} <span *ngIf="data.client_name"> - {{ data.client_name }}</span></a
+            >
+            <img
+              width="20"
+              class="img responsive img-responsive remove-link"
+              (click)="removeLink(data)"
+              src="assets/images/icons/cross-flat.png"
+              *ngIf="data.canClose !== false"
+            />
+          </li>
+          <li class="nav-item ml-3" *ngFor="let linkItem of data.subLinks">
+            <a class="navi-link" routerLinkActive="active" [routerLink]="linkItem.link"
+              >{{ linkItem.title }}
+              <span *ngIf="linkItem.client_name"> - {{ linkItem.client_name }}</span></a
+            >
+            <img
+              width="20"
+              class="img responsive img-responsive remove-link"
+              (click)="removeLink(linkItem)"
+              src="assets/images/icons/cross-flat.png"
+              *ngIf="linkItem.canClose !== false"
+            />
+          </li>
+        </ul>
+        <!--
+        <li class="navigation-item" appAccordionLink *ngFor="let menuitem of menuItems.getAll()" group="{{menuitem.state}}">
+          <a class="navigation-link" appAccordionToggle [routerLink]="['/', menuitem.state]" *ngIf="menuitem.type === 'link'">
+            <i class="icon icon-{{ menuitem.icon }}"></i>
+            <span>{{ menuitem.name | translate }}</span>
+            <span class="mr-auto"></span>
+            <span class="badge badge-{{ badge.type }}" *ngFor="let badge of menuitem.badge">{{ badge.value }}</span>
+          </a>
+          <a class="navigation-link" appAccordionToggle href="{{menuitem.state}}" *ngIf="menuitem.type === 'extLink'">
+            <i class="icon icon-{{ menuitem.icon }}"></i>
+            <span>{{ menuitem.name | translate }}</span>
+            <span class="mr-auto"></span>
+            <span class="badge badge-{{ badge.type }}" *ngFor="let badge of menuitem.badge">{{ badge.value }}</span>
+          </a>
+          <a class="navigation-link" appAccordionToggle href="{{menuitem.state}}" target="_blank" *ngIf="menuitem.type === 'extTabLink'">
+            <i class="icon icon-{{ menuitem.icon }}"></i>
+            <span>{{ menuitem.name | translate }}</span>
+            <span class="mr-auto"></span>
+            <span class="badge badge-{{ badge.type }}" *ngFor="let badge of menuitem.badge">{{ badge.value }}</span>
+          </a>
+          <a class="navigation-link" appAccordionToggle href="javascript:;" *ngIf="menuitem.type === 'sub'">
+            <i class="icon icon-{{ menuitem.icon }}"></i>
+            <span>{{ menuitem.name | translate }}</span>
+            <span class="mr-auto"></span>
+            <span class="badge badge-{{ badge.type }}" *ngFor="let badge of menuitem.badge">{{ badge.value }}</span>
+            <i class="menu-caret icon icon-arrows-right"></i>
+          </a>
+          <ul class="navigation-submenu" *ngIf="menuitem.type === 'sub'">
+            <li class="navigation-item" *ngFor="let childitem of menuitem.children" routerLinkActive="open">
+              <a [routerLink]="['/', menuitem.state, childitem.state ]" class="navigation-link relative">{{ childitem.name | translate }}</a>
+            </li>
+          </ul>
+        </li>
+      -->
+        <li class="navigation-item"><hr class="mt-0 mb-0" /></li>
+
+        <!-- <li class="nav-item">
+          <a class="nav-link custom" routerLinkActive="active" routerLink="/client/details">Client Details</a>
+        </li> -->
+        <!-- <li class="navigation-item">
+          <a class="navigation-link" (click)="addMenuItem()">
+            <i class="icon icon-basic-add"></i>
+            <span>Add</span>
+          </a>
+        </li> -->
+      </ul>
+    </nav>
+    <!-- /main navigation -->
+  </ng-sidebar>
+
+  <div ng-sidebar-content class="app-inner">
+    <nav class="navbar custom-navbar bg-faded main-header">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a href="javascript:;" class="nav-link" (click)="toogleSidebar()">
+            <i class="hamburger-icon v2" *ngIf="_mode !== 'dock'"> <span></span> </i>
+          </a>
+        </li>
+      </ul>
+      <ul class="navbar-nav">
+        <li><a routerLink="/" class="btn btn-sm btn-default">Dashboard</a></li>
+        <li><a routerLink="/client/list" class="btn btn-sm btn-default">Client</a></li>
+        <li ngbDropdown>
+          <a href="javascript:;" class="btn btn-sm btn-default" ngbDropdownToggle>Caregiver</a>
+          <div ngbDropdownMenu class="dropdown-menu dropdown-menu-right">
+            <a class="dropdown-item" routerLink="/caregiver/list"> Caregiver List </a>
+            <a class="dropdown-item" routerLink="/caregiver/search"> Caregiver Search </a>
+          </div>
+        </li>
+        <li><a routerLink="/schedule/calendar" class="btn btn-sm btn-default">Schedule</a></li>
+        <li ngbDropdown>
+          <a href="javascript:;" class="btn btn-sm btn-default" ngbDropdownToggle>Reports</a>
+          <div ngbDropdownMenu class="dropdown-menu dropdown-menu-right">
+            <a class="dropdown-item" routerLink="/reports/compliance/client">
+              Compliance - Client
+            </a>
+            <a class="dropdown-item" routerLink="/reports/compliance/caregiver">
+              Compliance - Caregiver
+            </a>
+            <a class="dropdown-item" routerLink="/reports/notes"> Notes </a>
+            <a class="dropdown-item" routerLink="/reports/visits/client"> Client Visits </a>
+            <a class="dropdown-item" routerLink="/reports/visits/caregiver"> Caregiver Visits </a>
+          </div>
+        </li>
+        <li><a routerLink="/admin/master-list" class="btn btn-sm btn-default">Admin</a></li>
+        <li><a routerLink="/chatrooms/list" [class]="'btn btn-sm btn-default' + (totalUnreadCount ? ' has-unread' : '')">Chat Rooms <span *ngIf="totalUnreadCount" class="badge">{{totalUnreadCount}}</span></a></li>
+      </ul>
+      <ul class="navbar-nav">
+        <li class="nav-item dropdown-navigation" ngbDropdown placement="bottom-right">
+          <a href="javascript:;" class="nav-link" ngbDropdownToggle>
+            <i _ngcontent-c16="" class="fa fa-th"></i>
+          </a>
+          <div ngbDropdownMenu class="dropdown-menu dropdown-menu-right">
+            <div class="dropdown-menu-content">
+              <div *ngFor="let dashboardLink of dashboardLinks" key="index" class="dash-nav-menu-item">
+                <a [routerLink]="dashboardLink.link" class="link">
+                  <img class="img responsive img-responsive" src="{{ dashboardLink.icon }}" />
+                  <span>{{ dashboardLink.title }}</span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </li>
+        <li class="nav-item" ngbDropdown placement="bottom-right">
+          <a href="javascript:;" class="nav-link" ngbDropdownToggle>
+            <img
+              src="assets/images/cog.png"
+              class="navbar-avatar rounded-circle"
+              alt="user"
+              title="user"
+            />
+          </a>
+          <div ngbDropdownMenu class="dropdown-menu dropdown-menu-right">
+            <a class="dropdown-item" routerLink="/account/settings">
+              <i class="icon icon-basic-settings mr-3"></i> <span>Settings</span>
+            </a>
+            <a class="dropdown-item" routerLink="/account/profile">
+              <i class="icon icon-basic-postcard mr-3"></i> <span>Profile</span>
+            </a>
+            <a class="dropdown-item" routerLink="/account/security">
+              <i class="icon icon-basic-key mr-3"></i> <span>Security</span>
+            </a>
+            <a class="dropdown-item" routerLink="/admin/supdivision">
+              <i class="icon icon-basic-server2 mr-3"></i> <span>Divisions</span>
+            </a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" routerLink="/authentication/signout">
+              <i class="icon icon-arrows-move-right mr-3"></i> <span>Signout</span>
+            </a>
+          </div>
+        </li>
+
+        <li class="nav-item"><span class="nav-divider"></span></li>
+      </ul>
+    </nav>
+    <div class="main-content">
+      <router-outlet></router-outlet>
+      <nav class="navbar custom-navbar navbar-light main-footer small">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item">
+            <div class="text text-default">
+              &nbsp;&nbsp;&nbsp;&nbsp; Last Backup:
+              <strong class="text text-default">5 Feb 10.32 PM.</strong>
+            </div>
+            <div class="text text-default">
+              &nbsp;&nbsp;&nbsp;&nbsp;DB Size of current Division:
+              <strong class="text text-default">0.132 GB.</strong>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="javascript:;">
+              <span>&copy; Copyright 2017</span>
+              <span class="ff-headers">Affinity Care Network, Inc. v1.0</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </div>
+</ng-sidebar-container>
+<notifier-container></notifier-container>
+
+<app-chat-box-container></app-chat-box-container>

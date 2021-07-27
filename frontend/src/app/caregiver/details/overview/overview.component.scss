@@ -1,0 +1,29 @@
+.caregiver-overview {
+  // white-space: nowrap;
+  overflow-wrap: initial;
+  font-size: 12px;
+  // overflow: hidden;
+  .btn-text-message {
+    padding: 0;
+    max-height: 30px;
+  }
+  .picture-buttons {
+    display: flex;
+    justify-content: space-between;
+  }
+  .mapouter {
+    position: relative;
+    text-align: right;
+    height: 300px;
+    // width: 600px;
+  }
+  .gmap_canvas {
+    overflow: hidden;
+    background: none !important;
+    height: 300px;
+    // width: 600px;
+  }
+  select {
+    padding: 0px;
+  }
+}

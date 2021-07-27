@@ -1,0 +1,161 @@
+<div class="card">
+  <div class="card-body">
+    <div class="form-check form-check-inline">
+      <label class="form-check-label">
+        <input
+          class="form-check-input ng-dirty"
+          type="radio"
+          (click)="setUserStatusType('active')"
+          name="inlineRadioOptions"
+          id="inlineRadio1"
+          value="active"
+          [ngModel]="mode"
+        />Active
+      </label>
+      &nbsp;&nbsp;
+      <label class="form-check-label">
+        <input
+          class="form-check-input"
+          type="radio"
+          (click)="setUserStatusType('inactive')"
+          name="inlineRadioOptions"
+          id="inlineRadio2"
+          value="inactive"
+          [ngModel]="mode"
+        />Inactive
+      </label>
+      &nbsp;&nbsp;
+      <label class="form-check-label">
+        <input
+          class="form-check-input"
+          type="radio"
+          (click)="setUserStatusType('all')"
+          name="inlineRadioOptions"
+          id="inlineRadio3"
+          value="all"
+          [ngModel]="mode"
+        />All
+      </label>
+      &nbsp;&nbsp;&nbsp;&nbsp;
+      <label class="form-check-label">
+        <input
+          class="form-check-input"
+          type="checkbox"
+          (change)="showTermClassificationChange()"
+          name="inlineRadioOptionsShowTermClassification"
+          id="inlineRadioshowTermClassification"
+          [(ngModel)]="showTermClassification"
+        />Show TERMS
+      </label>
+      &nbsp;&nbsp;&nbsp;&nbsp;
+
+      <button
+        class="btn btn-sm btn-success"
+        *ngIf="acl_allow.update == true"
+        (click)="addNewCaregiver()"
+      >
+        Add Caregiver
+      </button>
+      <button class="btn btn-sm btn-warning" (click)="newColFilterAction(newColFilterModal)">
+        Hide/Show Columns
+      </button>
+      <button class="btn btn-sm btn-info" (click)="downloadCsvFile()">Excel Report</button>
+      <button class="btn btn-sm btn-info" (click)="selectedColumnPdfDownload()">
+        PDF Download
+      </button>
+      <button
+        class="btn btn-sm btn-info"
+        (click)="showGroupMessagingManagement(gropuMessagingManager)"
+      >
+        Group Messaging
+      </button>
+      <button
+        class="btn btn-sm btn-info"
+        (click)="showGroupMessagingManagementWithCreate(gropuMessagingManager)"
+      >
+        Create Group
+      </button>
+    </div>
+    <div>
+      <div class="col-md-4">
+        Classification
+        <select
+          class="form-control form-control-sm col-md-8"
+          [(ngModel)]="filterClassificationID"
+          (change)="onClassFilterChange()"
+        >
+          <option value="">No Restriction</option>
+          <option
+            *ngFor="let classificatioID of revisedClassifications"
+            [ngValue]="classificatioID.ClassificationID"
+            >{{ classificatioID.Description }}</option
+          >
+        </select>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-12" id="ag-grid-table">
+    <ag-grid-angular
+      #agGrid
+      style="width: 100%; height: 100%;font-size: 14px;"
+      class="ag-theme-balham custom-strip-grid"
+      [floatingFilter]="true"
+      [rowData]="rowData"
+      [defaultColDef]="defaultColDef"
+      [columnDefs]="columnDefs"
+      [suppressDragLeaveHidesColumns]="true"
+      [suppressFieldDotNotation]="true"
+      (rowDoubleClicked)="rowDoubleClicked()"
+      [pagination]="true"
+      rowSelection="single"
+      (gridReady)="onGridReady($event)"
+      (dragStopped)="dragStopped($event)"
+      (filterChanged)="filterChanged()"
+      (sortChanged)="sortChanged()"
+      (paginationChanged)="paginationChanged()"
+    >
+    </ag-grid-angular>
+  </div>
+</div>
+
+<app-custom-modal #newColFilterModal [modalTitle]="'Check Columns You Want To Show'" [width]="1000">
+  <ng-container class="app-modal-body">
+    <div class="row">
+      <div class="col-md-4" *ngFor="let item of temp_show_hide_array">
+        <div class="form-check">
+          <label class="form-check-label">
+            <input
+              class="form-check-input"
+              type="checkbox"
+              (change)="item.hide = !item.hide"
+              [checked]="!item.hide"
+            />
+            {{ item.headerName }}
+          </label>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+  <ng-container class="app-modal-footer">
+    <button type="button" class="btn btn-default" (click)="newColFilterModal.hide()">Close</button>
+    <button
+      type="button"
+      class="btn btn-success"
+      (click)="updateTableColShowHide(newColFilterModal)"
+    >
+      Submit
+    </button>
+  </ng-container>
+</app-custom-modal>
+
+<app-custom-modal #gropuMessagingManager [modalTitle]="'Manage Message Groups'" [width]="1200">
+  <ng-container class="app-modal-body">
+    <manage-groups-component
+      *ngIf="gropuMessagingManager.visible"
+      [options]="manageGroupOptions"
+    ></manage-groups-component>
+  </ng-container>
+</app-custom-modal>

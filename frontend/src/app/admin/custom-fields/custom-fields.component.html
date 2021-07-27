@@ -1,0 +1,136 @@
+<div class="mb-5">
+  <ngb-tabset type="pills">
+    <ngb-tab title="Custom Fields">
+      <ng-template ngbTabContent>
+        <div class="card">
+          <div class="card-body">
+            <div class="text text-right" *ngIf="acl_allow.update == true">
+              <div class="btn-group">
+                <button class="btn btn-sm btn-success" (click)="addDataAction(addEditModal)">
+                  Create Field
+                </button>
+              </div>
+            </div>
+            <hr />
+            <ngx-datatable
+              class=""
+              [columnMode]="'force'"
+              [headerHeight]="40"
+              [footerHeight]="0"
+              [rowHeight]="40"
+              [scrollbarV]="true"
+              [scrollbarH]="true"
+              [selectionType]="'single'"
+              [rows]="listData"
+            >
+              <input />
+              <ngx-datatable-column
+                name="Field Name"
+                prop="cfieldName"
+                [width]="120"
+              ></ngx-datatable-column>
+              <ngx-datatable-column name="Assign To Client" [width]="120">
+                <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
+                  <i class="fa fa-check" *ngIf="row.showClient != false"></i>
+                </ng-template>
+              </ngx-datatable-column>
+              <ngx-datatable-column name="Assign To Caregiver" [width]="120">
+                <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
+                  <i class="fa fa-check" *ngIf="row.showCaregiver != false"></i>
+                </ng-template>
+              </ngx-datatable-column>
+              <ngx-datatable-column name="Action" [width]="120">
+                <ng-template let-value="value" ngx-datatable-cell-template let-row="row">
+                  <button
+                    type="button"
+                    class="btn btn-sm btn-warning"
+                    *ngIf="acl_allow.update == true"
+                    (click)="updateDataAction(addEditModal, row)"
+                  >
+                    Update
+                  </button>
+                  <button
+                    type="button"
+                    class="btn btn-sm btn-danger"
+                    *ngIf="acl_allow.delete == true"
+                    (click)="deleteDataAction(deleteModal, row)"
+                  >
+                    Delete
+                  </button>
+                </ng-template>
+              </ngx-datatable-column>
+            </ngx-datatable>
+          </div>
+        </div>
+      </ng-template>
+    </ngb-tab>
+  </ngb-tabset>
+</div>
+
+<app-custom-modal
+  #addEditModal
+  [modalTitle]="(editRow ? 'Edit ' : 'Add ') + 'Custom Field'"
+  [width]="1200"
+>
+  <ng-container class="app-modal-body">
+    <div *ngIf="addEditModal.visible" class="row">
+      <div class="col-md-6">
+        <div class="form-group">
+          <label class="col-form-label">Custom Field Name</label>
+          <input class="form-control" type="text" [(ngModel)]="editData.cfieldName" name="name" />
+        </div>
+        <div class="form-group">
+          <div class="">
+            <div class="form-check">
+              <label class="form-check-label">
+                <input
+                  class="form-check-input"
+                  name="is_assign_to_client"
+                  [(ngModel)]="editData.showClient"
+                  type="checkbox"
+                />
+                <Strong>Assign To Client?</Strong>
+              </label>
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="">
+            <div class="form-check">
+              <label class="form-check-label">
+                <input
+                  class="form-check-input"
+                  name="is_assign_to_caregiver"
+                  [(ngModel)]="editData.showCaregiver"
+                  type="checkbox"
+                />
+                <Strong>Assign To Caregiver?</Strong>
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+  <ng-container class="app-modal-footer">
+    <button type="button" class="btn btn-default" (click)="addEditModal.hide()">Close</button>
+    <button type="button" class="btn btn-success" (click)="saveData()">Save</button>
+  </ng-container>
+</app-custom-modal>
+
+<app-custom-modal #deleteModal [modalTitle]="'Delete'" [width]="600">
+  <ng-container class="app-modal-body">
+    <span>Do you want to delete it - {{ editRow ? editRow.cfieldName : '' }}?</span>
+  </ng-container>
+  <ng-container class="app-modal-footer">
+    <button type="button" class="btn btn-default" (click)="deleteModal.hide()">Close</button>
+    <button type="button" class="btn btn-danger" (click)="deleteData()" data-dismiss="modal">
+      Delete
+    </button>
+  </ng-container>
+</app-custom-modal>
+
+<ngx-loading
+  [show]="saving === 'saving'"
+  [config]="{backdropBorderRadius: '3px', fullScreenBackdrop: true}"
+></ngx-loading>

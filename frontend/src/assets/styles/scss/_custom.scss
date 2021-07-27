@@ -1,0 +1,52 @@
+.flex-flexible {
+  display: flex;
+  flex: 1 1 auto;
+}
+
+.custom-strip-grid {
+  .ag-row-odd {
+    background-color: #c9dede !important;
+  }
+  .ag-row-selected {
+    background-color: #07e4ff !important;
+  }
+}
+
+.sub-navbar {
+  display: flex;
+  list-style: none;
+
+  li {
+    padding: 4px 8px;
+    &.active {
+      color: red;
+    }
+  }
+}
+
+.grey-bg {
+  background-color: #404040;
+  color: white;
+  .form-control {
+    background-color: white;
+    &:disabled,
+    &:read-only {
+      background-color: white;
+    }
+  }
+}
+
+.edit-list-section {
+  .edit-controls {
+    display: none;
+  }
+  &:hover {
+    .edit-controls {
+      display: block;
+    }
+  }
+}
+
+.font-size-xs {
+  font-size: $font-size-xs !important;
+}

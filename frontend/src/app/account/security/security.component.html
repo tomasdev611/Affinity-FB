@@ -1,0 +1,42 @@
+<ngb-alert class="customMessage" *ngIf="saved == true" type="success" (close)="saved = false"
+  >Updated Successfully!</ngb-alert
+>
+<ngb-alert
+  class="customMessage"
+  *ngIf="saved_error == true"
+  type="danger"
+  (close)="saved_error = false"
+  >Error, password does not match!</ngb-alert
+>
+
+<div class="mb-5">
+  <ngb-tabset type="pills">
+    <ngb-tab title="Change Password">
+      <ng-template ngbTabContent>
+        <div class="card">
+          <div class="card-body">
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label class="col-form-label">New Password</label>
+                  <input class="form-control" type="password" [(ngModel)]="NewPassword" />
+                </div>
+                <div class="form-group ">
+                  <label class="col-form-label">Confirm New Password</label>
+                  <input class="form-control" type="password" [(ngModel)]="ConfirmNewPassword" />
+                </div>
+                <hr />
+                <input
+                  type="button"
+                  (click)="resetUserPassword()"
+                  class="btn btn-info btn-md"
+                  value="Submit"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </ng-template>
+    </ngb-tab>
+  </ngb-tabset>
+</div>

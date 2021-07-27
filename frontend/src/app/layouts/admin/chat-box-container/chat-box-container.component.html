@@ -1,0 +1,8 @@
+<div class="chat-box-container">
+  <chatbox-component
+    *ngFor="let instance of instances; let index = index"
+    [options]="instance"
+    [templates]="templates"
+    (closeChatBox)="closeChatBox($event)"
+  ></chatbox-component>
+</div>

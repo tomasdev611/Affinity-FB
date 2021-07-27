@@ -1,0 +1,116 @@
+<div class="manage-group-container">
+  <div *ngIf="!group" class="select-group-container">
+    <button
+      type="button"
+      class="btn btn-warning"
+      *ngIf="acl_allow.update == true"
+      (click)="addDataAction()"
+    >
+      Create New Group
+    </button>
+    <div class="row">
+      <ngx-datatable
+        class=""
+        [columnMode]="'force'"
+        [headerHeight]="40"
+        [footerHeight]="0"
+        [rowHeight]="40"
+        [selectionType]="'single'"
+        [rows]="groupData"
+      >
+        <ngx-datatable-column
+          name="Group Name"
+          prop="name"
+          [minWidth]="120"
+          [flexGrow]="1"
+        ></ngx-datatable-column>
+        <ngx-datatable-column
+          name="Group ID"
+          prop="GroupId"
+          [minWidth]="80"
+          [flexGrow]="1"
+        ></ngx-datatable-column>
+
+        <ngx-datatable-column
+          name="Member Count"
+          prop="groupSize"
+          [minWidth]="80"
+          [flexGrow]="1"
+        ></ngx-datatable-column>
+
+        <ngx-datatable-column name="Action" [minWidth]="300" [width]="300">
+          <ng-template let-value="value" ngx-datatable-cell-template let-row="row">
+            <button
+              type="button"
+              *ngIf="acl_allow.update == true"
+              class="btn btn-info btn-sm"
+              (click)="messageGroupAction(row)"
+            >
+              Message
+            </button>
+            <button
+              type="button"
+              *ngIf="acl_allow.update == true"
+              class="btn btn-warning btn-sm"
+              (click)="updateDataAction(row)"
+            >
+              Edit
+            </button>
+            <button
+              type="button"
+              *ngIf="acl_allow.delete == true"
+              class="btn btn-danger btn-sm"
+              (click)="deleteDataAction(deleteModal, row)"
+            >
+              Delete
+            </button>
+          </ng-template>
+        </ngx-datatable-column>
+      </ngx-datatable>
+    </div>
+  </div>
+  <div *ngIf="group" class="edit-group-container">
+    <form ngNativeValidate (ngSubmit)="saveData()">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="form-group">
+            <label class="col-form-label">Group Name</label>
+            <input
+              class="form-control form-control-sm"
+              name="name"
+              [(ngModel)]="group.name"
+              type="text"
+              required
+            />
+          </div>
+        </div>
+      </div>
+      <div>
+        <ng2-dual-list-box
+          [data]="allMembers"
+          valueField="id"
+          textField="name"
+          name="groupMembers"
+          [(ngModel)]="groupMembers"
+        ></ng2-dual-list-box>
+      </div>
+      <button type="button" class="btn btn-default" (click)="cancelEdit()">Cancel</button>
+      <button type="submit" class="btn btn-warning" *ngIf="acl_allow.update == true">Submit</button>
+    </form>
+  </div>
+</div>
+
+<app-custom-modal #deleteModal [modalTitle]="'Delete Group'" [width]="600">
+  <ng-container class="app-modal-body">
+    <span>Do you want to delete this {{ actionGroup ? actionGroup.name : '' }}</span>
+  </ng-container>
+  <ng-container class="app-modal-footer">
+    <button type="button" class="btn btn-default" (click)="deleteModal.hide()">Close</button>
+    <button type="button" class="btn btn-danger" (click)="deleteData(deleteModal)">Delete</button>
+  </ng-container>
+</app-custom-modal>
+
+<ngx-loading
+  [show]="saving === 'saving' || loading"
+  [config]="{backdropBorderRadius: '3px', fullScreenBackdrop: true}"
+></ngx-loading>

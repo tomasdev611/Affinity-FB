@@ -1,0 +1,409 @@
+<div class="registration-step6-page">
+  <div class="title">
+    EDUCATION
+  </div>
+
+  <div class="card">
+    <div class="card-body registration-step6">
+
+      <div class="row">
+        <div class="col-md-12">
+          <div class="row">
+            <div class="col-md-12">
+              <span>High School</span>
+            </div>
+          </div>
+          <div class="row">
+            <span class="col-md-3 text-right">Name and Location </span>
+            <input
+              class="form-control form-control-sm col-md-9"
+              type="text"
+              [(ngModel)]="selected.HighSchool.Name"
+            />
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="row">
+                <span class="col-md-6 text-right">Dates Attended </span>
+                <input
+                  class="form-control form-control-sm col-md-6"
+                  type="text"
+                  [(ngModel)]="selected.HighSchool.Attend"
+                />
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="row">
+                <span class="col-md-6 text-right">Degree Received </span>
+                <input
+                  class="form-control form-control-sm col-md-6"
+                  type="text"
+                  [(ngModel)]="selected.HighSchool.Degree"
+                />
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="row">
+                <span class="col-md-6 text-right">Subjects Studied </span>
+                <input
+                  class="form-control form-control-sm col-md-6"
+                  type="text"
+                  [(ngModel)]="selected.HighSchool.Subject"
+                />
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="row">
+                <span class="col-md-5 text-right">Did you graduate? </span>
+                <div class="col-md-1"></div>
+                <div class="col-md-3">
+                  <div class="row">
+                    <label class="col-md-8 text-right" for="chkYes1">Yes</label>
+                    <input
+                      id="chkYes1"
+                      name="chkYes1"
+                      class="form-control form-control-sm col-md-4"
+                      type="checkbox"
+                      [checked]="selected.HighSchool.Graduate"
+                      (change)="selected.HighSchool.Graduate=true"
+                    />
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <div class="row">
+                    <label class="col-md-8 text-right" for="chkNo1">No</label>
+                    <input
+                      id="chkNo1"
+                      name="chkNo1"
+                      class="form-control form-control-sm col-md-4"
+                      type="checkbox"
+                      [checked]="!selected.HighSchool.Graduate"
+                      (change)="selected.HighSchool.Graduate=false"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row ">
+        <div class="col-md-12"><hr /></div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-12">
+          <div class="row">
+            <div class="col-md-12">
+              <span>College / University</span>
+            </div>
+          </div>
+          <div class="row">
+            <span class="col-md-3 text-right">Name and Location </span>
+            <input
+              class="form-control form-control-sm col-md-9"
+              type="text"
+              [(ngModel)]="selected.College.Name"
+            />
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="row">
+                <span class="col-md-6 text-right">Dates Attended </span>
+                <input
+                  class="form-control form-control-sm col-md-6"
+                  type="text"
+                  [(ngModel)]="selected.College.Attend"
+                />
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="row">
+                <span class="col-md-6 text-right">Degree Received </span>
+                <input
+                  class="form-control form-control-sm col-md-6"
+                  type="text"
+                  [(ngModel)]="selected.College.Degree"
+                />
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="row">
+                <span class="col-md-6 text-right">Subjects Studied </span>
+                <input
+                  class="form-control form-control-sm col-md-6"
+                  type="text"
+                  [(ngModel)]="selected.College.Subject"
+                />
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="row">
+                <span class="col-md-5 text-right">Did you graduate? </span>
+                <div class="col-md-1"></div>
+                <div class="col-md-3">
+                  <div class="row">
+                    <label class="col-md-8 text-right" for="chkYes2">Yes</label>
+                    <input
+                      id="chkYes2"
+                      name="chkYes2"
+                      class="form-control form-control-sm col-md-4"
+                      type="checkbox"
+                      [checked]="selected.College.Graduate"
+                      (change)="selected.College.Graduate=true"
+                    />
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <div class="row">
+                    <label class="col-md-8 text-right" for="chkNo2">No</label>
+                    <input
+                      id="chkNo2"
+                      name="chkNo2"
+                      class="form-control form-control-sm col-md-4"
+                      type="checkbox"
+                      [checked]="!selected.College.Graduate"
+                      (change)="selected.College.Graduate=false"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row ">
+        <div class="col-md-12"><hr /></div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-12">
+          <div class="row">
+            <div class="col-md-12">
+              <span>Graduate School</span>
+            </div>
+          </div>
+          <div class="row">
+            <span class="col-md-3 text-right">Name and Location </span>
+            <input
+              class="form-control form-control-sm col-md-9"
+              type="text"
+              [(ngModel)]="selected.Graduate.Name"
+            />
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="row">
+                <span class="col-md-6 text-right">Dates Attended </span>
+                <input
+                  class="form-control form-control-sm col-md-6"
+                  type="text"
+                  [(ngModel)]="selected.Graduate.Attend"
+                />
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="row">
+                <span class="col-md-6 text-right">Degree Received </span>
+                <input
+                  class="form-control form-control-sm col-md-6"
+                  type="text"
+                  [(ngModel)]="selected.Graduate.Degree"
+                />
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="row">
+                <span class="col-md-6 text-right">Subjects Studied </span>
+                <input
+                  class="form-control form-control-sm col-md-6"
+                  type="text"
+                  [(ngModel)]="selected.Graduate.Subject"
+                />
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="row">
+                <span class="col-md-5 text-right">Did you graduate? </span>
+                <div class="col-md-1"></div>
+                <div class="col-md-3">
+                  <div class="row">
+                    <label class="col-md-8 text-right" for="chkYes3">Yes</label>
+                    <input
+                      id="chkYes3"
+                      name="chkYes3"
+                      class="form-control form-control-sm col-md-4"
+                      type="checkbox"
+                      [checked]="selected.Graduate.Graduate"
+                      (change)="selected.Graduate.Graduate=true"
+                    />
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <div class="row">
+                    <label class="col-md-8 text-right" for="chkNo3">No</label>
+                    <input
+                      id="chkNo3"
+                      name="chkNo3"
+                      class="form-control form-control-sm col-md-4"
+                      type="checkbox"
+                      [checked]="!selected.Graduate.Graduate"
+                      (change)="selected.Graduate.Graduate=false"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row ">
+        <div class="col-md-12"><hr /></div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-12">
+          <div class="row">
+            <div class="col-md-12">
+              <span>Tech School</span>
+            </div>
+          </div>
+          <div class="row">
+            <span class="col-md-3 text-right">Name and Location </span>
+            <input
+              class="form-control form-control-sm col-md-9"
+              type="text"
+              [(ngModel)]="selected.Tech.Name"
+            />
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="row">
+                <span class="col-md-6 text-right">Dates Attended </span>
+                <input
+                  class="form-control form-control-sm col-md-6"
+                  type="text"
+                  [(ngModel)]="selected.Tech.Attend"
+                />
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="row">
+                <span class="col-md-6 text-right">Degree Received </span>
+                <input
+                  class="form-control form-control-sm col-md-6"
+                  type="text"
+                  [(ngModel)]="selected.Tech.Degree"
+                />
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="row">
+                <span class="col-md-6 text-right">Subjects Studied </span>
+                <input
+                  class="form-control form-control-sm col-md-6"
+                  type="text"
+                  [(ngModel)]="selected.Tech.Subject"
+                />
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="row">
+                <span class="col-md-5 text-right">Did you graduate? </span>
+                <div class="col-md-1"></div>
+                <div class="col-md-3">
+                  <div class="row">
+                    <label class="col-md-8 text-right" for="chkYes4">Yes</label>
+                    <input
+                      id="chkYes4"
+                      name="chkYes4"
+                      class="form-control form-control-sm col-md-4"
+                      type="checkbox"
+                      [checked]="selected.Tech.Graduate"
+                      (change)="selected.Tech.Graduate=true"
+                    />
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <div class="row">
+                    <label class="col-md-8 text-right" for="chkNo4">No</label>
+                    <input
+                      id="chkNo4"
+                      name="chkNo4"
+                      class="form-control form-control-sm col-md-4"
+                      type="checkbox"
+                      [checked]="!selected.Tech.Graduate"
+                      (change)="selected.Tech.Graduate=false"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row ">
+        <div class="col-md-12"><hr /></div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-12">
+          <div class="row">
+            <span class="col-md-6">Special courses, training or experience acquired, including military experience: </span>
+            <input
+              class="form-control form-control-sm col-md-6"
+              type="text"
+              [(ngModel)]="selected.Special0"
+            />
+          </div>
+          <div class="row">
+            <div class="col-md-2"></div>
+            <input
+              class="form-control form-control-sm col-md-10"
+              type="text"
+              [(ngModel)]="selected.Special1"
+            />
+          </div>
+          <div class="row">
+            <div class="col-md-2"></div>
+            <input
+              class="form-control form-control-sm col-md-10"
+              type="text"
+              [(ngModel)]="selected.Special2"
+            />
+          </div>
+        </div>
+      </div>
+
+      <div class="row ">
+        <div class="col-md-12"><hr /></div>
+      </div>
+
+      <div class="row ">
+        <div class="col-md-12 text-center">
+          <div class="btn-group">
+            <button
+              class="btn btn-sm btn-success"
+              (click)="moveToNext()"
+            >
+              Save & Next
+            </button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>

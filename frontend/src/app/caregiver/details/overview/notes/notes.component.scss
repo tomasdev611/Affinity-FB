@@ -1,0 +1,16 @@
+.overview-notes {
+  .card-body {
+    padding: 0px;
+    .row {
+      padding: 16px;
+      margin: 0px;
+      border-bottom: 1px solid lightgrey;
+      .description {
+        font-size: 13px;
+      }
+      &.odd-row {
+        background: #1f271f;
+      }
+    }
+  }
+}

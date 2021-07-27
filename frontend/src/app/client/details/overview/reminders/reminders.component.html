@@ -1,0 +1,26 @@
+<div class="card edit-list-section overview-reminders">
+  <div class="card-header">
+    <i class="fa fa-bell-o"></i>Reminders <span class="mr-auto"></span>
+    <div class="card-controls edit-controls">
+      <a
+        href="javascript:;"
+        (click)="openManageReminders(manageReminders)"
+        *ngIf="acl_allow.update"
+      >
+        <i class="fa fa-ellipsis-v"></i>
+      </a>
+    </div>
+  </div>
+  <div class="card-body bg-warning">
+    <div class="row" *ngFor="let reminder of reminders; let index = index">
+      <div class="col-6">
+        <div>{{ reminder.description }}</div>
+      </div>
+      <div class="col-6">{{ reminder.expirationDate }}</div>
+    </div>
+  </div>
+</div>
+
+<app-custom-modal #manageReminders [modalTitle]="'Manage Reminders'" [width]="1300">
+  <ng-container class="app-modal-body"> <app-reminders></app-reminders> </ng-container>
+</app-custom-modal>

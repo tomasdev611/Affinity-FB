@@ -1,0 +1,61 @@
+<div class="mb-5">
+  <div>
+    <ul class="sub-navbar">
+      <li [routerLink]="['./']" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+        Personal Data
+      </li>
+      <li *ngIf="isNewClient === false" (click)="gotoCalendar()">Calendar</li>
+      <li [routerLink]="['./visits']" routerLinkActive="active" *ngIf="isNewClient === false">
+        Visit History
+      </li>
+      <li [routerLink]="['./notes']" routerLinkActive="active" *ngIf="isNewClient === false">
+        Notes
+      </li>
+      <li [routerLink]="['./attachments']" routerLinkActive="active" *ngIf="isNewClient === false">
+        Attachments
+      </li>
+      <li [routerLink]="['./reminders']" routerLinkActive="active" *ngIf="isNewClient === false">
+        Reminders
+      </li>
+      <li
+        [routerLink]="['./service-orders']"
+        routerLinkActive="active"
+        *ngIf="isNewClient === false"
+      >
+        Service Orders
+      </li>
+      <li
+        [routerLink]="['./interruptions-service']"
+        routerLinkActive="active"
+        *ngIf="isNewClient === false"
+      >
+        Interruptions Of Service
+      </li>
+      <li [routerLink]="['./plan-of-care']" routerLinkActive="active" *ngIf="isNewClient === false">
+        Plan Of Care
+      </li>
+      <li
+        [routerLink]="['./directions-misc']"
+        routerLinkActive="active"
+        *ngIf="isNewClient === false"
+      >
+        Directions/Misc
+      </li>
+      <li
+        [routerLink]="['./exclusions-preferences']"
+        routerLinkActive="active"
+        *ngIf="isNewClient === false"
+      >
+        Exclusions/Preferences
+      </li>
+      <li
+        [routerLink]="['./supervisory-visits']"
+        routerLinkActive="active"
+        *ngIf="isNewClient === false"
+      >
+        Supervisory Visits
+      </li>
+    </ul>
+    <div class="content"><router-outlet></router-outlet></div>
+  </div>
+</div>

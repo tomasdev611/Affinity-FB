@@ -1,0 +1,17 @@
+.caregiver-notes-list {
+  .filter-input {
+    min-width: 300px;
+  }
+  ngx-datatable::ng-deep {
+    .datatable-body {
+      .datatable-body-row {
+        &.datatable-row-odd {
+          background-color: #c9dede !important;
+        }
+        .datatable-body-cell {
+          padding: 0.5rem 0.6rem;
+        }
+      }
+    }
+  }
+}

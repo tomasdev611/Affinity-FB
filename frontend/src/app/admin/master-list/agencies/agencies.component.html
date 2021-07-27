@@ -1,0 +1,115 @@
+<div class="mb-5">
+  <div class="card">
+    <div class="card-body">
+      <!--
+      <div class="text text-right">
+        <button type="button" class="btn btn-md btn-success" (click)="addAgenciesAction(addAgencyModel,row)">ADD</button>
+      </div>
+
+    -->
+      <hr />
+      <div class="alert alert-info">Will be activated in Next Phase.</div>
+
+      <!--
+      <ngx-datatable class="" [columnMode]="'force'" [headerHeight]="40" [footerHeight]="0" [rowHeight]="40" [scrollbarV]="true"
+        [scrollbarH]="true" [selectionType]="'single'" [rows]="agencyRow">
+
+        <ngx-datatable-column name="AgencyName" prop="AgencyName" [width]="120"></ngx-datatable-column>
+        <ngx-datatable-column name="Address" prop="Address1" [width]="120"></ngx-datatable-column>
+        <ngx-datatable-column name="City" prop="City" [width]="120"></ngx-datatable-column>
+        <ngx-datatable-column name="State" prop="State" [width]="120"></ngx-datatable-column>
+        <ngx-datatable-column name="Action" [width]="120">
+
+          <ng-template let-value="value" ngx-datatable-cell-template let-row="row">
+            <button type="button" class="btn btn-warning btn-sm" [disabled]="true">Update</button>
+            <button type="button" class="btn btn-danger btn-sm" [disabled]="true">Delete</button>
+          </ng-template>
+
+        </ngx-datatable-column>
+
+      </ngx-datatable>
+    --></div>
+  </div>
+</div>
+
+<app-custom-modal
+  #addEditModal
+  [modalTitle]="(editRow ? 'Edit ' : 'Add ') + 'Agency'"
+  [width]="1200"
+>
+  <ng-container class="app-modal-body">
+    <div *ngIf="addEditModal.visible" class="row">
+      <div class="col-md-6">
+        <div class="form-group">
+          <strong class="col-form-label">AgencyName</strong>
+          <input
+            class="form-control form-control-sm"
+            type="text"
+            [(ngModel)]="editData.agencyName"
+          />
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group">
+          <strong class="col-form-label">Address1</strong>
+          <input class="form-control form-control-sm" type="text" [(ngModel)]="editData.address1" />
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group">
+          <strong class="col-form-label">Address2</strong>
+          <input class="form-control form-control-sm" type="text" [(ngModel)]="editData.address2" />
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group">
+          <strong class="col-form-label">City</strong>
+          <input class="form-control form-control-sm" type="text" [(ngModel)]="editData.city" />
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group">
+          <strong class="col-form-label">State</strong>
+          <input
+            class="form-control form-control-sm"
+            type="text"
+            maxlength="2"
+            [(ngModel)]="editData.state"
+          />
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group">
+          <strong class="col-form-label">Zip</strong>
+          <input
+            class="form-control form-control-sm"
+            type="text"
+            maxlength="9"
+            [(ngModel)]="editData.zip"
+          />
+        </div>
+      </div>
+    </div>
+  </ng-container>
+  <ng-container class="app-modal-footer">
+    <button type="button" class="btn btn-default" (click)="addEditModal.hide()">Close</button>
+    <button type="button" class="btn btn-success" (click)="saveData()">Save</button>
+  </ng-container>
+</app-custom-modal>
+
+<app-custom-modal #deleteModal [modalTitle]="'Delete'" [width]="600">
+  <ng-container class="app-modal-body">
+    <span>Do you want to delete it - {{ editRow ? editRow.agencyName : '' }}?</span>
+  </ng-container>
+  <ng-container class="app-modal-footer">
+    <button type="button" class="btn btn-default" (click)="deleteModal.hide()">Close</button>
+    <button type="button" class="btn btn-danger" (click)="deleteData()" data-dismiss="modal">
+      Delete
+    </button>
+  </ng-container>
+</app-custom-modal>
+
+<ngx-loading
+  [show]="saving === 'saving'"
+  [config]="{backdropBorderRadius: '3px', fullScreenBackdrop: true}"
+></ngx-loading>

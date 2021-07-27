@@ -1,0 +1,260 @@
+<div class="registration-step1-page">
+  <div class="title">
+    Applicant Demographic
+  </div>
+
+  <div class="card">
+    <div class="card-body registration-step1">
+  
+      <div class="row">
+        <div class="col-md-12">
+          <div class="row">
+            <div class="col-md-4">
+              <div class="form-group">
+                <div class="row">
+                  <label class="col-form-label col-md-4 text text-left">First Name</label>
+                  <input
+                    class="form-control form-control-sm col-md-8"
+                    type="text"
+                    [(ngModel)]="selected.FirstName"
+                  />
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="form-group">
+                <div class="row">
+                  <label class="col-form-label  col-md-8 text text-left">Middle Initial</label>
+                  <input
+                    class="form-control form-control-sm  col-md-4"
+                    type="text"
+                    maxlength="1"
+                    [(ngModel)]="selected.MiddleInit"
+                  />
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="form-group">
+                <div class="row">
+                  <label class="col-form-label  col-md-4 text text-left">Last Name</label>
+                  <input
+                    class="form-control form-control-sm col-md-8"
+                    type="text"
+                    [(ngModel)]="selected.LastName"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-8">
+              <div class="form-group">
+                <div class="row">
+                  <label class="col-form-label col-md-2 text text-left">Address 1</label>
+                  <input
+                    class="form-control form-control-sm col-md-8"
+                    type="text"
+                    [(ngModel)]="selected.Address1"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-8">
+              <div class="form-group">
+                <div class="row">
+                  <label class="col-form-label col-md-2 text text-left">Address 2</label>
+                  <input
+                    class="form-control form-control-sm col-md-8"
+                    type="text"
+                    [(ngModel)]="selected.Address2"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-4">
+              <div class="form-group">
+                <div class="row">
+                  <label class="col-form-label col-md-4 text text-left">City</label>
+                  <input
+                    class="form-control form-control-sm  col-md-8"
+                    type="text"
+                    [(ngModel)]="selected.City"
+                  />
+                </div>
+              </div>
+            </div>
+            <div class="col-md-8">
+              <div class="row">
+                <label class="col-form-label col-md-2 text text-left">State</label>
+                <input
+                  class="form-control form-control-sm  col-md-2"
+                  type="text"
+                  maxlength="3"
+                  [(ngModel)]="selected.State"
+                />
+                <label class="col-form-label col-md-1 text text-left">Zip</label>
+                <input
+                  class="form-control form-control-sm col-md-2"
+                  type="text"
+                  [(ngModel)]="selected.Zip"
+                />
+                <label class="col-form-label col-md-2 text text-left">County</label>
+                <select
+                  class="form-control form-control-sm col-md-3"
+                  [(ngModel)]="selected.County"
+                >
+                  <option *ngFor="let cty of counties" [value]="cty.county">{{
+                    cty.county
+                  }}</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div class="row ">
+            <div class="col-md-4">
+              <div class="form-group">
+                <div class="row">
+                  <label class="col-form-label  col-md-4 text text-left">Classification</label>
+                  <select
+                    class="form-control form-control-sm col-md-8"
+                    [(ngModel)]="selected.ClassificationID"
+                  >
+                    <option
+                      *ngFor="let classificatioID of classifications"
+                      [ngValue]="classificatioID.ClassificationID"
+                      >{{ classificatioID.Description }}</option
+                    >
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="form-group">
+                <div class="row">
+                  <label class="col-form-label col-md-4 text text-left">Date of Birth</label>
+                  <input
+                    class="form-control form-control-sm col-md-8"
+                    placeholder="yyyy-mm-dd"
+                    [(ngModel)]="selected.DateofBirth"
+                  />
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="form-group">
+                <div class="row">
+                  <label class="col-form-label  col-md-4 text text-left">SSN</label>
+                  <input
+                    class="form-control form-control-sm col-md-8"
+                    type="text"
+                    maxlength="9"
+                    [(ngModel)]="selected.SocialSecurityNum"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+  
+          <div class="row">
+            <div class="col-md-4">
+              <div class="form-group">
+                <div class="row">
+                  <label class="col-form-label  col-md-4 text text-left">Phone1</label>
+                  <input
+                    class="form-control form-control-sm col-md-6"
+                    type="text"
+                    [(ngModel)]="selected.Phone1"
+                  />
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="form-group">
+                <div class="row">
+                  <label class="col-form-label  col-md-4 text text-left">Phone2</label>
+                  <input
+                    class="form-control form-control-sm col-md-8"
+                    type="text"
+                    [(ngModel)]="selected.Phone2"
+                  />
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="form-group">
+                <div class="row">
+                  <label class="col-form-label  col-md-4 text text-left">Email</label>
+                  <input
+                    class="form-control form-control-sm col-md-8"
+                    type="text"
+                    [(ngModel)]="selected.Email"
+                  />
+                </div>
+              </div>
+            </div>
+  
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-12 mt-3 mb-3 text-center">
+          Please take applicant picture
+        </div>
+        <div class="col-md-12 text-center">
+          <div class="col-md-12 text-center">
+            <webcam
+              class="rounded img-thumbnail"
+              style="width: 380px; background-color: white; border: none;"
+              [height]="500" [width]="380"
+              [trigger]="triggerObservable"
+              (imageCapture)="handleImage($event)"
+              [imageQuality]="1"
+              (initError)="handleInitError($event)"
+            ></webcam>
+          </div>
+          <div class="col-md-12 text-center">
+            <img class="rounded" style="height: 285px; margin-top: 4px;" *ngIf="imageTaken" [src]="imageData" />
+          </div>
+        </div>
+        <button
+          class="w-auto mr-auto ml-auto mb-3 mt-3 btn btn-sm btn-success"
+          (click)="triggerSnapshot();"
+          [disabled]="posting"
+        >
+          Take a photo
+        </button>
+      </div>
+
+      <div class="row ">
+        <div class="col-md-12"><hr /></div>
+      </div>
+
+      <div class="row ">
+        <div class="col-md-12 text-center">
+          <div class="btn-group">
+            <button
+              class="btn btn-sm btn-success"
+              (click)="addNewCaregiver()"
+              [disabled]="posting"
+            >
+              Save & Next
+            </button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<ngx-loading
+[show]="saving === 'saving'"
+[config]="{backdropBorderRadius: '3px', fullScreenBackdrop: true}"
+></ngx-loading>

@@ -1,0 +1,102 @@
+<div class="card client-overview-lists">
+  <div class="card-header"><i class="fa fa-file-text-o"></i>Lists</div>
+  <div class="card-body grey-bg">
+    <div class="list-section edit-list-section">
+      <div class="section-header">
+        <span class="header-title text-info">Languages</span>
+        <a
+          class="edit-controls"
+          href="javascript:;"
+          (click)="openManageLanguages(manageLanguages)"
+          *ngIf="acl_allow.update"
+        >
+          <i class="fa fa-ellipsis-v"></i>
+        </a>
+      </div>
+      <div class="section-content">
+        <div class="row" *ngFor="let language of client.languages; let index = index">
+          <div class="col">{{ getName(languages, language.LanguageId) }}</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="list-section edit-list-section">
+      <div class="section-header">
+        <span class="header-title text-info">Skills</span>
+        <a
+          class="edit-controls"
+          href="javascript:;"
+          (click)="openManageSkills(manageSkills)"
+          *ngIf="acl_allow.update"
+        >
+          <i class="fa fa-ellipsis-v"></i>
+        </a>
+      </div>
+      <div class="section-content">
+        <div class="row" *ngFor="let skill of client.skills; let index = index">
+          <div class="col">{{ getSkillName(skills, skill.skillId) }}</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="list-section edit-list-section">
+      <div class="section-header">
+        <span class="header-title text-info">Availability</span>
+        <a
+          class="edit-controls"
+          href="javascript:;"
+          (click)="openManageAvailabilities(manageAvailabilities)"
+          *ngIf="acl_allow.update"
+        >
+          <i class="fa fa-ellipsis-v"></i>
+        </a>
+      </div>
+      <div class="section-content">
+        <div class="row" *ngFor="let availability of client.availabilities; let index = index">
+          <div class="col">{{ getName(availabilities, availability.AvailabilityId) }}</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="list-section edit-list-section">
+      <div class="section-header">
+        <span class="header-title text-info">Custom Fields</span>
+        <a
+          class="edit-controls"
+          href="javascript:;"
+          (click)="openManageCustomFields(manageCustomFields)"
+          *ngIf="acl_allow.update"
+        >
+          <i class="fa fa-ellipsis-v"></i>
+        </a>
+      </div>
+      <div class="section-content">
+        <div class="row" *ngFor="let customField of client.customfields; let index = index">
+          <div class="col" *ngIf="customField.descr">
+            {{ customField.cfieldName }} - {{ customField.descr }}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<app-custom-modal #manageLanguages [modalTitle]="'Manage Languages'" [width]="800">
+  <ng-container class="app-modal-body">
+    <app-client-languages></app-client-languages>
+  </ng-container>
+</app-custom-modal>
+
+<app-custom-modal #manageSkills [modalTitle]="'Manage Skills'" [width]="800">
+  <ng-container class="app-modal-body"> <app-client-skills></app-client-skills> </ng-container>
+</app-custom-modal>
+
+<app-custom-modal #manageAvailabilities [modalTitle]="'Manage Availabilities'" [width]="800">
+  <ng-container class="app-modal-body">
+    <app-client-availabilities></app-client-availabilities>
+  </ng-container>
+</app-custom-modal>
+
+<app-custom-modal #manageCustomFields [modalTitle]="'Manage Custom Fields'" [width]="800">
+  <ng-container class="app-modal-body"> <app-customfields></app-customfields> </ng-container>
+</app-custom-modal>

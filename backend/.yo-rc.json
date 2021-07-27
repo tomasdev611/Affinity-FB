@@ -1,0 +1,14 @@
+{
+  "generator-kraken": {
+    "taskModule": "grunt",
+    "lintModule": "eslint",
+    "description": "affinity API",
+    "author": "switchcodes",
+    "templateModule": false,
+    "i18n": false,
+    "componentPackager": false,
+    "cssModule": "less",
+    "jsModule": false,
+    "useJson": null
+  }
+}

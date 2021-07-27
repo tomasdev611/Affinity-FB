@@ -1,0 +1,30 @@
+<div class="mb-5">
+  <div>
+    <ul class="sub-navbar">
+      <li [routerLink]="['./']" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+        Personal Data
+      </li>
+      <li *ngIf="isNewCaregiver === false" (click)="gotoCalendar()">Calendar</li>
+      <li [routerLink]="['./visits']" routerLinkActive="active" *ngIf="isNewCaregiver === false">
+        Visit History
+      </li>
+      <li [routerLink]="['./notes']" routerLinkActive="active" *ngIf="isNewCaregiver === false">
+        Notes
+      </li>
+      <li
+        [routerLink]="['./attachments']"
+        routerLinkActive="active"
+        *ngIf="isNewCaregiver === false"
+      >
+        Attachments
+      </li>
+      <li [routerLink]="['./reminders']" routerLinkActive="active" *ngIf="isNewCaregiver === false">
+        Reminders
+      </li>
+      <!-- <li [routerLink]="['./contacts']" routerLinkActive="active" *ngIf="isNewCaregiver === false">
+        Contacts
+      </li> -->
+    </ul>
+    <div class="content"><router-outlet></router-outlet></div>
+  </div>
+</div>

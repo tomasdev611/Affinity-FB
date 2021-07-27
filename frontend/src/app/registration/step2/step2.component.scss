@@ -1,0 +1,63 @@
+.registration-step2-page {
+    background: white;
+    width: 100%;
+    height: 100%;
+  
+    .title {
+      margin: auto;
+      width: 80%;
+      height: 50px;
+      padding-top: 20px;
+      text-align: center;
+      border-bottom: 1px solid black;
+    }
+  
+    .registration-step2 {
+      overflow-wrap: initial;
+      font-size: 12px;
+      .btn-text-message {
+        padding: 0;
+        max-height: 30px;
+      }
+      .picture-buttons {
+        display: flex;
+        justify-content: space-between;
+      }
+      .mapouter {
+        position: relative;
+        text-align: right;
+        height: 300px;
+        // width: 600px;
+      }
+      .gmap_canvas {
+        overflow: hidden;
+        background: none !important;
+        height: 300px;
+        // width: 600px;
+      }
+      select {
+        padding: 0px;
+      }
+      .question {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        span {
+          margin-right: 5px;
+        }
+        .answer {
+          width: 60px;
+          text-align: right;
+        }
+        .long {
+          width: 500px;
+        }
+        .editable {
+          text-align: left;
+          border-bottom: 1px solid #333;
+        }
+      }
+    }  
+  }
+  

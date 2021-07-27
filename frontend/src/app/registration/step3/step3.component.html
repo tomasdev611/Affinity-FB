@@ -1,0 +1,201 @@
+<div class="registration-step3-page">
+  <div class="title">
+    POSITION INFORMATION
+  </div>
+
+  <div class="card">
+    <div class="card-body registration-step3">
+
+      <div class="row">
+        <div class="col-md-12">
+
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <div class="row">
+                  <label class="col-form-label col-md-8 text text-right">Last Pay Rate (per hour): </label>
+                  <input
+                    class="form-control form-control-sm col-md-4"
+                    type="text"
+                    [(ngModel)]="selected.RateLast"
+                  />
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <div class="row">
+                  <label class="col-form-label col-md-8 text text-right">Pay Rate desired (per hour): </label>
+                  <input
+                    class="form-control form-control-sm col-md-4"
+                    type="text"
+                    [(ngModel)]="selected.RateDesired"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <label class="col-form-label col-md-6 text text-left">What days and hours are you available to work: </label>
+            <div class="col-md-6">
+              <div class="form-group">
+                <div class="row">
+                  <label class="col-form-label col-md-2 text text-right" for="chkSat">Sat</label>
+                  <input
+                    id="chkSat"
+                    name="chkSat"
+                    type="checkbox"
+                    [(ngModel)]="selected.Available.Sat"
+                  />
+                  <label class="col-form-label col-md-2 text text-right" for="chkSun">Sun</label>
+                  <input
+                    id="chkSun"
+                    name="chkSun"
+                    type="checkbox"
+                    [(ngModel)]="selected.Available.Sun"
+                  />
+                  <label class="col-form-label col-md-2 text text-right" for="chkOvr">Overnight</label>
+                  <input
+                    id="chkOvr"
+                    name="chkOvr"
+                    type="checkbox"
+                    [(ngModel)]="selected.Available.Overnight"
+                  />
+                  <label class="col-form-label col-md-2 text text-right" for="chkLiveIn">Live-In</label>
+                  <input
+                    id="chkLiveIn"
+                    name="chkLiveIn"
+                    type="checkbox"
+                    [(ngModel)]="selected.Available.LiveIn"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <!-- <div class="form-group" style="width: 100%;"> -->
+              <div class="col-md-4">
+                <div class="row">
+                  <div class="col-md-4"></div> <!-- empty -->
+                  <div class="col-md-4">
+                    <label class="col-form-label col-md-8 text text-right" for="cMon">Mon</label>
+                    <input
+                      id="cMon"
+                      name="cMon"
+                      type="checkbox"
+                      [(ngModel)]="selected.WeekDays.Mon"
+                    />  
+                  </div>
+                  <div class="col-md-4">
+                    <label class="col-form-label col-md-8 text text-right" for="cTue">Tue</label>
+                    <input
+                      id="cTue"
+                      name="cTue"
+                      type="checkbox"
+                      [(ngModel)]="selected.WeekDays.Tue"
+                    />  
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-8">
+                <div class="row">
+                  <div class="col-md-2">
+                    <label class="col-form-label col-md-8 text text-right" for="cWed">Wed</label>
+                    <input
+                      id="cWed"
+                      name="cWed"
+                      type="checkbox"
+                      [(ngModel)]="selected.WeekDays.Wed"
+                    />
+                  </div>
+                  <div class="col-md-2">
+                    <label class="col-form-label col-md-8 text text-right" for="cThu">Thu</label>
+                    <input
+                      id="cThu"
+                      name="cThu"
+                      type="checkbox"
+                      [(ngModel)]="selected.WeekDays.Thu"
+                    />
+                  </div>
+                  <div class="col-md-2">
+                    <label class="col-form-label col-md-8 text text-right" for="cFri">Fri</label>
+                    <input
+                      id="cFri"
+                      name="cFri"
+                      type="checkbox"
+                      [(ngModel)]="selected.WeekDays.Fri"
+                    />
+                  </div>
+                  <div class="col-md-2">
+                    <label class="col-form-label col-md-8 text text-right" for="cSat">Sat</label>
+                    <input
+                      id="cSat"
+                      name="cSat"
+                      type="checkbox"
+                      [(ngModel)]="selected.WeekDays.Sat"
+                    />
+                  </div>
+                  <div class="col-md-2">
+                    <label class="col-form-label col-md-8 text text-right" for="cSun">Sun</label>
+                    <input
+                      id="cSun"
+                      name="cSun"
+                      type="checkbox"
+                      [(ngModel)]="selected.WeekDays.Sun"
+                    />
+                  </div>
+                  <div class="col-md-2"></div> <!-- empty -->
+                </div>
+              </div>
+            <!-- </div> -->
+          </div>
+
+        </div>
+      </div>
+
+      <div class="row text-center">
+        <div class="col-md-12 mt-1 mb-3 question">
+          <span>If hired, when could you start?</span>
+          <div
+            class="answer long editable"
+            contenteditable="true"
+            [textContent]="selected.StartDate"
+            (input)="selected.StartDate=$event.target.textContent"
+          ></div>
+        </div>
+      </div>
+
+      <div class="row text-center">
+        <div class="col-md-12 mt-1 mb-3 question">
+          <span>How did you hear about this job?</span>
+          <div
+            class="answer long editable"
+            contenteditable="true"
+            [textContent]="selected.HearFrom"
+            (input)="selected.HearFrom=$event.target.textContent"
+          ></div>
+        </div>
+      </div>
+
+      <div class="row ">
+        <div class="col-md-12"><hr /></div>
+      </div>
+
+      <div class="row ">
+        <div class="col-md-12 text-center">
+          <div class="btn-group">
+            <button
+              class="btn btn-sm btn-success"
+              (click)="moveToNext()"
+            >
+              Save & Next
+            </button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>

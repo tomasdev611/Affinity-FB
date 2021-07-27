@@ -1,0 +1,45 @@
+<div class="cards">
+  <div class="card-bosdy">
+    <div class="text text-right">
+      <div class="btn-group">
+        <button
+          class="btn btn-info btn-sm mr-2"
+          (click)="runCaregiverPhoneJob()"
+          [disabled]="saving"
+        >
+          Run Caregiver Phone Job
+        </button>
+        <a class="btn btn-info btn-sm" routerLink="/admin/custom-fields"> Custom Fields </a>
+      </div>
+    </div>
+  </div>
+</div>
+<hr />
+
+<div class="mb-5">
+  <div>
+    <ul class="sub-navbar">
+      <li [routerLink]="['./reminders']" routerLinkActive="active">Reminder</li>
+      <li [routerLink]="['./case-manager']" routerLinkActive="active">Case Manager</li>
+      <li [routerLink]="['./client-type']" routerLinkActive="active">Client Type</li>
+      <li [routerLink]="['./classification']" routerLinkActive="active">Classification</li>
+      <li [routerLink]="['./note-type-client']" routerLinkActive="active">Note Type Client</li>
+      <li [routerLink]="['./note-type-caregiver']" routerLinkActive="active">
+        Note Type Caregiver
+      </li>
+      <li [routerLink]="['./reasons']" routerLinkActive="active">Status/Reasons</li>
+      <li [routerLink]="['./county']" routerLinkActive="active">County</li>
+      <li [routerLink]="['./service']" routerLinkActive="active">Service</li>
+      <li [routerLink]="['./physician']" routerLinkActive="active">Physician</li>
+      <li [routerLink]="['./refferals']" routerLinkActive="active">Referrals</li>
+      <li [routerLink]="['./agencies']" routerLinkActive="active">Agencies</li>
+      <li [routerLink]="['./skills']" routerLinkActive="active">Skills</li>
+      <li [routerLink]="['./availabilities']" routerLinkActive="active">Availabilities</li>
+      <li [routerLink]="['./languages']" routerLinkActive="active">Languages</li>
+      <li [routerLink]="['./message-templates']" routerLinkActive="active">Message Templates</li>
+      <li [routerLink]="['./phone-numbers']" routerLinkActive="active">Phone Numbers</li>
+      <li [routerLink]="['./security-users']" routerLinkActive="active">Security Users</li>
+    </ul>
+    <div class="content"><router-outlet></router-outlet></div>
+  </div>
+</div>

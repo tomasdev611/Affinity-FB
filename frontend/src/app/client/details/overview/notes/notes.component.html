@@ -1,0 +1,26 @@
+<div class="card edit-list-section overview-notes">
+  <div class="card-header">
+    <i class="fa fa-sticky-note-o"></i>Notes <span class="mr-auto"></span>
+    <div class="card-controls edit-controls">
+      <a href="javascript:;" (click)="openManageNotes(manageNotes)" *ngIf="acl_allow.update">
+        <i class="fa fa-ellipsis-v"></i>
+      </a>
+    </div>
+  </div>
+  <div class="card-body  grey-bg">
+    <div
+      *ngFor="let note of notes; let index = index"
+      [class]="'row ' + (index % 2 ? 'odd-row' : 'even-row')"
+    >
+      <div class="col-3">
+        <div class="text-info">{{ note.dtSmallLength }}</div>
+        <div class="text-warning">{{ note.createdBy }}</div>
+      </div>
+      <div class="col-9 description">{{ note.Description }}</div>
+    </div>
+  </div>
+</div>
+
+<app-custom-modal #manageNotes [modalTitle]="'Manage Notes'" [width]="1300">
+  <ng-container class="app-modal-body"> <app-notes></app-notes> </ng-container>
+</app-custom-modal>

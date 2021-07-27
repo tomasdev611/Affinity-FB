@@ -1,0 +1,102 @@
+<div class="card edit-list-section">
+  <div class="card-header">
+    <i class="fa fa-calendar"></i>Schedule <span class="mr-auto"></span>
+    <div class="card-controls edit-controls">
+      <a href="javascript:;" (click)="openCalendarEdit(manageSchedules)" *ngIf="acl_allow.update">
+        <i class="fa fa-ellipsis-v"></i>
+      </a>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="d-flex flex-wrap justify-content-md-between mb-3 no-gutters">
+      <div class="col">
+        <div class="btn-group d-none d-lg-inline-flex">
+          <div
+            class="btn btn-secondary"
+            mwlCalendarPreviousView
+            [view]="view"
+            (click)="calendarChangeEvent(0)"
+            [(viewDate)]="viewDate"
+          >
+            Previous
+          </div>
+          <div
+            class="btn btn-secondary"
+            mwlCalendarToday
+            (click)="calendarChangeEvent(0)"
+            [(viewDate)]="viewDate"
+          >
+            Today
+          </div>
+          <div
+            class="btn btn-secondary"
+            mwlCalendarNextView
+            [view]="view"
+            (click)="calendarChangeEvent(0)"
+            [(viewDate)]="viewDate"
+          >
+            Next
+          </div>
+        </div>
+
+        <div class="btn-group d-lg-none">
+          <div
+            class="btn btn-secondary btn-icon-icon"
+            mwlCalendarPreviousView
+            [view]="view"
+            [(viewDate)]="viewDate"
+          >
+            <i class="icon icon-arrows-left"></i>
+          </div>
+          <div class="btn btn-secondary btn-icon-icon" mwlCalendarToday [(viewDate)]="viewDate">
+            <i class="icon icon-arrows-sign-down"></i>
+          </div>
+          <div
+            class="btn btn-secondary btn-icon-icon"
+            mwlCalendarNextView
+            [view]="view"
+            [(viewDate)]="viewDate"
+          >
+            <i class="icon icon-arrows-right"></i>
+          </div>
+        </div>
+      </div>
+      <div class="col text-center align-self-center d-none d-sm-block">
+        <h6 class="text-uppercase mb-0">{{ viewDate | calendarDate: view + 'ViewTitle':'en' }}</h6>
+      </div>
+    </div>
+    <div [ngSwitch]="view">
+      <ng-template #customCellTemplate let-day="day" let-locale="locale">
+        <div class="cal-cell-top">
+          <span class="cal-day-badge" *ngIf="day.badgeTotal > 0">{{ day.badgeTotal }}</span>
+          <span class="cal-day-number">{{
+            day.date | calendarDate: 'monthViewDayNumber':locale
+          }}</span>
+        </div>
+        <span *ngFor="let col of day.events; let i = index">
+          <div [ngClass]="backgroundRandomColor(i)" style="margin: 5px; font-size:11px ;">
+            {{ col.title }}
+          </div>
+        </span>
+      </ng-template>
+
+      <mwl-calendar-month-view
+        *ngSwitchCase="'month'"
+        id="month"
+        [viewDate]="viewDate"
+        [events]="events"
+        [refresh]="refresh"
+        [cellTemplate]="customCellTemplate"
+        (eventTimesChanged)="eventTimesChanged($event)"
+      >
+      </mwl-calendar-month-view>
+      <br />
+    </div>
+  </div>
+</div>
+
+<app-custom-modal #manageSchedules [modalTitle]="'Manage Schedule'" [width]="1200">
+  <ng-container class="app-modal-body">
+    <calendar-component [options]="calendarOptions"></calendar-component>
+  </ng-container>
+</app-custom-modal>

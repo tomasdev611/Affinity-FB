@@ -1,0 +1,611 @@
+<div class="registration-step5-page">
+  <div class="title">
+    WORK HISTORY (Most recent first)
+  </div>
+
+  <div class="card">
+    <div class="card-body registration-step5">
+    
+      <div class="row">
+        <div class="col-md-12">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="row">
+                <label class="text-right col-md-4">1. Job Title:</label>
+                <input
+                  class="form-control form-control-sm col-md-8"
+                  type="text"
+                  [(ngModel)]="selected[0].Title"
+                />
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="row">
+                <label class="text-right col-md-4">Duties:</label>
+                <input
+                  class="form-control form-control-sm col-md-8"
+                  type="text"
+                  [(ngModel)]="selected[0].Duties"
+                />
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <label class="text-right col-md-2">Employer:</label>
+            <input
+              class="form-control form-control-sm col-md-8"
+              type="text"
+              [(ngModel)]="selected[0].Employer"
+            />
+          </div>
+
+          <div class="row">
+            <label class="text-right col-md-2">Dates of Employment (month/year):</label>
+            <div class="col-md-2">
+              <div class="row">
+                <label class="text-right col-md-4">To </label>
+                <input
+                  class="form-control form-control-sm col-md-8"
+                  type="text"
+                  [(ngModel)]="selected[0].DateTo"
+                />
+              </div>
+            </div>
+            <div class="col-md-2">
+              <div class="row">
+                <label class="text-right col-md-4">From </label>
+                <input
+                  class="form-control form-control-sm col-md-8"
+                  type="text"
+                  [(ngModel)]="selected[0].DateFrom"
+                />
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-8">
+              <div class="row">
+                <label class="text-right col-md-3">Starting Salary:</label>
+                <input
+                  class="col-md-3"
+                  type="text"
+                  [(ngModel)]="selected[0].SalaryStart"
+                />
+                <label class="text-right col-md-3">Ending Salary:</label>
+                <input
+                  class="col-md-3"
+                  type="text"
+                  [(ngModel)]="selected[0].SalaryEnd"
+                />
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="row">
+                <label class="text-right col-md-3" for="chkFull0">Full Time:</label>
+                <input
+                  id="chkFull0"
+                  name="chkFull0"
+                  class="col-md-1"
+                  type="checkbox"
+                  [checked]="selected[0].FullTime === 'F'"
+                  (change)="selected[0].FullTime = 'F'"
+                />
+                <label class="text-right col-md-3" for="chkPart0">Part Time:</label>
+                <input
+                  id="chkPart0"
+                  name="chkPart0"
+                  class="col-md-1"
+                  type="checkbox"
+                  [checked]="selected[0].FullTime === 'P'"
+                  (change)="selected[0].FullTime = 'P'"
+                />
+                <label class="text-right col-md-3" for="chkTemp0">Temp:</label>
+                <input
+                  id="chkTemp0"
+                  name="chkTemp0"
+                  class="col-md-1"
+                  type="checkbox"
+                  [checked]="selected[0].FullTime === 'T'"
+                  (change)="selected[0].FullTime = 'T'"
+                />
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <label class="text-right col-md-2">Employer's Address:</label>
+            <input
+              class="form-control form-control-sm col-md-8"
+              type="text"
+              [(ngModel)]="selected[0].Address"
+            />
+          </div>
+
+          <div class="row">
+            <div class="col-md-6">
+              <div class="row">
+                <label class="text-right col-md-4">Supervisor:</label>
+                <input
+                  class="col-md-8"
+                  type="text"
+                  [(ngModel)]="selected[0].Supervisor"
+                />
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="row">
+                <label class="text-right col-md-5">May we contact?</label>
+                <div class="col-md-1"></div>
+                <label class="text-right col-md-2" for="chkContactY">Yes</label>
+                <input
+                  id="chkContactY"
+                  name="chkContactY"
+                  class="col-md-1"
+                  type="checkbox"
+                  [checked]="selected[0].Contactable"
+                  (change)="selected[0].Contactable=true"
+                />
+                <label class="text-right col-md-2" for="chkContactN">No:</label>
+                <input
+                  id="chkContactN"
+                  name="chkContactN"
+                  class="col-md-1"
+                  type="checkbox"
+                  [checked]="!selected[0].Contactable"
+                  (change)="selected[0].Contactable=false"
+                />
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-6">
+              <div class="row">
+                <label class="text-right col-md-4">Phone:</label>
+                <input
+                  class="form-control form-control-sm col-md-8"
+                  type="text"
+                  [(ngModel)]="selected[0].Phone"
+                />
+              </div>
+            </div>
+            <div class="col-md-5">
+              <div class="row">
+                <label class="text-right col-md-4">Fax:</label>
+                <input
+                  class="form-control form-control-sm col-md-8"
+                  type="text"
+                  [(ngModel)]="selected[0].Fax"
+                />
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <label class="text-right col-md-2">Reason for Leaving:</label>
+            <input
+              class="form-control form-control-sm col-md-8"
+              type="text"
+              [(ngModel)]="selected[0].LeavingReason"
+            />
+          </div>
+
+        </div>
+      </div>
+
+
+
+
+      <div class="row">
+        <div class="col-md-12"><hr /></div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-12">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="row">
+                <label class="text-right col-md-4">2. Job Title:</label>
+                <input
+                  class="form-control form-control-sm col-md-8"
+                  type="text"
+                  [(ngModel)]="selected[1].Title"
+                />
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="row">
+                <label class="text-right col-md-4">Duties:</label>
+                <input
+                  class="form-control form-control-sm col-md-8"
+                  type="text"
+                  [(ngModel)]="selected[1].Duties"
+                />
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <label class="text-right col-md-2">Employer:</label>
+            <input
+              class="form-control form-control-sm col-md-8"
+              type="text"
+              [(ngModel)]="selected[1].Employer"
+            />
+          </div>
+
+          <div class="row">
+            <label class="text-right col-md-2">Dates of Employment (month/year):</label>
+            <div class="col-md-2">
+              <div class="row">
+                <label class="text-right col-md-4">To </label>
+                <input
+                  class="form-control form-control-sm col-md-8"
+                  type="text"
+                  [(ngModel)]="selected[1].DateTo"
+                />
+              </div>
+            </div>
+            <div class="col-md-2">
+              <div class="row">
+                <label class="text-right col-md-4">From </label>
+                <input
+                  class="form-control form-control-sm col-md-8"
+                  type="text"
+                  [(ngModel)]="selected[1].DateFrom"
+                />
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-8">
+              <div class="row">
+                <label class="text-right col-md-3">Starting Salary:</label>
+                <input
+                  class="col-md-3"
+                  type="text"
+                  [(ngModel)]="selected[1].SalaryStart"
+                />
+                <label class="text-right col-md-3">Ending Salary:</label>
+                <input
+                  class="col-md-3"
+                  type="text"
+                  [(ngModel)]="selected[1].SalaryEnd"
+                />
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="row">
+                <label class="text-right col-md-3" for="chkFull1">Full Time:</label>
+                <input
+                  id="chkFull1"
+                  name="chkFull1"
+                  class="col-md-1"
+                  type="checkbox"
+                  [checked]="selected[1].FullTime === 'F'"
+                  (change)="selected[1].FullTime = 'F'"
+                />
+                <label class="text-right col-md-3" for="chkPart1">Part Time:</label>
+                <input
+                  id="chkPart1"
+                  name="chkPart1"
+                  class="col-md-1"
+                  type="checkbox"
+                  [checked]="selected[1].FullTime === 'P'"
+                  (change)="selected[1].FullTime = 'P'"
+                />
+                <label class="text-right col-md-3" for="chkTemp1">Temp:</label>
+                <input
+                  id="chkTemp1"
+                  name="chkTemp1"
+                  class="col-md-1"
+                  type="checkbox"
+                  [checked]="selected[1].FullTime === 'T'"
+                  (change)="selected[1].FullTime = 'T'"
+                />
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <label class="text-right col-md-2">Employer's Address:</label>
+            <input
+              class="form-control form-control-sm col-md-8"
+              type="text"
+              [(ngModel)]="selected[1].Address"
+            />
+          </div>
+
+          <div class="row">
+            <div class="col-md-6">
+              <div class="row">
+                <label class="text-right col-md-4">Supervisor:</label>
+                <input
+                  class="col-md-8"
+                  type="text"
+                  [(ngModel)]="selected[1].Supervisor"
+                />
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="row">
+                <label class="text-right col-md-5">May we contact?</label>
+                <div class="col-md-1"></div>
+                <label class="text-right col-md-2" for="chkContactY1">Yes</label>
+                <input
+                  id="chkContactY1"
+                  name="chkContactY1"
+                  class="col-md-1"
+                  type="checkbox"
+                  [checked]="selected[1].Contactable"
+                  (change)="selected[1].Contactable=true"
+                />
+                <label class="text-right col-md-2" for="chkContactN1">No:</label>
+                <input
+                  id="chkContactN1"
+                  name="chkContactN1"
+                  class="col-md-1"
+                  type="checkbox"
+                  [checked]="!selected[1].Contactable"
+                  (change)="selected[1].Contactable=false"
+                />
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-6">
+              <div class="row">
+                <label class="text-right col-md-4">Phone:</label>
+                <input
+                  class="form-control form-control-sm col-md-8"
+                  type="text"
+                  [(ngModel)]="selected[1].Phone"
+                />
+              </div>
+            </div>
+            <div class="col-md-5">
+              <div class="row">
+                <label class="text-right col-md-4">Fax:</label>
+                <input
+                  class="form-control form-control-sm col-md-8"
+                  type="text"
+                  [(ngModel)]="selected[1].Fax"
+                />
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <label class="text-right col-md-2">Reason for Leaving:</label>
+            <input
+              class="form-control form-control-sm col-md-8"
+              type="text"
+              [(ngModel)]="selected[1].LeavingReason"
+            />
+          </div>
+
+        </div>
+      </div>
+
+
+
+
+      <div class="row">
+        <div class="col-md-12"><hr /></div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-12">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="row">
+                <label class="text-right col-md-4">3. Job Title:</label>
+                <input
+                  class="form-control form-control-sm col-md-8"
+                  type="text"
+                  [(ngModel)]="selected[2].Title"
+                />
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="row">
+                <label class="text-right col-md-4">Duties:</label>
+                <input
+                  class="form-control form-control-sm col-md-8"
+                  type="text"
+                  [(ngModel)]="selected[2].Duties"
+                />
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <label class="text-right col-md-2">Employer:</label>
+            <input
+              class="form-control form-control-sm col-md-8"
+              type="text"
+              [(ngModel)]="selected[2].Employer"
+            />
+          </div>
+
+          <div class="row">
+            <label class="text-right col-md-2">Dates of Employment (month/year):</label>
+            <div class="col-md-2">
+              <div class="row">
+                <label class="text-right col-md-4">To </label>
+                <input
+                  class="form-control form-control-sm col-md-8"
+                  type="text"
+                  [(ngModel)]="selected[2].DateTo"
+                />
+              </div>
+            </div>
+            <div class="col-md-2">
+              <div class="row">
+                <label class="text-right col-md-4">From </label>
+                <input
+                  class="form-control form-control-sm col-md-8"
+                  type="text"
+                  [(ngModel)]="selected[2].DateFrom"
+                />
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-8">
+              <div class="row">
+                <label class="text-right col-md-3">Starting Salary:</label>
+                <input
+                  class="col-md-3"
+                  type="text"
+                  [(ngModel)]="selected[2].SalaryStart"
+                />
+                <label class="text-right col-md-3">Ending Salary:</label>
+                <input
+                  class="col-md-3"
+                  type="text"
+                  [(ngModel)]="selected[2].SalaryEnd"
+                />
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="row">
+                <label class="text-right col-md-3" for="chkFull2">Full Time:</label>
+                <input
+                  id="chkFull2"
+                  name="chkFull2"
+                  class="col-md-1"
+                  type="checkbox"
+                  [checked]="selected[2].FullTime === 'F'"
+                  (change)="selected[2].FullTime = 'F'"
+                />
+                <label class="text-right col-md-3" for="chkPart2">Part Time:</label>
+                <input
+                  id="chkPart2"
+                  name="chkPart2"
+                  class="col-md-1"
+                  type="checkbox"
+                  [checked]="selected[2].FullTime === 'P'"
+                  (change)="selected[2].FullTime = 'P'"
+                />
+                <label class="text-right col-md-3" for="chkTemp2">Temp:</label>
+                <input
+                  id="chkTemp2"
+                  name="chkTemp2"
+                  class="col-md-1"
+                  type="checkbox"
+                  [checked]="selected[2].FullTime === 'T'"
+                  (change)="selected[2].FullTime = 'T'"
+                />
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <label class="text-right col-md-2">Employer's Address:</label>
+            <input
+              class="form-control form-control-sm col-md-8"
+              type="text"
+              [(ngModel)]="selected[2].Address"
+            />
+          </div>
+
+          <div class="row">
+            <div class="col-md-6">
+              <div class="row">
+                <label class="text-right col-md-4">Supervisor:</label>
+                <input
+                  class="col-md-8"
+                  type="text"
+                  [(ngModel)]="selected[2].Supervisor"
+                />
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="row">
+                <label class="text-right col-md-5">May we contact?</label>
+                <div class="col-md-1"></div>
+                <label class="text-right col-md-2" for="chkContactY2">Yes</label>
+                <input
+                  id="chkContactY2"
+                  name="chkContactY2"
+                  class="col-md-1"
+                  type="checkbox"
+                  [checked]="selected[2].Contactable"
+                  (change)="selected[2].Contactable=true"
+                />
+                <label class="text-right col-md-2" for="chkContactN2">No:</label>
+                <input
+                  id="chkContactN2"
+                  name="chkContactN2"
+                  class="col-md-1"
+                  type="checkbox"
+                  [checked]="!selected[2].Contactable"
+                  (change)="selected[2].Contactable=false"
+                />
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-6">
+              <div class="row">
+                <label class="text-right col-md-4">Phone:</label>
+                <input
+                  class="form-control form-control-sm col-md-8"
+                  type="text"
+                  [(ngModel)]="selected[2].Phone"
+                />
+              </div>
+            </div>
+            <div class="col-md-5">
+              <div class="row">
+                <label class="text-right col-md-4">Fax:</label>
+                <input
+                  class="form-control form-control-sm col-md-8"
+                  type="text"
+                  [(ngModel)]="selected[2].Fax"
+                />
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <label class="text-right col-md-2">Reason for Leaving:</label>
+            <input
+              class="form-control form-control-sm col-md-8"
+              type="text"
+              [(ngModel)]="selected[2].LeavingReason"
+            />
+          </div>
+
+        </div>
+      </div>
+
+
+
+      <div class="row">
+        <div class="col-md-12"><hr /></div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-12 text-center">
+          <div class="btn-group">
+            <button
+              class="btn btn-sm btn-success"
+              (click)="moveToNext()"
+            >
+              Save & Next
+            </button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>

@@ -1,0 +1,17 @@
+.customMessage{
+    position: fixed;
+    width: 40%;
+    right: 30px;
+    margin-top: 10px;
+    z-index: 1;
+    color: red;
+}
+
+.bg-3 {
+    background-image: url(../../../assets/images/unsplash/1.jpg);
+}
+.bg-cover {
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+}

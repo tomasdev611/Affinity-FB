@@ -1,0 +1,88 @@
+<div
+  class="chat-widget_wrap not-vis-chat"
+  ngResizable
+  rzHandles="n,s,e,w,se,sw"
+  ngDraggable
+  [rzMinWidth]="300"
+  [rzMinHeight]="300"
+  [handle]="dragHandle"
+  [preventDefaultEvent]="true"
+>
+  <div #dragHandle class="chat-widget_header bg-success">
+    <div class="chat-widget-title">
+      <h3>{{ chatTitle }}</h3>
+      <ng-select
+        [items]="templates"
+        bindLabel="name"
+        bindValue="id"
+        placeholder="Select Template Message"
+        [(ngModel)]="templateId"
+        (change)="onTemplateChange()"
+        [virtualScroll]="true"
+      >
+      </ng-select>
+    </div>
+    <div class="status" (click)="closeModalClick()"><i class="fa fa-times"></i></div>
+  </div>
+  <div #scrollMe class="chat-body">
+    <!-- message-->
+    <div *ngIf="!noPreviousMessage">
+      <button (click)="loadPreviousMessages()" [disabled]="loading">Load Previous Messages</button>
+    </div>
+    <div
+      *ngFor="let message of messages; let i = index"
+      [ngClass]="
+        message.sender === 'C'
+          ? 'chat-message chat-message_guest fl-wrap'
+          : 'chat-message chat-message_user fl-wrap'
+      "
+    >
+      <div class="dashboard-message-avatar"><img [src]="getPhoto(message)" alt="" /></div>
+      <!-- <span class="chat-message-user-name">Jessie</span> -->
+      <span class="massage-date">{{ formatDate(message.created) }}</span>
+      <p *ngIf="message.message">
+        <a
+          *ngIf="message.SocialSecurityNum"
+          [href]="'#/caregiver/details/' + message.SocialSecurityNum"
+          target="_blank"
+          >(From {{ message.FirstName }} {{ message.LastName }})</a
+        >{{ message.message }}
+      </p>
+      <a *ngIf="message.image" [href]="message.image" target="_blank">
+        <img [src]="message.image" class="message-photo" (click)="showFullPhoto(message.image)" />
+      </a>
+    </div>
+    <!-- message end-->
+  </div>
+  <div class="chat-widget_input fl-wrap">
+    <label *ngIf="!imageData" for="chat_image_upload" class="chat-image-button">
+      <i class="fa fa-file"></i>
+    </label>
+    <div
+      *ngIf="imageData"
+      for="chat_image_upload"
+      class="chat-image-button image-container"
+      (click)="removePhoto()"
+    >
+      <img [src]="imageData" alt="img" /> <i class="fa fa-times"></i>
+    </div>
+    <textarea
+      placeholder="Type Message"
+      [(ngModel)]="messageInput"
+      maxlength="90"
+      [disabled]="!chatAllowed"
+    ></textarea>
+    <button type="submit" [disabled]="sending || !chatAllowed" (click)="sendMessage()">
+      <i class="fa fa-paper-plane-o"></i>
+    </button>
+    <input
+      type="file"
+      name="browse"
+      id="chat_image_upload"
+      [disabled]="!chatAllowed"
+      accept="image/*,application/pdf"
+      style="display: none;"
+      (change)="sendImage($event)"
+    />
+  </div>
+</div>

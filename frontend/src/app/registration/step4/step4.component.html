@@ -1,0 +1,144 @@
+<div class="registration-step4-page">
+  <div class="title">
+    CREDENTIALS (License / Certificate)
+  </div>
+
+  <div class="card">
+    <div class="card-body registration-step4">
+    
+      <div class="row">
+        <div class="col-md-12">
+          <div class="row">
+            <label>1. License / Certification:</label>
+          </div>
+          <div class="row">
+            <label class="col-md-4 text-right">License No / Control No / AC#: </label>
+            <input
+              class="form-control form-control-sm col-md-8"
+              type="text"
+              [(ngModel)]="selected.License.LicenseNo"
+            />
+          </div>
+          <div class="row">
+            <label class="col-md-4 text-right">Issued By: </label>
+            <input
+              class="form-control form-control-sm col-md-8"
+              type="text"
+              [(ngModel)]="selected.License.IssuedBy"
+            />
+          </div>
+          <div class="row">
+            <label class="col-md-4 text-right">Date (month / day / year): </label>
+            <input
+              class="form-control form-control-sm col-md-8"
+              type="text"
+              [(ngModel)]="selected.License.IssueDate"
+            />
+          </div>
+          <div class="row">
+            <label class="col-md-4 text-right">Expiration Date (month / day / year): </label>
+            <input
+              class="form-control form-control-sm col-md-8"
+              type="text"
+              [(ngModel)]="selected.License.ExpDate"
+            />
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-12">
+          <div class="row">
+            <label>2. Diploma:</label>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <label class="col-md-4 text-right">Home Health Aide Training Course: </label>
+            </div>
+          </div>
+          <div class="row">
+            <label class="col-md-4 text-right">Number of Hours: </label>
+            <input
+              class="form-control form-control-sm col-md-8"
+              type="text"
+              [(ngModel)]="selected.Diploma.NumberOfHours"
+            />
+          </div>
+          <div class="row">
+            <label class="col-md-4 text-right" for="chkDiploma">School Diploma Available: </label>
+            <input
+              id="chkDiploma"
+              name="chkDiploma"
+              class="form-control form-control-sm col-md-8"
+              type="checkbox"
+              [(ngModel)]="selected.Diploma.DiplomaAvailable"
+            />
+          </div>
+          <div class="row">
+            <label class="col-md-4 text-right" for="chkTraining">Training Curriculum (if not a FL school): </label>
+            <input
+              id="chkTraining"
+              name="chkTraining"
+              class="form-control form-control-sm col-md-8"
+              type="checkbox"
+              [(ngModel)]="selected.Diploma.TrainingCurriculum"
+            />
+          </div>
+          <div class="row">
+            <label class="col-md-4 text-right">Issued By: </label>
+            <input
+              class="form-control form-control-sm col-md-8"
+              type="text"
+              [(ngModel)]="selected.Diploma.IssuedBy"
+            />
+          </div>
+          <div class="row">
+            <label class="col-md-4 text-right">Date (month / day / year): </label>
+            <input
+              class="form-control form-control-sm col-md-8"
+              type="text"
+              [(ngModel)]="selected.Diploma.IssueDate"
+            />
+          </div>
+          <div class="row">
+            <div class="col-md-12"><hr /></div>
+          </div>
+          <div class="row">
+            <label class="col-md-4 text-right">Special courses or training acquired: </label>
+            <input
+              class="form-control form-control-sm col-md-8"
+              type="text"
+              [(ngModel)]="selected.Diploma.SpecialCourses1"
+            />
+          </div>
+          <div class="row">
+            <label class="col-md-4 text-right"></label>
+            <input
+              class="form-control form-control-sm col-md-8"
+              type="text"
+              [(ngModel)]="selected.Diploma.SpecialCourses2"
+            />
+          </div>
+        </div>
+      </div>
+
+      <div class="row ">
+        <div class="col-md-12"><hr /></div>
+      </div>
+
+      <div class="row ">
+        <div class="col-md-12 text-center">
+          <div class="btn-group">
+            <button
+              class="btn btn-sm btn-success"
+              (click)="moveToNext()"
+            >
+              Save & Next
+            </button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>

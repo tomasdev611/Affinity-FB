@@ -1,0 +1,308 @@
+<div class="card">
+  <div class="card-body">
+    <div class="text text-right" *ngIf="acl_allow.update == true">
+      <div class="btn-group">
+        <button class="btn btn-sm btn-success" (click)="creatLogin(newEventModal)">
+          Create Login
+        </button>
+      </div>
+    </div>
+    <div class="col-md-12"><hr /></div>
+    <div>
+      <ngx-datatable
+        class="material"
+        [columnMode]="'flex'"
+        [headerHeight]="40"
+        [footerHeight]="50"
+        [rowHeight]="40"
+        [selectionType]="'single'"
+        [limit]="10"
+        [rows]="securityusers"
+      >
+        <!-- <input /> -->
+        <ngx-datatable-column
+          name="User Name"
+          prop="userName"
+          [width]="100"
+          [flexGrow]="1"
+        ></ngx-datatable-column>
+        <ngx-datatable-column
+          name="Email"
+          prop="str_email"
+          [width]="100"
+          [flexGrow]="1"
+        ></ngx-datatable-column>
+        <ngx-datatable-column name="Status" [width]="80" [flexGrow]="1">
+          <ng-template ngx-datatable-cell-template let-row="row">
+            <span class="text-success" *ngIf="row.enabled"> Active </span>
+            <span class="text-danger" *ngIf="!row.enabled"> Disabled </span>
+          </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="Action" [width]="540" [flexGrow]="0" [minWidth]="540">
+          <ng-template let-value="value" ngx-datatable-cell-template let-row="row">
+            <button class="btn btn-sm btn-info mr-2" (click)="editUser(row, editUserModal)">
+              Edit/View
+            </button>
+            <button
+              class="btn btn-sm btn-info mr-2"
+              (click)="enableUser(row)"
+              *ngIf="acl_allow.update == true && !row.enabled"
+            >
+              Enable Login
+            </button>
+            <button
+              class="btn btn-sm btn-danger mr-2"
+              (click)="disableUser(row)"
+              *ngIf="acl_allow.update == true && row.enabled"
+            >
+              Disable Login
+            </button>
+            <button
+              class="btn btn-sm btn-warning mr-2"
+              *ngIf="acl_allow.update == true"
+              (click)="resetPassword(row, resetPwdEventModal)"
+            >
+              Reset Password
+            </button>
+            <button
+              class="btn btn-sm btn-danger mr-2"
+              *ngIf="acl_allow.update == true"
+              (click)="deleteUserAction(row, deleteUserModal)"
+            >
+              Delete
+            </button>
+          </ng-template>
+        </ngx-datatable-column>
+      </ngx-datatable>
+    </div>
+  </div>
+</div>
+<ngx-loading
+  [show]="saving === 'saving' || loading"
+  [config]="{backdropBorderRadius: '3px', fullScreenBackdrop: true}"
+></ngx-loading>
+
+
+<app-custom-modal
+  #newEventModal
+  [modalTitle]="'Create New User'"
+  [width]="1200"
+>
+  <ng-container class="app-modal-body">
+    <div *ngIf="newEventModal.visible" class="row">
+      <div class="col-md-12">
+        <div class="form-group">
+          <label class="col-form-label">UserName</label>
+          <input class="form-control form-control-sm" type="text" [(ngModel)]="newUser.userName" />
+        </div>
+      </div>
+      <div class="col-md-12">
+        <div class="form-group">
+          <label id="H_phone" class="col-form-label">Email</label>
+          <input class="form-control form-control-sm" type="text" [(ngModel)]="newUser.str_email" />
+        </div>
+      </div>
+
+      <div class="col-md-12">
+        <div class="form-group">
+          <label class="col-form-label">Password</label>
+          <input
+            class="form-control form-control-sm"
+            type="password"
+            [(ngModel)]="newUser.userPassword"
+            autocomplete="new-password"
+          />
+        </div>
+      </div>
+
+      <div class="col-md-12">
+        <div class="form-group">
+          <label class="col-form-label">Enable</label>
+          <input type="checkbox" [(ngModel)]="newUser.enabled" />
+        </div>
+      </div>
+
+      <div class="col-md-12">
+        <div class="form-group">
+          <label class="col-form-label">Select All Class</label>
+          <input type="checkbox" [(ngModel)]="newUser.selectAllClass" />
+        </div>
+      </div>
+    </div>
+  </ng-container>
+  <ng-container class="app-modal-footer">
+    <button type="button" class="btn btn-default" (click)="newEventModal.hide()">Close</button>
+    <button type="button" class="btn btn-success" (click)="createNewUser()">Create</button>
+  </ng-container>
+</app-custom-modal>
+
+<app-custom-modal
+  #resetPwdEventModal
+  [modalTitle]="selectedRow ? 'Password Reset for ' + selectedRow.userName : 'Password Reset'"
+  [width]="1200"
+>
+  <ng-container class="app-modal-body">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="form-group">
+          <label class="col-form-label">New Password</label>
+          <input
+            class="form-control form-control-sm"
+            type="password"
+            [(ngModel)]="NewPassword"
+            autocomplete="new-password"
+          />
+        </div>
+      </div>
+    </div>
+  </ng-container>
+  <ng-container class="app-modal-footer">
+    <button type="button" class="btn btn-default" (click)="resetPwdEventModal.hide()">Close</button>
+    <button type="button" class="btn btn-success" (click)="resetUserPassword()">Save</button>
+  </ng-container>
+</app-custom-modal>
+
+<app-custom-modal
+  #editUserModal
+  [modalTitle]="selectedRow ? 'Edit User - ' + selectedRow.userName : 'Edit User'"
+  [width]="1200"
+>
+  <ng-container class="app-modal-body">
+    <div class="row">
+      <ngb-tabset type="tabs" class="col-12">
+        <ngb-tab title="Class" id="tab2">
+          <ng-template ngbTabContent>
+            <div class="">
+              <ngx-datatable
+                [columnMode]="'force'"
+                [headerHeight]="40"
+                [footerHeight]="0"
+                [rowHeight]="50"
+                [scrollbarV]="true"
+                [scrollbarH]="true"
+                [selectionType]="'checkbox'"
+                [rows]="classesNames"
+              >
+                <input />
+                <ngx-datatable-column
+                  name="Class"
+                  prop="className"
+                  [width]="120"
+                ></ngx-datatable-column>
+
+                <ngx-datatable-column name="Enable" [width]="60">
+                  <ng-template let-column="column" ngx-datatable-header-template>
+                    <div>Enable (<input
+                      type="checkbox"
+                      *ngIf="acl_allow.update == true"
+                      [checked]="selected.classes.length === classesNames.length"
+                      (change)="onAllCheckboxClass($event)"
+                    />)</div>
+                  </ng-template>
+                  <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
+                    <input
+                      type="checkbox"
+                      *ngIf="acl_allow.update == true"
+                      [checked]="selected.classes.includes(row.className)"
+                      (change)="onCheckboxClass(row, $event)"
+                    />
+                  </ng-template>
+                </ngx-datatable-column>
+              </ngx-datatable>
+            </div>
+          </ng-template>
+        </ngb-tab>
+        <ngb-tab title="Groups" id="tab3">
+          <ng-template ngbTabContent>
+            <div class="">
+              <ngx-datatable
+                [columnMode]="'force'"
+                [headerHeight]="40"
+                [footerHeight]="0"
+                [rowHeight]="50"
+                [scrollbarV]="true"
+                [scrollbarH]="true"
+                [selectionType]="'checkbox'"
+                [rows]="selected.securityGroups"
+              >
+                <input />
+                <ngx-datatable-column
+                  name="Group"
+                  prop="GroupId"
+                  [width]="120"
+                ></ngx-datatable-column>
+                <ngx-datatable-column
+                  name="Description"
+                  prop="Descr"
+                  [width]="300"
+                ></ngx-datatable-column>
+
+                <ngx-datatable-column name="Read" [width]="60">
+                  <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
+                    <input
+                      *ngIf="acl_allow.update == true"
+                      type="checkbox"
+                      [(ngModel)]="row.bit_read"
+                    />
+                  </ng-template>
+                </ngx-datatable-column>
+
+                <ngx-datatable-column name="Update" [width]="60">
+                  <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
+                    <input
+                      *ngIf="acl_allow.update == true"
+                      type="checkbox"
+                      [(ngModel)]="row.bit_update"
+                    />
+                  </ng-template>
+                </ngx-datatable-column>
+
+                <ngx-datatable-column name="Delete" [width]="60">
+                  <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
+                    <input
+                      *ngIf="acl_allow.update == true"
+                      type="checkbox"
+                      [(ngModel)]="row.bit_delete"
+                    />
+                  </ng-template>
+                </ngx-datatable-column>
+              </ngx-datatable>
+            </div>
+          </ng-template>
+        </ngb-tab>
+      </ngb-tabset>
+    </div>
+  </ng-container>
+  <ng-container class="app-modal-footer">
+    <button type="button" class="btn btn-default" (click)="editUserModal.hide()">Close</button>
+    <button
+      type="button"
+      class="btn btn-success"
+      (click)="updateUser()"
+      *ngIf="acl_allow.update == true"
+    >
+      Save
+    </button>
+  </ng-container>
+</app-custom-modal>
+
+<app-custom-modal #deleteUserModal [modalTitle]="'Delete User?'" [width]="600">
+  <ng-container class="app-modal-body">
+    <div *ngIf="deleteUserModal.visible" class="row">
+      <p>Are you sure to delete {{selectedRow.userName}}? This action can not be undone.</p>
+    </div>
+  </ng-container>
+  <ng-container class="app-modal-footer">
+    <button type="button" class="btn btn-default" (click)="deleteUserModal.hide()">
+      Close
+    </button>
+    <button
+    type="button"
+    class="btn btn-danger"
+    (click)="deleteUser()"
+    *ngIf="acl_allow.update == true"
+  >
+    Yes, Delete
+  </button>
+  </ng-container>
+</app-custom-modal>

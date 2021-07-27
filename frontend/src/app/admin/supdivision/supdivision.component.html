@@ -1,0 +1,87 @@
+<ngb-alert class="customMessage" *ngIf="!addDivSuccessMsg" type="success" (close)="addDivSuccessMsg = true">added successfully!</ngb-alert>
+
+<ngb-alert class="customMessage" *ngIf="!deleteDivSuccessMsg" type="success" (close)="deleteDivSuccessMsg = true">delete successfully!</ngb-alert>
+
+<div class="card" *ngIf="username=='superadmin'">
+    <div class="card-body">
+        <div class="text text-right">
+            <div class="btn-group">
+                <button class="btn btn-sm btn-success" (click)="newDivisionAction(newDivisionModal)">Create Division</button>
+            </div>
+        </div>
+
+        <ngx-datatable class="" [columnMode]="'force'" [headerHeight]="40" [footerHeight]="0" [rowHeight]="40" [scrollbarV]="true"
+            [scrollbarH]="true" [rows]="rows">
+
+            <ngx-datatable-column name="Division Name" prop="division_name" [width]="120"></ngx-datatable-column>
+            <ngx-datatable-column name="DB Name" prop="database_name" [width]="120"></ngx-datatable-column>
+
+            <ngx-datatable-column name="Action" [width]="120">
+                <ng-template let-value="value" ngx-datatable-cell-template let-row="row">
+                    <button type="button" class="btn btn-md btn-warning" (click)="customFieldUpdate(newCustomFieldUpdate,row)">Update</button>
+                    <button type="button" class="btn btn-md btn-danger" (click)="deleteDivModal(deleteDivisionModal,row)">Delete</button>
+                </ng-template>
+            </ngx-datatable-column>
+        </ngx-datatable>
+
+        <ng-template style="width:40px" #newDivisionModal let-c="close" let-d="dismiss">
+            <div class="modal-header">
+                <h6 class="modal-title text-uppercase">Division</h6>
+                <button type="button" class="close" aria-label="Close" (click)="c()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <ngb-alert class="customMessage" *ngIf="!errorMsg" type="custom" style="background-color:#ff9999" (close)="errorMsg = true">duplicate entries not allowed!</ngb-alert>
+                <div class="row">
+                    <div class="col-md-8">
+                        <div class="form-group">
+                            <label class="col-form-label">DB Name</label>
+                            <input class="form-control" type="text" name="name" [(ngModel)]="dbName" placeholder="Enter Database Name">
+                        </div>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="form-group">
+                            <label class="col-form-label">Division Name</label>
+                            <!-- <input class="form-control" type="text" name="name" [(ngModel)]="divName"> -->
+
+                            <input type="text" #postal="ngModel" name="name" pattern="^[a-zA-Z0-9]{10}" [(ngModel)]="divName" name="postal-code" class="form-control"
+                                placeholder="Enter Division Name">
+                            <div [hidden]="postal.valid || postal.pristine">
+                                <small [hidden]="!postal.hasError('pattern')" class="red" style="color:red">Please enter valid Division Name</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" (click)="c()">Close</button>
+                <button type="button" class="btn btn-success" (click)="addNewDivision()" data-dismiss="modal">Add</button>
+            </div>
+        </ng-template>
+
+        <ng-template style="width:40px" #deleteDivisionModal let-c="close" let-d="dismiss">
+            <div class="modal-header">
+                <h6 class="modal-title text-uppercase">Delete</h6>
+                <button type="button" class="close" aria-label="Close" (click)="c()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <span>Do you want to delete it? </span>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" (click)="c()">Close</button>
+                <button type="button" class="btn btn-danger" (click)="deleteDivision()" data-dismiss="modal">Delete</button>
+            </div>
+        </ng-template>
+    </div>
+</div>
+
+<div class="card" *ngIf="username!='superadmin'">
+    <div class="card-body">
+        <div class="alert alert-danger">
+        Sorry, access denied! You are trying to access a restricted feature. Please use navigation on top or left.
+        </div>
+    </div>
+</div>

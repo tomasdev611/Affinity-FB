@@ -1,0 +1,21 @@
+<div class="card edit-list-section overview-contacts">
+  <div class="card-header">
+    <i class="fa fa-users"></i>Contacts <span class="mr-auto"></span>
+    <div class="card-controls edit-controls">
+      <a href="javascript:;" (click)="openManageContacts(manageContacts)" *ngIf="acl_allow.update">
+        <i class="fa fa-ellipsis-v"></i>
+      </a>
+    </div>
+  </div>
+  <div class="card-body bg-grey-300">
+    <div class="row " *ngFor="let contact of contacts; let index = index">
+      <div class="col-3 border-right">{{ contact.OtherContactInfo }}</div>
+      <div class="col-4 border-right">{{ contact.Name }}</div>
+      <div class="col-5">{{ contact.Phone }}</div>
+    </div>
+  </div>
+</div>
+
+<app-custom-modal #manageContacts [modalTitle]="'Manage Contacts'" [width]="1300">
+  <ng-container class="app-modal-body"> <app-contacts></app-contacts> </ng-container>
+</app-custom-modal>
